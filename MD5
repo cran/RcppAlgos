@@ -1,0 +1,16 @@
+92bba8c205c4464421c88a16b049d038 *DESCRIPTION
+067080c85e127ab6abdd4a47ed409d77 *NAMESPACE
+c970f0823c991e36e7aaa4467afdab1d *R/ComboGeneral.R
+15a79465ef52b00deddcba4319ede324 *R/NumberTheory.R
+b3405595f9284da3623f0035a84a6758 *R/RcppExports.R
+cff265116201a1ae17e368df85828158 *README.md
+33bb6243b0bda945a975faf407d0143a *man/comboGeneral.Rd
+75a878b69d62b73a30d8d01bc2f432b6 *man/divisorsList.Rd
+f6a87eb2762e74f58189c347be019fb0 *man/eulerPhiSieve.Rd
+6d4b48617b92a469ebda72d4f402ca1c *man/numDivisorSieve.Rd
+4fcc998e906728223bc396f390f9134a *man/primeFactorizationList.Rd
+5c553d94cd7942337afeb08c61d02547 *man/primeSieve.Rd
+a9f5e632d62f608d1b11eaf5532e3676 *src/ComboContainer.cpp
+be77cebf570d268b0285f4eb6d3ff091 *src/DivisorSieveContainer.cpp
+41b1ccd49ce9a10ce5f7aedaf2586983 *src/PrimesContainer.cpp
+c098bea9a84333d085409be849f5022d *src/RcppExports.cpp
