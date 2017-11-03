@@ -9,16 +9,16 @@ using namespace Rcpp;
 IntegerVector AllPrimesCpp (int n) {
     std::vector<bool> primes(n+1, true);
     std::vector<int> myps;
-    myps.reserve(floor(2*n/log(n)));
+    int myReserve = (int)floor((double)2*n/log((double)n));
+    myps.reserve(myReserve);
 
-    int lastP = 3;
-    int fsqr = floor(sqrt(n));
-    int k, ind, j;
+    unsigned long int lastP = 3, k, ind, j, uN = n;
+    unsigned long int fsqr = (unsigned long int)floor(sqrt((double)n));
 
-    for (j = 4; j <= n; j += 2) {primes[j] = false;}
+    for (j = 4; j <= uN; j += 2) {primes[j] = false;}
 
     while (lastP <= fsqr) {
-        for (j = lastP*lastP; j <= n; j += 2*lastP) {primes[j] = false;}
+        for (j = lastP*lastP; j <= uN; j += 2*lastP) {primes[j] = false;}
         k = lastP + 2;
         ind = 2;
         while (!primes[k]) {
@@ -27,10 +27,10 @@ IntegerVector AllPrimesCpp (int n) {
         }
         lastP += ind;
     }
-
+    
     myps.push_back(2);
 
-    for (j = 3; j <= n; j += 2) {
+    for (j = 3; j <= uN; j += 2) {
         if (primes[j]) {
             myps.push_back(j);
         }
@@ -39,42 +39,49 @@ IntegerVector AllPrimesCpp (int n) {
     return wrap(myps);
 }
 
-IntegerVector RangePrimesCpp (int m, int n) {
-    int limit = n-m;
+NumericVector RangePrimesCpp (double m, double n) {
+    double limit = n-m;
     std::vector<bool> primes(limit+1, true);
-    std::vector<int> myps;
-    myps.reserve(floor(2*limit/log(limit)));
+    std::vector<double> myps;
+    double myReserve = floor(2*limit/log(limit));
+    myps.reserve(myReserve);
 
-    IntegerVector testPrimes = AllPrimesCpp(floor(sqrt(n)));
-    IntegerVector::iterator p;
+    IntegerVector testPrimes = AllPrimesCpp((int)floor(sqrt(n)));
+    IntegerVector::iterator p, maxP;
+    maxP = testPrimes.end();
 
-    int j, strt, f_odd;
+    double j, strt, f_odd, remTest, nMinusM = n- m, powTest;
     strt = f_odd = m;
 
     if (m==1) { // Get first odd value
-        f_odd=3;
-    } else if (f_odd % 2 == 0) {
-        ++f_odd;
+        f_odd = 3;
+    } else if (fmod(f_odd, 2) == 0.0) {
+        f_odd++;
     }
 
-    while (strt % 2 != 0) {++strt;}
+    while (fmod(strt, 2) != 0.0) {strt++;}
 
     if (m <= 2) {
-        strt=4;
+        strt = 4;
         myps.push_back(2);
     }
 
     for (j = strt; j <= n; j += 2) {primes[j-m] = false;}
 
-    for (p = testPrimes.begin() + 1; p < testPrimes.end(); ++p) {
-        if (m > *p) {
-            strt = f_odd;
-            while (strt % *p != 0) {strt += 2;}
-            for (j = strt; j <= n; j += (*p)*2) {primes[j-m] = false;}
+    for (p = testPrimes.begin() + 1; p < maxP; p++) {
+        powTest = pow((double)*p, 2);
+        if (m > powTest) {
+            remTest = fmod(m,*p);
+            if (remTest == 0.0) {
+                strt = 0;
+            } else {
+                strt = *p - remTest;
+            }
+            if (fmod(m+strt, 2) == 0.0) {strt += *p;}
+            for (j = strt; j <= nMinusM; j += (*p)*2) {primes[j] = false;}
         } else {
-            strt = f_odd;
-            while (strt % *p != 0) {strt += 2;}
-            for (j = strt*strt; j <= n; j += (*p)*2) {primes[j-m] = false;}
+            strt = powTest - m;
+            for (j = strt; j <= nMinusM; j += (*p)*2) {primes[j] = false;}
         }
     }
 
@@ -90,14 +97,15 @@ IntegerVector RangePrimesCpp (int m, int n) {
 // [[Rcpp::export]]
 List PrimeFactorizationListRcpp (SEXP n) {
     int m;
+    double mTest;
 
     switch(TYPEOF(n)) {
         case REALSXP: {
-            m = as<int>(n);
+            mTest = as<double>(n);
             break;
         }
         case INTSXP: {
-            m = as<int>(n);
+            mTest = as<double>(n);
             break;
         }
         default: {
@@ -105,9 +113,9 @@ List PrimeFactorizationListRcpp (SEXP n) {
         }
     }
     
-    if (m < 0) {
-        stop("n must be positive");
-    }
+    if (mTest > 2147483647) {stop("n must be less than 2^31");}
+    if (mTest < 0) {stop("n must be positive");}
+    m = mTest;
     
     std::vector<std::vector<int> > MyPrimeList(m, std::vector<int>());
     std::vector<std::vector<int> >::iterator it2d, itEnd;
@@ -115,17 +123,17 @@ List PrimeFactorizationListRcpp (SEXP n) {
     IntegerVector primes = AllPrimesCpp(m);
     IntegerVector::iterator p;
     int i, j, limit, myStep, myMalloc;
-    myMalloc = floor(log2(m));
-    double myLogN = log(m);
+    myMalloc = (int)floor(log2((double)m));
+    double myLogN = log((double)m);
     
     for (it2d = MyPrimeList.begin(); it2d < itEnd; it2d++) {
         it2d -> reserve(myMalloc);
     }
 
-    for (p = primes.begin(); p < primes.end(); ++p) {
-        limit = trunc(myLogN/log(*p));
-        for (i = 1; i <= limit; ++i) {
-            myStep = pow(*p,i);
+    for (p = primes.begin(); p < primes.end(); p++) {
+        limit = (int)trunc(myLogN/log((double)*p));
+        for (i = 1; i <= limit; i++) {
+            myStep = (int)pow((double)*p,i);
             for (j = myStep; j <= m; j += myStep) {
                 MyPrimeList[j-1].push_back(*p);
             }
@@ -138,14 +146,15 @@ List PrimeFactorizationListRcpp (SEXP n) {
 // [[Rcpp::export]]
 IntegerVector EulerPhiSieveRcpp (SEXP n) {
     int m;
+    double mTest;
 
     switch(TYPEOF(n)) {
         case REALSXP: {
-            m = as<int>(n);
+            mTest = as<double>(n);
             break;
         }
         case INTSXP: {
-            m = as<int>(n);
+            mTest = as<double>(n);
             break;
         }
         default: {
@@ -153,9 +162,9 @@ IntegerVector EulerPhiSieveRcpp (SEXP n) {
         }
     }
     
-    if (m < 0) {
-        stop("n must be positive");
-    }
+    if (mTest > 2147483647) {stop("n must be less than 2^31");}
+    if (mTest < 0) {stop("n must be positive");}
+    m = mTest;
 
     IntegerVector starterSequence = Rcpp::seq(1, m);
     NumericVector EulerPhis = as<NumericVector>(starterSequence);
@@ -164,58 +173,76 @@ IntegerVector EulerPhiSieveRcpp (SEXP n) {
     IntegerVector::iterator p;
     int j;
 
-    for (p = primes.begin(); p < primes.end(); ++p) {
+    for (p = primes.begin(); p < primes.end(); p++) {
         for (j = *p; j <= m; j += *p) {
             EulerPhis[j-1] *= (1.0 - 1.0/(*p));
         }
     }
 
-    for (j = 0; j < m; ++j) {EulerInt[j] = round(EulerPhis[j]);}
+    for (j = 0; j < m; j++) {EulerInt[j] = round(EulerPhis[j]);}
 
     return wrap(EulerInt);
 }
 
 // [[Rcpp::export]]
 SEXP EratosthenesRcpp (SEXP Rb1, SEXP Rb2) {
-    int bound1, bound2, myMax, myMin;
+    double bound1, bound2, myMax, myMin;
 
     switch(TYPEOF(Rb1)) {
         case REALSXP: {
-            bound1 = as<int>(Rb1);
+            bound1 = as<double>(Rb1);
             break;
         }
         case INTSXP: {
-            bound1 = as<int>(Rb1);
+            bound1 = as<double>(Rb1);
             break;
         }
         default: {
             stop("bound1 must be of type numeric or integer");
         }
     }
-    if (bound1 < 1 || bound1 > pow(2,31) - 1) {stop("bound1 must be a positive number less than 2^31");}
+    
+    if (bound1 < 1 || bound1 > 9007199254740991) {stop("bound1 must be a positive number less than 2^53");}
 
     if (Rf_isNull(Rb2)) {
         if (bound1 == 1) {
             IntegerVector v;
             return v;
         } else {
-            return AllPrimesCpp(bound1);
+            if (bound1 >= 2147483647) {
+                if (bound1 > 2147483647) {
+                    stop("n must be less than 2^31");
+                } else {
+                    // In the AllPrimesCpp function above, the very first
+                    // step is to instantiate a logical vector with length
+                    // equal to n + 1. This is to avoid unnecessary adding
+                    // or subtracting one in order to obtain actual numbers
+                    // instead of base zero indices. As a workaround, we
+                    // generate all primes up to 2^31 - 3 to avoid exceeding 
+                    // the length limit of vectors in C++ and subsequently
+                    // append 2^31 - 1, since it is prime.
+                    IntegerVector IntegerLimitPrimes = AllPrimesCpp(2147483645);
+                    IntegerLimitPrimes.push_back(2147483647);
+                    return IntegerLimitPrimes;
+                }
+            }
+            return AllPrimesCpp((int)bound1);
         }
     } else {
         switch(TYPEOF(Rb2)) {
             case REALSXP: {
-                bound2 = as<int>(Rb2);
+                bound2 = as<double>(Rb2);
                 break;
             }
             case INTSXP: {
-                bound2 = as<int>(Rb2);
+                bound2 = as<double>(Rb2);
                 break;
             }
             default: {
                 stop("bound2 must be of type numeric or integer");
             }
         }
-        if (bound2 < 1 || bound2 > pow(2,31) - 1) {stop("bound2 must be a positive number less than 2^31");}
+        if (bound2 < 1 || bound2 > 9007199254740991) {stop("bound2 must be a positive number less than 2^53");}
 
         if (bound1 > bound2) {
             myMax = bound1;
@@ -231,7 +258,7 @@ SEXP EratosthenesRcpp (SEXP Rb1, SEXP Rb2) {
         }
 
         if (myMin <= 2) {
-            return AllPrimesCpp(myMax);
+            return RangePrimesCpp(1, myMax);
         } else {
             return RangePrimesCpp(myMin, myMax);
         }
