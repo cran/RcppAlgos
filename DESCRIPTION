@@ -1,5 +1,5 @@
 Package: RcppAlgos
-Version: 0.1.1
+Version: 0.1.2
 Title: Tools for Combinatorics and Computational Mathematics
 Description: Provides optimized functions implemented in C++ with 'Rcpp'.
     There is a generalized combinations function that is highly efficient
@@ -23,6 +23,6 @@ Author: Joseph Wood
 Maintainer: Joseph Wood <jwood000@gmail.com>
 Encoding: UTF-8
 RoxygenNote: 6.0.1
-Packaged: 2017-11-03 01:48:20 UTC; josephwood
+Packaged: 2017-11-03 02:48:24 UTC; josephwood
 Repository: CRAN
-Date/Publication: 2017-11-03 04:28:30 UTC
+Date/Publication: 2017-11-03 04:32:02 UTC
