@@ -1,6 +1,6 @@
-3ec8412455a0242c9f4cb771bbfcf4be *DESCRIPTION
+cc109d50fd8673417f199502c0dcf86c *DESCRIPTION
 c1bc567a5b438c994874e0c4040efce1 *NAMESPACE
-b8fe09d6efb6308b8a26eb7612428770 *R/Combinatorics.R
+b914cdab8cb22bf0bc815e37075304fb *R/Combinatorics.R
 15a79465ef52b00deddcba4319ede324 *R/NumberTheory.R
 81b80b9cce36b93bdd0f24e3a2006af3 *R/RcppExports.R
 157064596f913d24c48e36cc44cb9746 *README.md
@@ -9,8 +9,8 @@ b8fe09d6efb6308b8a26eb7612428770 *R/Combinatorics.R
 97a002926185048124ef4f23fa2cc73f *man/eulerPhiSieve.Rd
 8b7e759a02838cee9d8b6384723d9a3c *man/numDivisorSieve.Rd
 46386ba5016edbfecbcd9d900375d389 *man/primeFactorizationList.Rd
-bbc1a37f0399533625bd7f2f6100781a *man/primeSieve.Rd
-01783e387abb0fcf965e4fcfa3f62868 *src/CombinatoricsContainer.cpp
+59d9bf29ed9a92480e79dd34f802f133 *man/primeSieve.Rd
+702399b3b6900268523aab4094686375 *src/CombinatoricsContainer.cpp
 0b4c6850fdaeffdabe17e0ffaf9f9860 *src/DivisorSieveContainer.cpp
 246251c3241875590bf6efa873a10469 *src/PrimesContainer.cpp
 479beceb1d16e47346cab358f08b32a9 *src/RcppExports.cpp
