@@ -1,6 +1,6 @@
-bf7b6e75568ea77bda23f9a80a866b0c *DESCRIPTION
+71742d916bc6d5b7b38484b21a2da436 *DESCRIPTION
 77151aa68514b2a07b86a7921730b045 *NAMESPACE
-438a02b4c00a7edb87e2f6c86626490c *NEWS
+a1371154dfaa331f33fc9e946e390cd1 *NEWS
 a9223a8d185cdf419767135375b38211 *R/Combinatorics.R
 15a79465ef52b00deddcba4319ede324 *R/NumberTheory.R
 e02a9abd5efd74d86cee2d301a3fe75f *R/RcppExports.R
@@ -14,7 +14,7 @@ d5bf133c52438dcdfff75b7fe5b83f97 *inst/include/CombPermUtility.h
 46386ba5016edbfecbcd9d900375d389 *man/primeFactorizationList.Rd
 59d9bf29ed9a92480e79dd34f802f133 *man/primeSieve.Rd
 06280b92e2a48098ef19d4dc50c08ccd *src/CombPermUtility.cpp
-5d8d829bc213e1e695bcf664b2fd4701 *src/CombinatoricsContainer.cpp
+7297adf17a35fb1e9588673b0842845c *src/CombinatoricsContainer.cpp
 0b4c6850fdaeffdabe17e0ffaf9f9860 *src/DivisorSieveContainer.cpp
 874b79265d86eba2c9d2b45bc8d30b7a *src/ExpTableC.cpp
 cf0c7894b1770587ecae53a9db54925f *src/Makevars

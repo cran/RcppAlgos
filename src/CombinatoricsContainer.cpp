@@ -416,12 +416,18 @@ TypeRcpp ComboGeneral(int n, int r, std::vector<stdType> v,
     int r1 = r - 1, r2 = r - 2;
     int k, i, numIter, vSize;
     int numCols, maxZ, count = 0;
+    bool needsSubsetting = false;
     if (xtraCol) {numCols  = r + 1;} else {numCols = r;}
     TypeRcpp combinationMatrix(numRows, numCols);
     
     if (repetition) {
         v.erase(std::unique(v.begin(), v.end()), v.end());
         vSize = v.size();
+        int testRows = GetRowNum(vSize, r);
+        if (testRows < numRows) {
+            needsSubsetting = true;
+            numRows = testRows;
+        }
         z.assign(r, 0);
         maxZ = vSize - 1;
 
@@ -463,7 +469,11 @@ TypeRcpp ComboGeneral(int n, int r, std::vector<stdType> v,
         }
     }
     
-    return combinationMatrix;
+    if (needsSubsetting) {
+        return SubMat(combinationMatrix, count);
+    } else {
+        return combinationMatrix;
+    }
 }
 
 template <typename TypeRcpp, typename stdType>
@@ -615,6 +625,7 @@ TypeRcpp MultisetPermutation(int n, int r, std::vector<stdType> v,
         myCombs =  MultisetCombination<TypeRcpp>(n,r,v,Reps,combRows,false);
         std::vector<int> stdRowVec(r);
         stdType temp;
+        bool keepGoing;
         eachRowCount.reserve(combRows);
         int rowCount, k, testRows = 0;
         
@@ -623,9 +634,17 @@ TypeRcpp MultisetPermutation(int n, int r, std::vector<stdType> v,
             while (j < r) {
                 stdRowVec[j] = k;
                 temp = myCombs(i, j);
-                while (myCombs(i, j) == temp && j < r) {
+                keepGoing = true;
+                while (keepGoing) {
                     stdRowVec[j] = k;
                     j++;
+                    if (j >= r) {
+                        keepGoing = false;
+                    } else {
+                        if (myCombs(i, j) != temp) {
+                            keepGoing = false;
+                        }
+                    }
                 }
                 k++;
             }
