@@ -1,7 +1,3 @@
-[![Rdoc](http://www.rdocumentation.org/badges/version/RcppAlgos)](http://www.rdocumentation.org/packages/RcppAlgos)
-![](http://cranlogs.r-pkg.org/badges/RcppAlgos?color=orange)
-![](http://cranlogs.r-pkg.org/badges/grand-total/RcppAlgos?color=brightgreen)
-
 # RcppAlgos
 
 Overview
@@ -144,7 +140,7 @@ comboGeneral(mySamp, m = 4,
 [70,] 102.39829 102.39829 102.39829 102.39829 409.5932
 ```
 
-### Working with Mulitsets
+### Working with Multisets
 Sometimes, the standard combination/permutation functions don't quite get us to our desired goals. For
 example, one may need all permutations of a vector with some of the elements repeated a specific
 amount of times (i.e. a multiset). Consider the following vector `a <- c(1,1,1,1,2,2,2,7,7,7,7,7)` and one
@@ -166,7 +162,7 @@ system.time(getPermsWithSpecificRepetition(a, 6))
 
 
 #### Enter _freqs_
-Situtations like this call for the use of the `freqs` argument. Simply, enter the number
+Situations like this call for the use of the `freqs` argument. Simply, enter the number
 of times each unique element is repeated and Voila!
 
 ``` r
@@ -221,7 +217,7 @@ comboGeneral(3, 2, freqs = c(1,2,2))
 [5,]    3    3
 ```
 
-##### All Combinatoric Functions Work with Factors
+##### All Combinatorial Functions Work with Factors
 
 ``` r
 facPerms <- permuteGeneral(factor(c("low", "med", "high"),

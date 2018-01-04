@@ -1,6 +1,7 @@
 #include <RcppAlgos.h>
 #include <Rcpp.h>
 #include <algorithm>
+#include <cmath>
 #include <string>
 using namespace Rcpp;
 
@@ -626,8 +627,9 @@ TypeRcpp MultisetPermutation(int n, int r, std::vector<stdType> v,
         std::vector<int> stdRowVec(r);
         stdType temp;
         bool keepGoing;
+        double testRows = 0, computedRows;
         eachRowCount.reserve(combRows);
-        int rowCount, k, testRows = 0;
+        int rowCount, k;
         
         for (i = 0; i < combRows; i++) {
             j = k = 0;
@@ -649,7 +651,9 @@ TypeRcpp MultisetPermutation(int n, int r, std::vector<stdType> v,
                 k++;
             }
             
-            rowCount = (int)NumPermsWithRep(stdRowVec);
+            computedRows = NumPermsWithRep(stdRowVec);
+            if (computedRows > 2147483647) {stop("The number of rows cannot exceed 2^31 - 1.");}
+            rowCount = (int)computedRows;
             testRows += rowCount;
             eachRowCount.push_back(rowCount);
         }
@@ -657,6 +661,7 @@ TypeRcpp MultisetPermutation(int n, int r, std::vector<stdType> v,
         if (bUserCap) {
             if (numRows > testRows) {numRows = testRows;}
         } else {
+            if (testRows > 2147483647) {stop("The number of rows cannot exceed 2^31 - 1.");}
             numRows = testRows;
         }
     }
@@ -727,18 +732,17 @@ SEXP CombinatoricsRcpp(SEXP Rv, SEXP Rm, SEXP Rrepetition,
     bool IsConstrained, IsMultiset;
     
     std::vector<double> vNum;
-    IntegerVector vFactor;
     std::vector<int> vInt, myReps, freqsExpanded;
     std::vector<std::string > vStr;
     
     switch(TYPEOF(Rv)) {
-        case REALSXP: {
-            IsInteger = IsCharacter = false;
-            break;
-        }
         case INTSXP: {
             IsCharacter = false;
             IsInteger = true;
+            break;
+        }
+        case REALSXP: {
+            IsInteger = IsCharacter = false;
             break;
         }
         case STRSXP: {
@@ -873,7 +877,7 @@ SEXP CombinatoricsRcpp(SEXP Rv, SEXP Rm, SEXP Rrepetition,
             if (IsComb) {
                 computedRows = GetRowNum(n, m);
             } else {
-                computedRows = pow((double)n, (double)m);
+                computedRows = std::pow((double)n, (double)m);
             }
         } else {
             if (m > n) {stop("m must be less than or equal to the length of v");}
@@ -1098,8 +1102,6 @@ SEXP CombinatoricsRcpp(SEXP Rv, SEXP Rm, SEXP Rrepetition,
                 if (IsFactor) {
                     IntegerMatrix factorMat;
                     IntegerVector testFactor = as<IntegerVector>(Rv);
-                    vFactor = seq(1, n);
-                    vInt.assign(vFactor.begin(), vFactor.end());
                     CharacterVector myClass = testFactor.attr("class");
                     CharacterVector myLevels = testFactor.attr("levels");
 
@@ -1116,10 +1118,10 @@ SEXP CombinatoricsRcpp(SEXP Rv, SEXP Rm, SEXP Rrepetition,
                             factorMat = PermuteGeneral<IntegerMatrix>(n, m, vInt, IsRepetition, nRows, false);
                         }
                     }
-
+                    
                     factorMat.attr("class") = myClass;
                     factorMat.attr("levels") = myLevels;
-
+                    
                     return factorMat;
                 } else {
                     if (IsComb) {
