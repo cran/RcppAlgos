@@ -6,6 +6,10 @@ export(comboGeneral,
        permuteGeneral,
        primeSieve,
        eulerPhiSieve,
-       primeFactorizationList,
+       primeFactorizeSieve,
        numDivisorSieve,
-       divisorsList)
+       divisorsSieve,
+       primeFactorize,
+       divisorsRcpp,
+       isPrimeRcpp,
+       primeCount)

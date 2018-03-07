@@ -5,23 +5,27 @@ CombinatoricsRcpp <- function(Rv, Rm, Rrepetition, f1, f2, lim, numRow, RIsComb,
     .Call(`_RcppAlgos_CombinatoricsRcpp`, Rv, Rm, Rrepetition, f1, f2, lim, numRow, RIsComb, RIsFactor, RKeepRes, RFreqs)
 }
 
-NumDivisorsSieve <- function(n) {
-    .Call(`_RcppAlgos_NumDivisorsSieve`, n)
+DivisorsGeneral <- function(Rb1, Rb2, RIsList, RNamed) {
+    .Call(`_RcppAlgos_DivisorsGeneral`, Rb1, Rb2, RIsList, RNamed)
 }
 
-DivisorListRcpp <- function(n) {
-    .Call(`_RcppAlgos_DivisorListRcpp`, n)
+getAllDivisorsRcpp <- function(Rv, RNamed) {
+    .Call(`_RcppAlgos_getAllDivisorsRcpp`, Rv, RNamed)
 }
 
-PrimeFactorizationListRcpp <- function(n) {
-    .Call(`_RcppAlgos_PrimeFactorizationListRcpp`, n)
+PrimeFactorsContainer <- function(Rv, RNamed) {
+    .Call(`_RcppAlgos_PrimeFactorsContainer`, Rv, RNamed)
 }
 
-EulerPhiSieveRcpp <- function(n) {
-    .Call(`_RcppAlgos_EulerPhiSieveRcpp`, n)
+IsPrimeContainer <- function(Rv, RNamed) {
+    .Call(`_RcppAlgos_IsPrimeContainer`, Rv, RNamed)
 }
 
-EratosthenesRcpp <- function(Rb1, Rb2) {
-    .Call(`_RcppAlgos_EratosthenesRcpp`, Rb1, Rb2)
+MasterPrimeCount <- function(Rn) {
+    .Call(`_RcppAlgos_MasterPrimeCount`, Rn)
+}
+
+EratosthenesRcpp <- function(Rb1, Rb2, RIsList, RIsEuler, RNamed) {
+    .Call(`_RcppAlgos_EratosthenesRcpp`, Rb1, Rb2, RIsList, RIsEuler, RNamed)
 }
 
