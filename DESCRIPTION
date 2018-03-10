@@ -1,5 +1,5 @@
 Package: RcppAlgos
-Version: 1.0.0
+Version: 1.0.1
 Title: Tools for Combinatorics and Computational Mathematics
 Description: Provides optimized functions implemented in C++ with 'Rcpp' for
     solving problems in combinatorics and computational mathematics. There is
@@ -40,6 +40,6 @@ Author: Joseph Wood
 Maintainer: Joseph Wood <jwood000@gmail.com>
 Encoding: UTF-8
 RoxygenNote: 6.0.1
-Packaged: 2018-03-07 20:26:18 UTC; josephwood
+Packaged: 2018-03-10 16:00:29 UTC; josephwood
 Repository: CRAN
-Date/Publication: 2018-03-07 21:16:27 UTC
+Date/Publication: 2018-03-10 17:01:29 UTC
