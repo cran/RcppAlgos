@@ -1,17 +1,14 @@
-#ifndef POLLARDRHO_R
-#define POLLARDRHO_R 1
+#ifndef POLLARDRHO_H
+#define POLLARDRHO_H
 
-#include <stdint.h>
+const double Significand53 = 9007199254740991.0;
 
 /**
  * Get Prime Factorization
  * t: number to factorize
- * factors [out]: the list of factors
- *
- * Note: this is adapted from demo "factorize.c" file from gmplib
  */
 
 template <typename typeReturn>
-void getPrimefactors (int64_t& t, std::vector<typeReturn>&  factors);
+void getPrimefactors (int64_t &t, std::vector<typeReturn> &factors);
 
 #endif
