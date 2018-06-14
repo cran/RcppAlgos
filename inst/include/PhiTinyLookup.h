@@ -1,10 +1,11 @@
+#ifndef PHI_TINY_LOOKUP_H
+#define PHI_TINY_LOOKUP_H
+
 // The first 550 prime numbers (i.e. the first prime numbers 
 // less than 4000). Starting with the first prime number 2,
 // add each successive element in primesDiffPR to obtain the 
 // next prime number (e.g. p = 2 + primesDiffPR[0] = 3, 
 // p = p + primesDiffPR[1] = 5, etc.)
- 
-#include <stdint.h>
  
 static const int16_t arr30[30] = {0,1,1,1,1,1,1,2,2,2,2,3,3,4,4,
                                   4,4,5,5,6,6,6,6,7,7,7,7,7,7,8};
@@ -318,3 +319,5 @@ static const int16_t arr30030freq[5761] = {0,
     4,8,12,4,2,4,8,6,4,2,4,2,10,2,10,8,4,6,2,6,4,6,6,6,2,6,4,2,10,6,8,6,4,2,4,
     14,4,6,2,4,6,2,6,6,6,10,2,6,4,2,4,12,12,2,4,2,10,2,6,6,4,6,6,2,10,2,6,4,
     14,4,2,4,2,4,8,6,4,6,2,4,6,2,6,6,4,2,4,6,2,6,4,2,16,1};
+
+#endif

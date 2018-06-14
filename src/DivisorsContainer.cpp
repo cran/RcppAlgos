@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 #include <cmath>
 #include <libdivide.h>
-#include <PollardRho.h>
+#include <GetFacsUtils.h>
 
 template <typename typeInt>
 inline typeInt getStartingIndex (typeInt lowerB, typeInt step) {

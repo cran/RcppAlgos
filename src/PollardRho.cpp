@@ -1,8 +1,8 @@
 #include <Rcpp.h>
 #include <cmath>
 #include <algorithm>
-#include "PrimesPolRho.h"
-#include "PollardRho.h"
+#include <PrimesPolRho.h>
+#include <GetFacsUtils.h>
 
 /* Prove primality or run probabilistic tests.  */
 int FlagProvePrimality = 1;
