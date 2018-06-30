@@ -1,6 +1,6 @@
-ec8ee9469fa21f6c22a8ccd71b638c7a *DESCRIPTION
+464693c6f240ff12d298d1fba70a52bd *DESCRIPTION
 10462d03b86ed36496c8793112ab0d79 *NAMESPACE
-7f51f9a84691dda7e32d7b3de7fdb838 *NEWS
+f9a111fa394af28c3f894a42bf92335f *NEWS
 1c9ad84520c1807ce4380856724f0766 *R/Combinatorics.R
 2f05bfffb163b1f7bd9a63d54a4e91d1 *R/NumberTheory.R
 e2927bae464c66428af8498d2f0d898e *R/RcppExports.R
@@ -29,8 +29,8 @@ e54165ef66e061eea75965f9a5220f77 *man/primeFactorize.Rd
 f3893f64c94f29c0bcfcb4cb2243e230 *man/primeFactorizeSieve.Rd
 1771de22015f73a501022bd29e925fd0 *man/primeSieve.Rd
 3463b0a9dbcf526078b1299245171707 *src/CombPermUtils.cpp
-fe8d9b8f96f344c2bf17fc8e6b3d2d7e *src/Combinatorics.cpp
-b85dc56423f184663ac55c659dcd2d33 *src/ConstraintsUtils.cpp
+9a11a5d241e889d6b4b50f8d09f20eb9 *src/Combinatorics.cpp
+96a4228ae80ac98662c138fb9ba506bd *src/ConstraintsUtils.cpp
 094263c159dd3733af600a250d1de355 *src/DivisorsContainer.cpp
 47339443553b6e3b9f2476b3bb4f915c *src/Makevars
 817eb7b796fed8f7db80627fa5426dd8 *src/NthResult.cpp
@@ -39,13 +39,13 @@ e50bb0a7f96914c5edec49ada7093c68 *src/PollardRho.cpp
 a60f426334df841c2fe2e3c7d9b3fd40 *src/RcppExports.cpp
 43f782086aaa2c404a9d74971e2a8ed2 *src/SampleContainer.cpp
 06b3840986f5409f74af8f6dc0ffa0b4 *tests/testthat.R
-48b28436f0bf7d2554fa47a0e2364d3f *tests/testthat/testComboGeneral.R
+e666357acf2f8a4154fe154826095d58 *tests/testthat/testComboGeneral.R
 e6bc096efd942efa7bd964291e16b14a *tests/testthat/testDivisorsRcpp.R
 62737ffbfd30907943c03dc9ded7576f *tests/testthat/testDivisorsSieve.R
 3247004561907b593b8f5bb05d7c5371 *tests/testthat/testEulerPhiSieve.R
 5254d5ab20e6959a03706a8cf9f4f3dd *tests/testthat/testIsPrimeRcpp.R
 bc840044bd9c9f49ce8b19ed7cee5dad *tests/testthat/testNumDivisorSieve.R
-80bd34d37e29497f6a5a702b294f0fe0 *tests/testthat/testPermuteGeneral.R
+b9bacafb066ded00d3f20b541e753605 *tests/testthat/testPermuteGeneral.R
 abedf5f51294d27a9f155e2c04def048 *tests/testthat/testPrimeCount.R
 2e1906d2cdf409f3083dd69b2243d099 *tests/testthat/testPrimeFactorize.R
 5cdb15788a6dfb2b810b6c71005ff46c *tests/testthat/testPrimeFactorizeSieve.R

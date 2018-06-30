@@ -1,5 +1,5 @@
 Package: RcppAlgos
-Version: 2.0.2
+Version: 2.0.3
 Title: Tools for Combinatorics and Computational Mathematics
 Description: Provides optimized functions implemented in C++ with 'Rcpp'
     for solving problems in combinatorics and computational mathematics.
@@ -38,8 +38,7 @@ URL: https://github.com/jwood000/RcppAlgos, https://gmplib.org/,
 BugReports: https://github.com/jwood000/RcppAlgos/issues
 Imports: Rcpp (>= 0.12.8)
 LinkingTo: Rcpp
-Suggests: testthat, gmp (>= 0.5-1), numbers (>= 0.6-6),
-        bigIntegerAlgos, parallel
+Suggests: testthat, gmp (>= 0.5-1), numbers (>= 0.6-6), bigIntegerAlgos
 License: GPL (>= 2)
 LazyData: TRUE
 NeedsCompilation: yes
@@ -47,6 +46,6 @@ Author: Joseph Wood
 Maintainer: Joseph Wood <jwood000@gmail.com>
 Encoding: UTF-8
 RoxygenNote: 6.0.1
-Packaged: 2018-06-14 12:30:31 UTC; josephwood
+Packaged: 2018-06-30 14:40:44 UTC; josephwood
 Repository: CRAN
-Date/Publication: 2018-06-14 14:00:02 UTC
+Date/Publication: 2018-06-30 17:04:24 UTC
