@@ -5,9 +5,19 @@
 
 using namespace Rcpp;
 
+// cpp11GetNumThreads
+unsigned long int cpp11GetNumThreads();
+RcppExport SEXP _RcppAlgos_cpp11GetNumThreads() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(cpp11GetNumThreads());
+    return rcpp_result_gen;
+END_RCPP
+}
 // CombinatoricsRcpp
-SEXP CombinatoricsRcpp(SEXP Rv, SEXP Rm, SEXP Rrepetition, SEXP RFreqs, SEXP Rlow, SEXP Rhigh, SEXP f1, SEXP f2, SEXP Rlim, bool IsComb, SEXP RKeepRes, bool IsFactor, bool IsCount, SEXP stdFun, SEXP myEnv);
-RcppExport SEXP _RcppAlgos_CombinatoricsRcpp(SEXP RvSEXP, SEXP RmSEXP, SEXP RrepetitionSEXP, SEXP RFreqsSEXP, SEXP RlowSEXP, SEXP RhighSEXP, SEXP f1SEXP, SEXP f2SEXP, SEXP RlimSEXP, SEXP IsCombSEXP, SEXP RKeepResSEXP, SEXP IsFactorSEXP, SEXP IsCountSEXP, SEXP stdFunSEXP, SEXP myEnvSEXP) {
+SEXP CombinatoricsRcpp(SEXP Rv, SEXP Rm, SEXP Rrepetition, SEXP RFreqs, SEXP Rlow, SEXP Rhigh, SEXP f1, SEXP f2, SEXP Rlim, bool IsComb, SEXP RKeepRes, bool IsFactor, bool IsCount, SEXP stdFun, SEXP myEnv, SEXP Rparallel, SEXP RNumThreads, int maxThreads);
+RcppExport SEXP _RcppAlgos_CombinatoricsRcpp(SEXP RvSEXP, SEXP RmSEXP, SEXP RrepetitionSEXP, SEXP RFreqsSEXP, SEXP RlowSEXP, SEXP RhighSEXP, SEXP f1SEXP, SEXP f2SEXP, SEXP RlimSEXP, SEXP IsCombSEXP, SEXP RKeepResSEXP, SEXP IsFactorSEXP, SEXP IsCountSEXP, SEXP stdFunSEXP, SEXP myEnvSEXP, SEXP RparallelSEXP, SEXP RNumThreadsSEXP, SEXP maxThreadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -26,89 +36,92 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type IsCount(IsCountSEXP);
     Rcpp::traits::input_parameter< SEXP >::type stdFun(stdFunSEXP);
     Rcpp::traits::input_parameter< SEXP >::type myEnv(myEnvSEXP);
-    rcpp_result_gen = Rcpp::wrap(CombinatoricsRcpp(Rv, Rm, Rrepetition, RFreqs, Rlow, Rhigh, f1, f2, Rlim, IsComb, RKeepRes, IsFactor, IsCount, stdFun, myEnv));
+    Rcpp::traits::input_parameter< SEXP >::type Rparallel(RparallelSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type RNumThreads(RNumThreadsSEXP);
+    Rcpp::traits::input_parameter< int >::type maxThreads(maxThreadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(CombinatoricsRcpp(Rv, Rm, Rrepetition, RFreqs, Rlow, Rhigh, f1, f2, Rlim, IsComb, RKeepRes, IsFactor, IsCount, stdFun, myEnv, Rparallel, RNumThreads, maxThreads));
     return rcpp_result_gen;
 END_RCPP
 }
-// DivisorsGeneral
-SEXP DivisorsGeneral(SEXP Rb1, SEXP Rb2, SEXP RIsList, SEXP RNamed);
-RcppExport SEXP _RcppAlgos_DivisorsGeneral(SEXP Rb1SEXP, SEXP Rb2SEXP, SEXP RIsListSEXP, SEXP RNamedSEXP) {
+// DivNumSieve
+SEXP DivNumSieve(SEXP Rb1, SEXP Rb2, bool bDivSieve, SEXP RNamed, SEXP RNumThreads, int maxThreads);
+RcppExport SEXP _RcppAlgos_DivNumSieve(SEXP Rb1SEXP, SEXP Rb2SEXP, SEXP bDivSieveSEXP, SEXP RNamedSEXP, SEXP RNumThreadsSEXP, SEXP maxThreadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type Rb1(Rb1SEXP);
     Rcpp::traits::input_parameter< SEXP >::type Rb2(Rb2SEXP);
-    Rcpp::traits::input_parameter< SEXP >::type RIsList(RIsListSEXP);
+    Rcpp::traits::input_parameter< bool >::type bDivSieve(bDivSieveSEXP);
     Rcpp::traits::input_parameter< SEXP >::type RNamed(RNamedSEXP);
-    rcpp_result_gen = Rcpp::wrap(DivisorsGeneral(Rb1, Rb2, RIsList, RNamed));
+    Rcpp::traits::input_parameter< SEXP >::type RNumThreads(RNumThreadsSEXP);
+    Rcpp::traits::input_parameter< int >::type maxThreads(maxThreadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(DivNumSieve(Rb1, Rb2, bDivSieve, RNamed, RNumThreads, maxThreads));
     return rcpp_result_gen;
 END_RCPP
 }
-// getAllDivisorsRcpp
-SEXP getAllDivisorsRcpp(SEXP Rv, SEXP RNamed);
-RcppExport SEXP _RcppAlgos_getAllDivisorsRcpp(SEXP RvSEXP, SEXP RNamedSEXP) {
+// PollardRhoContainer
+SEXP PollardRhoContainer(SEXP Rv, SEXP RNamed, bool bPrimeFacs, bool bAllFacs, SEXP RNumThreads, int maxThreads);
+RcppExport SEXP _RcppAlgos_PollardRhoContainer(SEXP RvSEXP, SEXP RNamedSEXP, SEXP bPrimeFacsSEXP, SEXP bAllFacsSEXP, SEXP RNumThreadsSEXP, SEXP maxThreadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type Rv(RvSEXP);
     Rcpp::traits::input_parameter< SEXP >::type RNamed(RNamedSEXP);
-    rcpp_result_gen = Rcpp::wrap(getAllDivisorsRcpp(Rv, RNamed));
+    Rcpp::traits::input_parameter< bool >::type bPrimeFacs(bPrimeFacsSEXP);
+    Rcpp::traits::input_parameter< bool >::type bAllFacs(bAllFacsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type RNumThreads(RNumThreadsSEXP);
+    Rcpp::traits::input_parameter< int >::type maxThreads(maxThreadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(PollardRhoContainer(Rv, RNamed, bPrimeFacs, bAllFacs, RNumThreads, maxThreads));
     return rcpp_result_gen;
 END_RCPP
 }
-// PrimeFactorsContainer
-SEXP PrimeFactorsContainer(SEXP Rv, SEXP RNamed);
-RcppExport SEXP _RcppAlgos_PrimeFactorsContainer(SEXP RvSEXP, SEXP RNamedSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type Rv(RvSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type RNamed(RNamedSEXP);
-    rcpp_result_gen = Rcpp::wrap(PrimeFactorsContainer(Rv, RNamed));
-    return rcpp_result_gen;
-END_RCPP
-}
-// IsPrimeContainer
-SEXP IsPrimeContainer(SEXP Rv, SEXP RNamed);
-RcppExport SEXP _RcppAlgos_IsPrimeContainer(SEXP RvSEXP, SEXP RNamedSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type Rv(RvSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type RNamed(RNamedSEXP);
-    rcpp_result_gen = Rcpp::wrap(IsPrimeContainer(Rv, RNamed));
-    return rcpp_result_gen;
-END_RCPP
-}
-// MasterPrimeCount
-SEXP MasterPrimeCount(SEXP Rn);
-RcppExport SEXP _RcppAlgos_MasterPrimeCount(SEXP RnSEXP) {
+// PrimeCountRcpp
+SEXP PrimeCountRcpp(SEXP Rn, SEXP RNumThreads, int maxThreads);
+RcppExport SEXP _RcppAlgos_PrimeCountRcpp(SEXP RnSEXP, SEXP RNumThreadsSEXP, SEXP maxThreadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type Rn(RnSEXP);
-    rcpp_result_gen = Rcpp::wrap(MasterPrimeCount(Rn));
+    Rcpp::traits::input_parameter< SEXP >::type RNumThreads(RNumThreadsSEXP);
+    Rcpp::traits::input_parameter< int >::type maxThreads(maxThreadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(PrimeCountRcpp(Rn, RNumThreads, maxThreads));
     return rcpp_result_gen;
 END_RCPP
 }
-// EratosthenesRcpp
-SEXP EratosthenesRcpp(SEXP Rb1, SEXP Rb2, SEXP RIsList, SEXP RIsEuler, SEXP RNamed);
-RcppExport SEXP _RcppAlgos_EratosthenesRcpp(SEXP Rb1SEXP, SEXP Rb2SEXP, SEXP RIsListSEXP, SEXP RIsEulerSEXP, SEXP RNamedSEXP) {
+// MotleyContainer
+SEXP MotleyContainer(SEXP Rb1, SEXP Rb2, bool isEuler, SEXP RNamed, SEXP RNumThreads, int maxThreads);
+RcppExport SEXP _RcppAlgos_MotleyContainer(SEXP Rb1SEXP, SEXP Rb2SEXP, SEXP isEulerSEXP, SEXP RNamedSEXP, SEXP RNumThreadsSEXP, SEXP maxThreadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type Rb1(Rb1SEXP);
     Rcpp::traits::input_parameter< SEXP >::type Rb2(Rb2SEXP);
-    Rcpp::traits::input_parameter< SEXP >::type RIsList(RIsListSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type RIsEuler(RIsEulerSEXP);
+    Rcpp::traits::input_parameter< bool >::type isEuler(isEulerSEXP);
     Rcpp::traits::input_parameter< SEXP >::type RNamed(RNamedSEXP);
-    rcpp_result_gen = Rcpp::wrap(EratosthenesRcpp(Rb1, Rb2, RIsList, RIsEuler, RNamed));
+    Rcpp::traits::input_parameter< SEXP >::type RNumThreads(RNumThreadsSEXP);
+    Rcpp::traits::input_parameter< int >::type maxThreads(maxThreadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(MotleyContainer(Rb1, Rb2, isEuler, RNamed, RNumThreads, maxThreads));
+    return rcpp_result_gen;
+END_RCPP
+}
+// EratosthenesRcpp
+SEXP EratosthenesRcpp(SEXP Rb1, SEXP Rb2, SEXP RNumThreads, int maxCores, int maxThreads);
+RcppExport SEXP _RcppAlgos_EratosthenesRcpp(SEXP Rb1SEXP, SEXP Rb2SEXP, SEXP RNumThreadsSEXP, SEXP maxCoresSEXP, SEXP maxThreadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type Rb1(Rb1SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type Rb2(Rb2SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type RNumThreads(RNumThreadsSEXP);
+    Rcpp::traits::input_parameter< int >::type maxCores(maxCoresSEXP);
+    Rcpp::traits::input_parameter< int >::type maxThreads(maxThreadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(EratosthenesRcpp(Rb1, Rb2, RNumThreads, maxCores, maxThreads));
     return rcpp_result_gen;
 END_RCPP
 }
 // SampleRcpp
-SEXP SampleRcpp(SEXP Rv, SEXP Rm, SEXP Rrepetition, SEXP RFreqs, SEXP RindexVec, bool IsComb, bool IsFactor, SEXP RmySeed, SEXP RNumSamp, Rcpp::Function baseSample, SEXP stdFun, SEXP myEnv);
-RcppExport SEXP _RcppAlgos_SampleRcpp(SEXP RvSEXP, SEXP RmSEXP, SEXP RrepetitionSEXP, SEXP RFreqsSEXP, SEXP RindexVecSEXP, SEXP IsCombSEXP, SEXP IsFactorSEXP, SEXP RmySeedSEXP, SEXP RNumSampSEXP, SEXP baseSampleSEXP, SEXP stdFunSEXP, SEXP myEnvSEXP) {
+SEXP SampleRcpp(SEXP Rv, SEXP Rm, SEXP Rrepetition, SEXP RFreqs, SEXP RindexVec, bool IsComb, bool IsFactor, SEXP RmySeed, SEXP RNumSamp, Rcpp::Function baseSample, SEXP stdFun, SEXP myEnv, SEXP Rparallel, SEXP RNumThreads, int maxThreads);
+RcppExport SEXP _RcppAlgos_SampleRcpp(SEXP RvSEXP, SEXP RmSEXP, SEXP RrepetitionSEXP, SEXP RFreqsSEXP, SEXP RindexVecSEXP, SEXP IsCombSEXP, SEXP IsFactorSEXP, SEXP RmySeedSEXP, SEXP RNumSampSEXP, SEXP baseSampleSEXP, SEXP stdFunSEXP, SEXP myEnvSEXP, SEXP RparallelSEXP, SEXP RNumThreadsSEXP, SEXP maxThreadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -124,20 +137,23 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::Function >::type baseSample(baseSampleSEXP);
     Rcpp::traits::input_parameter< SEXP >::type stdFun(stdFunSEXP);
     Rcpp::traits::input_parameter< SEXP >::type myEnv(myEnvSEXP);
-    rcpp_result_gen = Rcpp::wrap(SampleRcpp(Rv, Rm, Rrepetition, RFreqs, RindexVec, IsComb, IsFactor, RmySeed, RNumSamp, baseSample, stdFun, myEnv));
+    Rcpp::traits::input_parameter< SEXP >::type Rparallel(RparallelSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type RNumThreads(RNumThreadsSEXP);
+    Rcpp::traits::input_parameter< int >::type maxThreads(maxThreadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(SampleRcpp(Rv, Rm, Rrepetition, RFreqs, RindexVec, IsComb, IsFactor, RmySeed, RNumSamp, baseSample, stdFun, myEnv, Rparallel, RNumThreads, maxThreads));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_RcppAlgos_CombinatoricsRcpp", (DL_FUNC) &_RcppAlgos_CombinatoricsRcpp, 15},
-    {"_RcppAlgos_DivisorsGeneral", (DL_FUNC) &_RcppAlgos_DivisorsGeneral, 4},
-    {"_RcppAlgos_getAllDivisorsRcpp", (DL_FUNC) &_RcppAlgos_getAllDivisorsRcpp, 2},
-    {"_RcppAlgos_PrimeFactorsContainer", (DL_FUNC) &_RcppAlgos_PrimeFactorsContainer, 2},
-    {"_RcppAlgos_IsPrimeContainer", (DL_FUNC) &_RcppAlgos_IsPrimeContainer, 2},
-    {"_RcppAlgos_MasterPrimeCount", (DL_FUNC) &_RcppAlgos_MasterPrimeCount, 1},
+    {"_RcppAlgos_cpp11GetNumThreads", (DL_FUNC) &_RcppAlgos_cpp11GetNumThreads, 0},
+    {"_RcppAlgos_CombinatoricsRcpp", (DL_FUNC) &_RcppAlgos_CombinatoricsRcpp, 18},
+    {"_RcppAlgos_DivNumSieve", (DL_FUNC) &_RcppAlgos_DivNumSieve, 6},
+    {"_RcppAlgos_PollardRhoContainer", (DL_FUNC) &_RcppAlgos_PollardRhoContainer, 6},
+    {"_RcppAlgos_PrimeCountRcpp", (DL_FUNC) &_RcppAlgos_PrimeCountRcpp, 3},
+    {"_RcppAlgos_MotleyContainer", (DL_FUNC) &_RcppAlgos_MotleyContainer, 6},
     {"_RcppAlgos_EratosthenesRcpp", (DL_FUNC) &_RcppAlgos_EratosthenesRcpp, 5},
-    {"_RcppAlgos_SampleRcpp", (DL_FUNC) &_RcppAlgos_SampleRcpp, 12},
+    {"_RcppAlgos_SampleRcpp", (DL_FUNC) &_RcppAlgos_SampleRcpp, 15},
     {NULL, NULL, 0}
 };
 
