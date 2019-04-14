@@ -182,6 +182,10 @@ test_that("comboGeneral produces correct results with use of FUN", {
                  comboGeneral(8, 4, freqs = rep(1:4, 2), lower = 101, FUN = cumsum))
     expect_equal(testFun[121:123], 
                  comboGeneral(8, 4, freqs = rep(1:4, 2), lower = 121, upper = 123, FUN = cumsum))
+    
+    expect_equal(unlist(comboGeneral(letters[1:5], 3, FUN = function(x) {
+        paste0(x, collapse = "")
+    })), apply(comboGeneral(letters[1:5], 3), 1, paste0, collapse = ""))
 })
 
 test_that("comboGeneral produces correct results with exotic constraints", {
@@ -385,12 +389,12 @@ test_that("comboGeneral produces appropriate error messages", {
     expect_error(comboGeneral(9,4,TRUE,NULL,NULL,NULL,"sum","=<>",10), "'>', '>=', '<', '<=', or '=='")
     expect_error(comboGeneral(9,4,TRUE,NULL,NULL,NULL,"sum",60,10), "must be passed as a character")
     expect_error(comboGeneral(9,4,FALSE,NULL,NULL,NULL,sum,"<",10), "must be passed as a character")
-    expect_error(comboGeneral(9,4,TRUE,NULL,NULL,-1,"sum","<",10), "must be positive")
+    expect_error(comboGeneral(9,4,TRUE,NULL,NULL,-1,"sum","<",10), "upper must be a positive number")
     expect_error(comboGeneral(170,7,FALSE,NULL,NULL,NULL,"sum","<",100), "The number of rows cannot exceed")
     expect_error(comboGeneral(170,7,FALSE,NULL,NULL,10^10,"sum","<",100), "number of rows cannot exceed")
     
-    expect_error(comboGeneral(50, 5, lower = -100), "bounds must be positive")
-    expect_error(comboGeneral(50, 5, upper = -100), "bounds must be positive")
+    expect_error(comboGeneral(50, 5, lower = -100), "lower must be a positive number")
+    expect_error(comboGeneral(50, 5, upper = -100), "upper must be a positive number")
     
     expect_error(comboGeneral(5, 50), "m must be less than or equal to the length of v")
     
@@ -436,9 +440,9 @@ test_that("comboGeneral produces appropriate error messages", {
     expect_error(comboGeneral(1000, 10, TRUE, lower = numR, upper = nextNum),
                  "bounds cannot exceed the maximum number of possible results")
     expect_error(comboGeneral(1000, 10, TRUE, lower = -100),
-                 "bounds must be positive")
+                 "lower must be a positive number")
     expect_error(comboGeneral(1000, 10, TRUE, upper = -100),
-                 "bounds must be positive")
+                 "upper must be a positive number")
     expect_error(comboGeneral(1000, 10, TRUE, lower = 10, upper = 9),
                  "The number of rows must be positive")
     expect_error(comboGeneral(1000, 10, freqs = rep(1:4, 250)),

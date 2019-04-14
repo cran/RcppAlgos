@@ -78,6 +78,9 @@ test_that("permuteGeneral produces correct results with no constraints for multi
 
     expect_equal(permuteGeneral(5, 5),
                  permuteGeneral(5, 5, freqs = rep(1, 5)))
+    
+    expect_equal(permuteCount(30, freqs = rep(1:2, 15)),
+                 permuteCount(30, 45, freqs = rep(1:2, 15)))
 
     expect_equal(do.call(rbind, lapply(seq(1L, 1680, 168), function(x) {
         permuteGeneral(4, freqs = c(2,1,2,3), lower = x, upper = x+167)
@@ -85,6 +88,18 @@ test_that("permuteGeneral produces correct results with no constraints for multi
 })
 
 test_that("permuteGeneral produces correct results with constraints", {
+    
+    expect_equal(nrow(permuteGeneral(15, 7,
+                                     comparisonFun = "==", constraintFun = "sum",
+                                     limitConstraints = 80, upper = 100)), 100)
+    
+    expect_equal(nrow(permuteGeneral(15, 7, TRUE, 
+                                     comparisonFun = "==", constraintFun = "sum",
+                                     limitConstraints = 80, upper = 200)), 200)
+    
+    expect_equal(nrow(permuteGeneral(15, 7, freqs = rep(1:5, 3), 
+                                     comparisonFun = "==", constraintFun = "sum",
+                                     limitConstraints = 80, upper = 220)), 220)
 
     expect_equal(nrow(permuteGeneral(3, 3, FALSE, constraintFun = "sum",
                                      comparisonFun = "==", limitConstraints = 6)), 6)
@@ -332,6 +347,12 @@ test_that("permuteGeneral produces correct results with very large results", {
 })
 
 test_that("permuteGeneral produces appropriate error messages", {
+    expect_error(permuteGeneral(100, 15, upper = 2^32), 
+                 "The number of rows cannot exceed")
+    expect_error(permuteGeneral(100, 15, lower = 100, upper = 2^32), 
+                 "The number of rows cannot exceed")
+    expect_error(permuteGeneral(100, 15, lower = 2^32), 
+                 "The number of rows cannot exceed")
     expect_error(permuteGeneral(9,4,TRUE,constraintFun = "summ",
                                 comparisonFun = "<",limitConstraints = 10),
                  "prod, sum, mean, max, or min")
@@ -346,7 +367,7 @@ test_that("permuteGeneral produces appropriate error messages", {
                  "must be passed as a character")
     expect_error(permuteGeneral(9,4,TRUE,constraintFun = "sum",
                                 comparisonFun = "<",limitConstraints = 10,upper = -1),
-                 "must be positive")
+                 "upper must be a positive number")
     expect_error(permuteGeneral(170,7,FALSE,constraintFun = "sum",
                                 comparisonFun = "<",limitConstraints = 100),
                  "The number of rows cannot exceed")
@@ -363,7 +384,7 @@ test_that("permuteGeneral produces appropriate error messages", {
 
     expect_error(permuteGeneral(5), "m and freqs cannot both be NULL")
     expect_error(permuteGeneral(5, 1:5), "length of m must be 1")
-    expect_error(permuteGeneral(5, -5), "m must be positive")
+    expect_error(permuteGeneral(5, -5), "m must be a positive number")
     expect_error(permuteCount(5, 5, "TRUE"), "Only logical values are supported for repetition")
     expect_error(permuteGeneral(5, 5, keepResults = "TRUE"), 
                  "Only logical values are supported for keepResults")
@@ -380,9 +401,9 @@ test_that("permuteGeneral produces appropriate error messages", {
     expect_error(permuteGeneral(1000, 10, TRUE, lower = numR, upper = nextNum),
                  "bounds cannot exceed the maximum number of possible results")
     expect_error(permuteGeneral(1000, 10, TRUE, lower = -100),
-                 "bounds must be positive")
+                 "lower must be a positive number")
     expect_error(permuteGeneral(1000, 10, TRUE, upper = -100),
-                 "bounds must be positive")
+                 "upper must be a positive number")
     expect_error(permuteGeneral(1000, 10, TRUE, lower = 10, upper = 9),
                  "The number of rows must be positive")
     expect_error(permuteGeneral(1000, 10, freqs = rep(1:4, 250)),
