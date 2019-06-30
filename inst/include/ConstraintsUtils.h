@@ -2,7 +2,7 @@
 #define CONSTRAINTS_UTILS_H
 
 template <typename stdType>
-using funcPtr = stdType (*)(const std::vector<stdType> &v, unsigned long int mySize);
+using funcPtr = stdType (*)(const std::vector<stdType> &v, std::size_t mySize);
 
 template <typename stdType>
 using compPtr = bool (*)(stdType x, const std::vector<stdType> &y);
@@ -14,30 +14,30 @@ using compPtr = bool (*)(stdType x, const std::vector<stdType> &y);
 // this Rcpp Gallery (http://gallery.rcpp.org/articles/passing-cpp-function-pointers/)
 
 template <typename stdType>
-stdType prod(const std::vector<stdType> &v, unsigned long int mySize) {
+stdType prod(const std::vector<stdType> &v, std::size_t mySize) {
     stdType myProduct = 1;
     for (std::size_t i = 0; i < mySize; ++i) {myProduct *= v[i];}
     return (myProduct);
 }
 
 template <typename stdType>
-stdType sum(const std::vector<stdType> &v, unsigned long int mySize) {
+stdType sum(const std::vector<stdType> &v, std::size_t mySize) {
     return (std::accumulate(v.cbegin(), v.cend(), static_cast<stdType>(0)));
 }
 
 template <typename stdType>
-stdType mean(const std::vector<stdType> &v, unsigned long int mySize) {
+stdType mean(const std::vector<stdType> &v, std::size_t mySize) {
     double mySum = sum(v, mySize);
     return (mySum / mySize);
 }
 
 template <typename stdType>
-stdType max(const std::vector<stdType> &v, unsigned long int mySize) {
+stdType max(const std::vector<stdType> &v, std::size_t mySize) {
     return (*std::max_element(v.cbegin(), v.cend()));
 }
 
 template <typename stdType>
-stdType min(const std::vector<stdType> &v, unsigned long int mySize) {
+stdType min(const std::vector<stdType> &v, std::size_t mySize) {
     return (*std::min_element(v.cbegin(), v.cend()));
 }
 
@@ -53,11 +53,6 @@ bool lessEqual(stdType x, const std::vector<stdType> &y) {return x <= y[0];}
 
 template <typename stdType>
 bool greaterEqual(stdType x, const std::vector<stdType> &y) {return x >= y[0];}
-
-template <typename stdType>
-bool equalDbl(stdType x, const std::vector<stdType> &y) {
-    return std::abs(x - y[0]) <= std::numeric_limits<double>::epsilon();
-}
 
 template <typename stdType>
 bool equalInt(stdType x, const std::vector<stdType> &y) {return x == y[0];}
@@ -107,6 +102,8 @@ enum myComps {
     GELE = 8
 };
 
+// N.B. With equality check for double data type we must call greaterEqlLessEql
+// function with y being altered in the calling function to give a range (y - e, y + e)
 template <typename stdType>
 Rcpp::XPtr<compPtr<stdType>> putCompPtrInXPtr(std::string fstr) {
     
@@ -127,7 +124,7 @@ Rcpp::XPtr<compPtr<stdType>> putCompPtrInXPtr(std::string fstr) {
             if (std::is_integral<stdType>::value)
                 return(Rcpp::XPtr<compPtr<stdType>>(new compPtr<stdType>(&equalInt)));
             else
-                return(Rcpp::XPtr<compPtr<stdType>>(new compPtr<stdType>(&equalDbl)));
+                return(Rcpp::XPtr<compPtr<stdType>>(new compPtr<stdType>(&greaterEqlLessEql)));
         case GTLT:
             return(Rcpp::XPtr<compPtr<stdType>>(new compPtr<stdType>(&greaterLess)));
         case GELT:

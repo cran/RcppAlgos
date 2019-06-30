@@ -7,7 +7,7 @@
 std::vector<int> rleCpp(const std::vector<int> &x) {
     std::vector<int> lengths;
     int prev = x[0];
-    unsigned long int i = 0;
+    std::size_t i = 0;
     lengths.push_back(1);
     
     for(auto it = x.cbegin() + 1; it < x.cend(); ++it) {
@@ -220,7 +220,7 @@ double MultisetPermRowNum(int n, int r, const std::vector<int> &myReps) {
 
 // This function will be used in the main function to
 // determine whether gmp analogs are needed as the fast
-// algorithm above could potentionally produce negative
+// algorithm above could potentially produce negative
 // results because of issues with double precision
 double MultisetCombRowNum(int n, int r, const std::vector<int> &Reps) {
     
@@ -261,9 +261,9 @@ double MultisetCombRowNum(int n, int r, const std::vector<int> &Reps) {
 
 // This algorithm is nearly identical to the
 // one found in the standard algorithm library
-void nextFullPerm(int *myArray, unsigned long int n1, unsigned long int n2) {
+void nextFullPerm(int *myArray, std::size_t n1, std::size_t n2) {
     
-    unsigned long int p1 = n2, p2 = n1;
+    std::size_t p1 = n2, p2 = n1;
     int temp;
     
     while (myArray[p1 + 1] <= myArray[p1])
@@ -290,18 +290,16 @@ void nextFullPerm(int *myArray, unsigned long int n1, unsigned long int n2) {
 // If it is, we have to reverse all of the elements
 // to the right of the rth position before finding
 // the next permutation. This is so because if we
-// didn't, all of the next perms. of the entire vector
+// didn't, all of the next perms of the entire vector
 // would produce many duplicate r-length perms. If it
 // isn't the largest, we find the element to the right
 // and swap them. We can then proceed to the next perm.
 // We can do this because the standard algo would end
 // up performing two unnecessary reversings.
-void nextPartialPerm(int *myArray, unsigned long int r, 
-                     unsigned long int r1, unsigned long int n,
-                     unsigned long int lastElem) {
-    
+void nextPartialPerm(int *myArray, std::size_t r, std::size_t r1,
+                     std::size_t n, std::size_t lastElem) {
     int temp;
-    unsigned long int p1 = r1;
+    std::size_t p1 = r1;
     
     while (p1 < n && myArray[r1] >= myArray[p1])
         ++p1;
@@ -321,7 +319,7 @@ void nextPartialPerm(int *myArray, unsigned long int r,
         while (myArray[p1 + 1] <= myArray[p1])
             --p1;
         
-        unsigned long int p2 = lastElem;
+        std::size_t p2 = lastElem;
         
         while (myArray[p2] <= myArray[p1])
             --p2;

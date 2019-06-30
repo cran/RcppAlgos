@@ -88,7 +88,6 @@ test_that("permuteGeneral produces correct results with no constraints for multi
 })
 
 test_that("permuteGeneral produces correct results with constraints", {
-    
     expect_equal(nrow(permuteGeneral(15, 7,
                                      comparisonFun = "==", constraintFun = "sum",
                                      limitConstraints = 80, upper = 100)), 100)
@@ -280,7 +279,6 @@ test_that("permuteGeneral produces correct results with exotic constraints", {
 })
 
 test_that("permuteGeneral produces correct results with use of FUN", {
-    
     test <- permuteGeneral(6, 6, constraintFun = "mean")[, 7]
     expect_equal(as.vector(test), unlist(permuteGeneral(6, 6, FUN = mean)))
     
@@ -367,15 +365,11 @@ test_that("permuteGeneral produces appropriate error messages", {
                  "must be passed as a character")
     expect_error(permuteGeneral(9,4,TRUE,constraintFun = "sum",
                                 comparisonFun = "<",limitConstraints = 10,upper = -1),
-                 "upper must be a positive number")
-    expect_error(permuteGeneral(170,7,FALSE,constraintFun = "sum",
-                                comparisonFun = "<",limitConstraints = 100),
-                 "The number of rows cannot exceed")
+                 "upper must be a positive whole number")
     expect_error(permuteGeneral(170,7,FALSE,constraintFun = "sum",
                                 comparisonFun = "<",
                                 limitConstraints = 100,
                                 upper = 10^10), "number of rows cannot exceed")
-
     expect_error(permuteGeneral(0i ^ (-3:3),7,FALSE,
                                 constraintFun = "sum",
                                 comparisonFun = "<",
@@ -384,7 +378,7 @@ test_that("permuteGeneral produces appropriate error messages", {
 
     expect_error(permuteGeneral(5), "m and freqs cannot both be NULL")
     expect_error(permuteGeneral(5, 1:5), "length of m must be 1")
-    expect_error(permuteGeneral(5, -5), "m must be a positive number")
+    expect_error(permuteGeneral(5, -5), "m must be a positive whole number")
     expect_error(permuteCount(5, 5, "TRUE"), "Only logical values are supported for repetition")
     expect_error(permuteGeneral(5, 5, keepResults = "TRUE"), 
                  "Only logical values are supported for keepResults")

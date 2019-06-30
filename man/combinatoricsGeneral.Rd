@@ -17,12 +17,14 @@ Generate all Combinations/Permutations of a Vector with/without Constraints
 comboGeneral(v, m = NULL, repetition = FALSE, freqs = NULL, lower = NULL, 
               upper = NULL, constraintFun = NULL, comparisonFun = NULL,
                limitConstraints = NULL, keepResults = NULL, FUN = NULL,
-                Parallel = FALSE, nThreads = NULL)
+                Parallel = FALSE, nThreads = NULL, 
+                tolerance = sqrt(.Machine$double.eps))
 
 permuteGeneral(v, m = NULL, repetition = FALSE, freqs = NULL, lower = NULL, 
                 upper = NULL, constraintFun = NULL, comparisonFun = NULL,
                  limitConstraints = NULL, keepResults = NULL, FUN = NULL,
-                  Parallel = FALSE, nThreads = NULL)
+                  Parallel = FALSE, nThreads = NULL, 
+                  tolerance = sqrt(.Machine$double.eps))
 }
 \arguments{
   \item{v}{Source vector. If \code{v} is an integer (including nonpositive integers), it will be converted to the sequence \code{1:v}.}
@@ -34,7 +36,7 @@ permuteGeneral(v, m = NULL, repetition = FALSE, freqs = NULL, lower = NULL,
   
   If the output is constrained and \code{lower} isn't supplied, \code{upper} serves as a cap for how many results will be returned that meet the criteria (\emph{e.g.} setting \code{upper = 100} alone will return the first 100 results that meet the criteria, while setting \code{lower = 1} and \code{upper = 100} will test the first 100 results against the criteria).
   
-  In addition to the benefits listed for \code{lower}, this parameter is useful when the total number of combinations/permutations without constraint is large and you expect/need a small number of combinations/permutations that meet a certain criteria. Using \code{upper} can drastically improve run time and avoid unnecessary crashes due to lack of memory. See examples below.
+  In addition to the benefits listed for \code{lower}, this parameter is useful when the total number of combinations/permutations without constraint is large and you expect/need a small number of combinations/permutations that meet a certain criteria. Using \code{upper} can improve run time if used judiciously as we call the member function \href{https://en.cppreference.com/w/cpp/container/vector/reserve}{reserve} of \href{https://en.cppreference.com/w/cpp/container/vector}{std::vector}. See examples below.
   
   N.B. This argument was formerly called \code{rowCap}.}
   \item{constraintFun}{Function to be applied to the elements of \code{v} that should be passed as a string (\emph{e.g.} \code{constraintFun = "sum"}). The possible constraint functions are: \code{"sum"}, \code{"prod"}, \code{"mean"}, \code{"max"}, & \code{"min"}. The default is \code{NULL}, meaning no function is applied.}
@@ -58,6 +60,7 @@ permuteGeneral(v, m = NULL, repetition = FALSE, freqs = NULL, lower = NULL,
   \item{FUN}{Function to be applied to each combination/permutation. The default is \code{NULL}.}
   \item{Parallel}{Logical value indicating whether combinations/permutations should be generated in parallel. The default is \code{FALSE}. If \code{nThreads} is not \code{NULL}, it will be given preference (\emph{e.g.} if user has 8 threads with \code{Parallel = TRUE} and \code{nThreads = 4}, only 4 threads will be spawned). If your system is single-threaded, the arguments \code{Parallel} and \code{nThreads} are ignored.}
   \item{nThreads}{Specific number of threads to be used. The default is \code{NULL}. See \code{Parallel}.}
+  \item{tolerance}{A numeric value greater than or equal to zero. This parameter is utilized when a constraint is applied on a numeric vector. The default is \eqn{2^{-26}}{2^(-26)} which is approximately \eqn{1.5e-8}. N.B. If the input vector is of type integer, this parameter will be ignored and strict equality will be enforced.}
 }
 \value{
 In general, a matrix is returned with each row containing a vector of length \eqn{m} or \eqn{m + 1} depending on the value of \code{keepResults}. If \code{m} isn't supplied and \code{freqs} is given, a matrix is returned with each row containing a vector of length \code{sum(freqs)}. If \code{FUN} is utilized, a list is returned.
@@ -131,16 +134,6 @@ permuteGeneral(75, 10, freqs = rep(1:3, 25),
 ## such that the sum is greater than 7200.
 system.time(comboGeneral(mySamp, 7, FALSE, constraintFun = "sum",
              comparisonFun = ">", limitConstraints = 7200, upper = 1000))
-
-## If you leave "upper" NULL in examples like the above,
-## it can take much longer when the total number of
-## possible combinations is large (still fast enough
-## most of the time). In some cases, it can crash your
-## computer as the underlying code allocates enough
-## space to account for every combination (e.g. In our
-## example, there are choose(75, 7) = 1984829850 rows,
-## 7 columns, with each cell occupying 8 bytes. This
-## gives a total over 100 GB (i.e. choose(75,7)*7*8/(2^30))
 
 ## Similarly, you can use "lower" to obtain the last rows.
 ## Generate the last 10 rows
