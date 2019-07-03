@@ -1,5 +1,5 @@
 Package: RcppAlgos
-Version: 2.3.3
+Version: 2.3.4
 Title: High Performance Tools for Combinatorics and Computational
         Mathematics
 Description: Provides optimized functions implemented in C++ with 'Rcpp'
@@ -41,6 +41,6 @@ Author: Joseph Wood
 Maintainer: Joseph Wood <jwood000@gmail.com>
 Encoding: UTF-8
 RoxygenNote: 6.1.1
-Packaged: 2019-06-29 20:03:30 UTC; josephwood
+Packaged: 2019-07-03 01:53:25 UTC; josephwood
 Repository: CRAN
-Date/Publication: 2019-06-30 05:10:12 UTC
+Date/Publication: 2019-07-03 08:00:09 UTC

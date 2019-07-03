@@ -197,9 +197,7 @@ namespace PrimeCounting {
     const double getChunkFactor(int64_t x) {
         const std::vector<double> nums = {1e10, 1e12, 2e13, 5e13, 8e13, 1e14, 5e14, 1e15, 1e16};
         const std::vector<double> factor = {1.3, 1.2, 1.1, 1.07, 1.05, 1.01, 1.007, 1.006, 1.005};
-        std::vector<double>::const_iterator it = std::upper_bound(nums.cbegin(),
-                                                                  nums.cend(),
-                                                                  static_cast<double>(x));
+        auto it = std::upper_bound(nums.cbegin(), nums.cend(), static_cast<double>(x));
         return std::log(factor[it - nums.cbegin()]);
     }
     
@@ -530,9 +528,9 @@ SEXP EratosthenesRcpp(SEXP Rb1, SEXP Rb2, SEXP RNumThreads, int maxCores, int ma
     
     if (myMax > std::numeric_limits<int>::max()) {
         std::vector<std::vector<double>> primeList(numSects, std::vector<double>());
-        std::vector<double> tempPrime;
+        std::vector<double> tempPrimes;
         
-        PrimeSieve::PrimeSieveMaster(myMin, myMax, tempPrime, primeList,
+        PrimeSieve::PrimeSieveMaster(myMin, myMax, tempPrimes, primeList,
                                      Parallel, nThreads, maxThreads, maxCores);
         
         if (Parallel) {
@@ -545,17 +543,18 @@ SEXP EratosthenesRcpp(SEXP Rb1, SEXP Rb2, SEXP RNumThreads, int maxCores, int ma
             Rcpp::NumericVector::iterator priBeg = primes.begin();
             
             for (std::size_t i = 0; i < numSects; ++i)
-                std::move(primeList[i].cbegin(), primeList[i].cend(), priBeg + runningCount[i]);
+                std::copy(primeList[i].cbegin(), primeList[i].cend(), priBeg + runningCount[i]);
             
             return primes;
         } else {
-            return Rcpp::wrap(tempPrime);
+            Rcpp::NumericVector primes(tempPrimes.cbegin(), tempPrimes.cend());
+            return primes;
         }
     } else {
         std::vector<std::vector<int_fast32_t>> primeList(numSects, std::vector<int_fast32_t>());
-        std::vector<int_fast32_t> tempPrime;
+        std::vector<int_fast32_t> tempPrimes;
         
-        PrimeSieve::PrimeSieveMaster(myMin, myMax, tempPrime, primeList,
+        PrimeSieve::PrimeSieveMaster(myMin, myMax, tempPrimes, primeList,
                                      Parallel, nThreads, maxThreads, maxCores);
         
         if (Parallel) {
@@ -568,11 +567,12 @@ SEXP EratosthenesRcpp(SEXP Rb1, SEXP Rb2, SEXP RNumThreads, int maxCores, int ma
             Rcpp::IntegerVector::iterator priBeg = primes.begin();
             
             for (std::size_t i = 0; i < numSects; ++i)
-                std::move(primeList[i].cbegin(), primeList[i].cend(), priBeg + runningCount[i]);
+                std::copy(primeList[i].cbegin(), primeList[i].cend(), priBeg + runningCount[i]);
             
             return primes;
         } else {
-            return Rcpp::wrap(tempPrime);
+            Rcpp::IntegerVector primes(tempPrimes.cbegin(), tempPrimes.cend());
+            return primes;
         }
     }
 }

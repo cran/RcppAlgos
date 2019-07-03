@@ -45,9 +45,7 @@ namespace PrimeSieve {
     
     // The following function is based off of the prime number theorem
     inline std::size_t EstimatePiPrime(double minNum, double maxNum) {
-        std::vector<double>::const_iterator it = std::upper_bound(CUTPOINTS.cbegin(),
-                                                                  CUTPOINTS.cend(),
-                                                                  maxNum);
+        auto it = std::upper_bound(CUTPOINTS.cbegin(), CUTPOINTS.cend(), maxNum);
         const std::size_t myIndex = it - CUTPOINTS.cbegin();
         double dblRes = std::ceil((maxNum / log(maxNum)) * (1 + PERCINC[myIndex]));
         
@@ -199,17 +197,14 @@ namespace PrimeSieve {
                           const std::vector<int_fast64_t> &sievePrimes,
                           std::vector<typePrime> &myPrimes) {
         
-        const int_fast64_t sz30030 = NUM30030;
-        const std::size_t nWheels = static_cast<std::size_t>(std::ceil(
-            std::sqrt(static_cast<double>(maxNum)) / sz30030));
-        
         const std::size_t szWheel30030 = SZ_WHEEL30030;
+        const int_fast64_t sz30030 = NUM30030;
+        const std::size_t nWheels = static_cast<std::size_t>(std::max(1.0, std::ceil(std::sqrt(static_cast<double>(maxNum)) / sz30030)));
         
         const int_fast64_t segSize = static_cast<int_fast64_t>(nWheels * sz30030);
         const std::size_t myReserve = EstimatePiPrime(static_cast<double>(minNum), 
                                                       static_cast<double>(maxNum));
         myPrimes.reserve(myReserve);
-        
         const int_fast64_t flrMaxNum = segSize * std::floor(maxNum / segSize);
         
         // vector used for sieving
@@ -583,8 +578,7 @@ namespace PrimeSieve {
             const int limitOne = static_cast<int>(nBigSegs * segUnitSize);
             const std::size_t svMainSize = svPriMain.size();
 
-            // Get the primes that are guaranteed to
-            // mark an index in every segment interval
+            // Get the primes that are guaranteed to mark an index in every segment interval
             for (; (2 * svPriMain[ind]) < limitOne && ind < svMainSize; ++ind)
                 svPriOne.push_back(svPriMain[ind]);
 
@@ -603,6 +597,7 @@ namespace PrimeSieve {
             nBigSegs = N_WHEELS2310_PER_SEG;
         }
         
+        nBigSegs = (nBigSegs < 1) ? 1u : nBigSegs;
         const int_fast64_t segSize = nBigSegs * segUnitSize;
         
         // There is some overhead for setting up the data structures
