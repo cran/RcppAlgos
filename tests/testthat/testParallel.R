@@ -4,6 +4,12 @@ test_that("comboGeneral produces correct results with Parallel enabled and no co
     
     set.seed(12)
     ## N.B. Parallel has no effect when number of results is less than 20000
+    expect_equal(comboGeneral(18, 9, nThreads = 2, upper = 5000), 
+                 comboGeneral(18, 9, upper = 5000))
+    
+    ## For both of the usages below, only 2 threads will be spawned
+    expect_equal(comboGeneral(18, 9, nThreads = 3, upper = 25000), 
+                 comboGeneral(18, 9, Parallel = TRUE, upper = 25000))
     
     ######********************** All Results *******************#########
     #### NO Repetition
@@ -129,6 +135,13 @@ test_that("permuteGeneral produces correct results with Parallel enabled and no 
     #### NO Repetition
     expect_equal(permuteGeneral(30, 10, nThreads = 2, upper = 30000), 
                  permuteGeneral(30, 10, upper = 30000))
+    
+    expect_equal(permuteGeneral(10, 6, nThreads = 2, upper = 30000), 
+                 permuteGeneral(10, 6, upper = 30000))
+    
+    #### With Repetition
+    expect_equal(permuteGeneral(10, 5, T, upper = 39999, nThreads = 2),
+                 permuteGeneral(10, 5, T, upper = 39999))
     
     ######********************** Lower Only *******************#########
     #### With Repetition
@@ -370,9 +383,4 @@ test_that("permuteGeneral produces correct results with Parallel, GMP, and const
                                 lower = "437893890380000000",
                                 upper = "437893890380030000", 
                                 constraintFun = "min", keepResults = TRUE))
-})
-
-test_that("combo/permuteGeneral produces correct error messages with Parallel", {
-    expect_error(permuteGeneral(10, 5, Parallel = "TRUE"), 
-                 "Only logical values are supported for Parallel")
 })

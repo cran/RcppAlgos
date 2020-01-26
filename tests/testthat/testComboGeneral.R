@@ -6,6 +6,8 @@ test_that("comboGeneral produces correct results with no constraints", {
     expect_equal(comboGeneral(factor(1:5, ordered = TRUE), 3), 
                  t(combn(factor(1:5, ordered = TRUE), 3)))
     
+    expect_equal(comboGeneral(as.raw(1:5), 3), t(combn(as.raw(1:5), 3)))
+    
     expect_equal(comboGeneral(factor(1:5, ordered = TRUE), 5, freqs = rep(3, 5)),
                  comboSample(factor(1:5, ordered = TRUE), 5, freqs = rep(3, 5),
                              sampleVec = 1:comboCount(5, 5, freqs = rep(3, 5))))
@@ -17,9 +19,17 @@ test_that("comboGeneral produces correct results with no constraints", {
     expect_equal(comboGeneral(15, 8)[500:600, ], comboGeneral(15, 8,
                                                               lower = 500,
                                                               upper = 600))
+    expect_equal(dim(comboGeneral(as.complex(1:5), 5, T)), 
+                 dim(comboGeneral(as.raw(1:5), 5, T)))
     
     expect_equal(comboGeneral(5, 5), 
                  comboGeneral(5, 5, freqs = rep(1, 5)))
+    
+    expect_equal(comboGeneral(as.complex(1:5), 3), 
+                 t(combn(as.complex(1:5), 3)))
+    
+    expect_equal(comboGeneral(as.raw(1:5), 3), 
+                 t(combn(as.raw(1:5), 3)))
     
     set.seed(103)
     myNums = rnorm(5)
@@ -45,7 +55,6 @@ test_that("comboGeneral produces correct results with no constraints", {
                  sum(comboGeneral(3, 3)))
     
     expect_equal(as.vector(comboGeneral(1, 2, freqs = 2)), c(1, 1))
-    
     expect_equal(ncol(comboGeneral(5, 3)), 3)
     expect_equal(ncol(comboGeneral(5, 3, TRUE)), 3)
     expect_equal(ncol(comboGeneral(5, 3, FALSE, constraintFun = "prod")), 4)
@@ -97,6 +106,18 @@ test_that("comboGeneral produces correct results with no constraints", {
 })
 
 test_that("comboGeneral produces correct results with constraints", {
+    tinyTol = nrow(comboGeneral(1:5 + 0.00000000001, 3, 
+                      constraintFun = "mean", 
+                      comparisonFun = "==", 
+                      limitConstraints = 3, 
+                      tolerance = .Machine$double.eps))
+    
+    ## The default tolerance is sqrt(.Machine$double.eps)
+    defatultTol = nrow(comboGeneral(1:5 + 0.00000000001, 3, 
+                                     constraintFun = "mean", 
+                                     comparisonFun = "==", limitConstraints = 3))
+    
+    expect_false(tinyTol == defatultTol)
     
     ## check that classes behave properly N.B. limitContraint > INT_MAX
     expect_equal(class(comboGeneral(10, 5, constraintFun = "prod",
@@ -108,9 +129,13 @@ test_that("comboGeneral produces correct results with constraints", {
                                     comparisonFun = "<",
                                     limitConstraints = 5)[,1]), "numeric")
     
+    expect_equal(class(comboGeneral(5, 5, TRUE, constraintFun = "prod",
+                                    comparisonFun = "<",
+                                    limitConstraints = 5.5)[,1]), "numeric")
+    
     expect_equal(nrow(comboGeneral(-5:5, 4, FALSE, constraintFun = "sum", 
                                    comparisonFun = "==", limitConstraints = 6)), 
-                 length(which(apply(combn(-5:5, 4), 2, sum)==6)))
+                 length(which(apply(combn(-5:5, 4), 2, sum) == 6)))
     
     expect_equal(unique(comboGeneral(5, 5, TRUE,
                                        constraintFun = "sum", comparisonFun = "==", 
@@ -150,6 +175,11 @@ test_that("comboGeneral produces correct results with constraints", {
                                    keepResults = TRUE)[,6] >= 2))
     
     expect_true(all(comboGeneral(3, 5, TRUE,
+                                 constraintFun = "mean", comparisonFun = "==",
+                                 limitConstraints = 2, 
+                                 keepResults = TRUE)[,6] == 2))
+    
+    expect_true(all(comboGeneral(3, 5, TRUE,
                                  constraintFun = "mean", comparisonFun = ">=",
                                  limitConstraints = c(2L, 1e10), 
                                  keepResults = TRUE)[,6] >= 2))
@@ -183,6 +213,9 @@ test_that("comboGeneral produces correct results with use of FUN", {
     expect_equal(testFun[121:123], 
                  comboGeneral(8, 4, freqs = rep(1:4, 2), lower = 121, upper = 123, FUN = cumsum))
     
+    expect_equal(comboGeneral(as.raw(1:5), 3, FUN = rawToChar),
+                 combn(as.raw(1:5), 3, rawToChar, simplify = FALSE))
+    
     expect_equal(unlist(comboGeneral(letters[1:5], 3, FUN = function(x) {
         paste0(x, collapse = "")
     })), apply(comboGeneral(letters[1:5], 3), 1, paste0, collapse = ""))
@@ -213,7 +246,6 @@ test_that("comboGeneral produces correct results with exotic constraints", {
     temp2 = temp2[which(b <= 20.05669 | b >= 60.93901), ]
     
     expect_equal(sort(temp1[,8]), sort(temp2[,8]))
-    
     a = comboGeneral(10, 7, freqs = rep(3, 10))
     b = rowSums(a)
     expect_equal(comboGeneral(10, 7, freqs = rep(3, 10), constraintFun = "sum",
@@ -382,72 +414,4 @@ test_that("comboGeneral produces correct results with exotic constraints", {
             }
         }
     }
-})
-
-test_that("comboGeneral produces appropriate error messages", {
-    expect_error(comboGeneral(9,4,TRUE,NULL,NULL,NULL,"summ","<",10), "prod, sum, mean, max, or min")
-    expect_error(comboGeneral(9,4,TRUE,NULL,NULL,NULL,"sum","=<>",10), "'>', '>=', '<', '<=', or '=='")
-    expect_error(comboGeneral(9,4,TRUE,NULL,NULL,NULL,"sum",60,10), "must be passed as a character")
-    expect_error(comboGeneral(9,4,FALSE,NULL,NULL,NULL,sum,"<",10), "must be passed as a character")
-    expect_error(comboGeneral(9,4,TRUE,NULL,NULL,-1,"sum","<",10), "upper must be a positive whole number")
-    expect_error(comboGeneral(170,7,FALSE,NULL,NULL,10^10,"sum","<",100), "number of rows cannot exceed")
-    
-    expect_error(comboGeneral(50, 5, lower = -100), "lower must be a positive whole number")
-    expect_error(comboGeneral(50, 5, upper = -100), "upper must be a positive whole number")
-    
-    expect_error(comboGeneral(5, 50), "m must be less than or equal to the length of v")
-    
-    expect_error(comboGeneral(5, 3, upper = 100), "bounds cannot exceed the maximum number of possible results")
-    expect_error(comboGeneral(5, 3, lower = 100), "bounds cannot exceed the maximum number of possible results")
-    
-    expect_error(comboGeneral(50, 3, lower = 100, upper = 10), "The number of rows must be positive")
-    
-    expect_error(comboGeneral(10,7,FALSE,NULL,NULL,NULL,"sum","<",c(20,30,40)), 
-                 "there cannot be more than 2 limitConstraints")
-    expect_error(comboGeneral(10,7,FALSE,NULL,NULL,NULL,"sum","<",c(20,NA)), 
-                 "limitConstraints cannot be NA")
-    
-    expect_error(comboGeneral(10,7,FALSE,NULL,NULL,NULL,"sum",c("<",">","=="),c(20,30)), 
-                 "there cannot be more than 2 comparison operator")
-    
-    expect_error(comboGeneral(10,7,FALSE,NULL,NULL,NULL,"sum",c("<","=="),c(20,30)), 
-                 "If comparing against two limitConstraints, the")
-    
-    expect_error(comboGeneral(10,7,FALSE,NULL,NULL,NULL,"sum",c("<","=<"),c(20,30)), 
-                 "Cannot have two 'less than' comparisonFuns or two")
-    
-    expect_error(comboGeneral(10,7,FALSE,NULL,NULL,NULL,"sum",c("<=","<"),c(20,20)), 
-                 "The limitConstraints must be different")
-    
-    expect_error(comboGeneral(-100:100, 25, constraintFun = "prod",
-                              comparisonFun = "<=", limitConstraints = 10, upper = 100), 
-                 "The number of rows cannot exceed")
-    
-    expect_error(comboGeneral(5, 3, TRUE, constraintFun = "product"), 
-                 "contraintFun must be one of the following:")
-    expect_error(comboGeneral((1:5)+.01, 3, TRUE, constraintFun = "product", keepResults = TRUE), 
-                 "contraintFun must be one of the following:")
-    
-    expect_error(comboGeneral(5,3,freqs = c(1,2,3,-2,1)), "in freqs must be a positive")
-    expect_error(comboGeneral(5,1000,freqs = rep(5000, 5)), "number of rows cannot exceed")
-    expect_error(comboGeneral(5,freqs = rep(1,6)), "the length of freqs must equal the")
-    
-    numR = comboCount(1000, 10, TRUE)
-    nextNum = gmp::add.bigz(numR, 1)
-    expect_error(comboGeneral(1000, 10, TRUE, lower = nextNum),
-                 "bounds cannot exceed the maximum number of possible results")
-    expect_error(comboGeneral(1000, 10, TRUE, lower = numR, upper = nextNum),
-                 "bounds cannot exceed the maximum number of possible results")
-    expect_error(comboGeneral(1000, 10, TRUE, lower = -100),
-                 "lower must be a positive number")
-    expect_error(comboGeneral(1000, 10, TRUE, upper = -100),
-                 "upper must be a positive number")
-    expect_error(comboGeneral(1000, 10, TRUE, lower = 10, upper = 9),
-                 "The number of rows must be positive")
-    expect_error(comboGeneral(1000, 10, freqs = rep(1:4, 250)),
-                 "number of rows cannot exceed")
-    
-    expect_error(comboGeneral(5, 3, FUN = 2), "FUN must be a function")
-    
-    expect_error(comboGeneral(5, 3.3), "must be a whole number")
 })

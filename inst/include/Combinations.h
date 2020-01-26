@@ -1,223 +1,71 @@
 #ifndef COMBINATIONS_H
 #define COMBINATIONS_H
 
-#include <Rcpp.h>
+#include "NextStandard.h"
 
 template <typename typeMatrix, typename typeVector>
-void ComboGeneral(int n, int r, typeVector &v, bool repetition, int count,
-                  int numRows, std::vector<int> &z, typeMatrix &combinationMatrix) {
+void CombinationsNoRep(typeMatrix &matRcpp, const typeVector &v, std::vector<int> z,
+                       int n, int m, int strt, int nRows, const std::vector<int> &freqs) {
     
-    const int r1 = r - 1;
-    const int r2 = r - 2;
-    int numIter;
-    
-    if (repetition) {
-        const int lastElement = n - 1;
+    for (int count = strt, m1 = m - 1, nMinusM = n - m; count < nRows;) {
         
-        while (count < numRows) {
-            numIter = n - z[r1];
-            
-            if (numIter + count > numRows)
-                numIter = numRows - count;
-            
-            for (int i = 0; i < numIter; ++i, ++count, ++z[r1])
-                for (int k = 0; k < r; ++k)
-                    combinationMatrix(count, k) = v[z[k]];
-            
-            for (int i = r2; i >= 0; i--) {
-                if (z[i] != lastElement) {
-                    ++z[i];
-                    for (int k = i; k < r1; ++k)
-                        z[k + 1] = z[k];
-                    
-                    break;
-                }
-            }
-        }
-    } else {
-        const int nMinusR = n - r;
+        int numIter = n - z[m1];
         
-        while (count < numRows) {
-            numIter = n - z[r1];
-            
-            if (numIter + count > numRows)
-                numIter = numRows - count;
-            
-            for (int i = 0; i < numIter; ++i, ++count, ++z[r1])
-                for (int k = 0; k < r; ++k)
-                    combinationMatrix(count, k) = v[z[k]];
-            
-            for (int i = r2; i >= 0; i--) {
-                if (z[i] != (nMinusR + i)) {
-                    ++z[i];
-                    for (int k = i; k < r1; ++k) 
-                        z[k + 1] = z[k] + 1;
-                    
-                    break;
-                }
-            }
-        }
+        if (numIter + count > nRows)
+            numIter = nRows - count;
+        
+        for (int i = 0; i < numIter; ++i, ++count, ++z[m1])
+            for (int j = 0; j < m; ++j)
+                matRcpp(count, j) = v[z[j]];
+        
+        nextCombSec(z, m1, nMinusM);
     }
 }
 
 template <typename typeMatrix, typename typeVector>
-void MultisetCombination(int n, int r, typeVector &v, std::vector<int> &Reps,
-                               std::vector<int> &freqs, int count, int numRows,
-                               std::vector<int> &z, typeMatrix &combinationMatrix) {
+void CombinationsRep(typeMatrix &matRcpp, const typeVector &v, std::vector<int> z,
+                     int n, int m, int strt, int nRows, const std::vector<int> &freqs) {
     
-    std::vector<int> zIndex(n), zGroup(r);
-    int numIter, sizeFreqs = 0;
-    const int r1 = r - 1;
-    const int r2 = r - 2;
-    
-    for (int i = 0; i < n; ++i) {
-        zIndex[i] = sizeFreqs;
-        sizeFreqs += Reps[i];
-    }
-    
-    // location in freqs that represents the maximal
-    // value of the second to the last element
-    int pentExtreme = sizeFreqs - r;
-    
-    while (count < numRows) {
-        numIter = n - z[r1];
+    for (int count = strt, m1 = m - 1, n1 = n - 1; count < nRows;) {
         
-        if (numIter + count > numRows)
-            numIter = numRows - count;
+        int numIter = n - z[m1];
         
-        for (int i = 0; i < numIter; ++i, ++count, ++z[r1])
-            for (int k = 0; k < r; ++k)
-                combinationMatrix(count, k) = v[freqs[zIndex[z[k]]]];
+        if (numIter + count > nRows)
+            numIter = nRows - count;
         
-        for (int i = r2; i >= 0; --i) {
-            if (freqs[zIndex[z[i]]] != freqs[pentExtreme + i]) {
-                ++z[i];
-                zGroup[i] = zIndex[z[i]];
-                
-                for (int k = (i + 1); k < r; ++k) {
-                    zGroup[k] = zGroup[k - 1] + 1;
-                    z[k] = freqs[zGroup[k]];
-                }
-                
-                break;
-            }
-        }
+        for (int i = 0; i < numIter; ++i, ++count, ++z[m1])
+            for (int j = 0; j < m; ++j)
+                matRcpp(count, j) = v[z[j]];
+        
+        nextCombSecRep(z, m1, n1);
     }
 }
 
-template <typename typeVector>
-void ComboGeneralApplyFun(int n, int r, typeVector &v, bool repetition, int count,
-                          int numRows, std::vector<int> &z, SEXP sexpFun, SEXP rho, SEXP &ans) {
+template <typename typeMatrix, typename typeVector>
+void MultisetCombination(typeMatrix &matRcpp, const typeVector &v, std::vector<int> z,
+                         int n, int m, int strt, int nRows, const std::vector<int> &freqs) {
     
-    const int r1 = r - 1;
-    const int r2 = r - 2;
-    int numIter;
-    typeVector vectorPass(r);
+    std::vector<int> zIndex(n);
     
-    if (repetition) {
-        const int lastElement = n - 1;
+    for (int i = 0; i < n; ++i)
+        zIndex[i] = std::find(freqs.cbegin(), freqs.cend(), i) - freqs.cbegin();
+    
+    // pentExtreme is the location in freqs that represents
+    // the maximal value of the second to the last element
+    
+    for (int count = strt, m1 = m - 1, 
+         pentExtreme = freqs.size() - m; count < nRows;) {
         
-        while (count < numRows) {
-            numIter = n - z[r1];
-            
-            if (numIter + count > numRows)
-                numIter = numRows - count;
-            
-            for (int i = 0; i < numIter; ++i, ++count, ++z[r1]) {
-                for (int k = 0; k < r; ++k)
-                    vectorPass[k] = v[z[k]];
-                
-                SETCADR(sexpFun, vectorPass);
-                SET_VECTOR_ELT(ans, count, Rf_eval(sexpFun, rho));
-            }
-            
-            for (int i = r2; i >= 0; i--) {
-                if (z[i] != lastElement) {
-                    ++z[i];
-                    for (int k = i; k < r1; ++k)
-                        z[k + 1] = z[k];
-                    
-                    break;
-                }
-            }
-        }
-    } else {
-        const int nMinusR = n - r;
+        int numIter = n - z[m1];
         
-        while (count < numRows) {
-            numIter = n - z[r1];
-            
-            if ((numIter + count) > numRows)
-                numIter = numRows - count;
-            
-            for (int i = 0; i < numIter; ++i, ++count, ++z[r1]){
-                for (int k = 0; k < r; ++k)
-                    vectorPass[k] = v[z[k]];
-            
-                SETCADR(sexpFun, vectorPass);
-                SET_VECTOR_ELT(ans, count, Rf_eval(sexpFun, rho));
-            }
-            
-            for (int i = r2; i >= 0; i--) {
-                if (z[i] != (nMinusR + i)) {
-                    ++z[i];
-                    for (int k = i; k < r1; ++k) 
-                        z[k + 1] = z[k] + 1;
-                    
-                    break;
-                }
-            }
-        }
-    }
-}
-
-template <typename typeVector>
-void MultisetComboApplyFun(int n, int r, typeVector &v, std::vector<int> &Reps,
-                           std::vector<int> &freqs, int numRows, std::vector<int> &z,
-                           int count, SEXP sexpFun, SEXP rho, SEXP &ans) {
-
-    int sizeFreqs = 0, numIter;
-    std::vector<int> zIndex(n), zGroup(r);
-    const int r1 = r - 1;
-    const int r2 = r - 2;
-    
-    for (int i = 0; i < n; ++i) {
-        zIndex[i] = sizeFreqs;
-        sizeFreqs += Reps[i];
-    }
-    
-    // location in freqs that represents the maximal
-    // value of the second to the last element
-    const int pentExtreme = sizeFreqs - r;
-    typeVector vectorPass(r);
-
-    while (count < numRows) {
-        numIter = n - z[r1];
-
-        if (numIter + count > numRows)
-            numIter = numRows - count;
-
-        for (int i = 0; i < numIter; ++i, ++count, ++z[r1]) {
-            for (int k = 0; k < r; ++k)
-                vectorPass[k] = v[freqs[zIndex[z[k]]]];
+        if (numIter + count > nRows)
+            numIter = nRows - count;
         
-            SETCADR(sexpFun, vectorPass);
-            SET_VECTOR_ELT(ans, count, Rf_eval(sexpFun, rho));
-        }
-
-        for (int i = r2; i >= 0; i--) {
-            if (freqs[zIndex[z[i]]] != freqs[pentExtreme + i]) {
-                ++z[i];
-                zGroup[i] = zIndex[z[i]];
-                
-                for (int k = (i + 1); k < r; ++k) {
-                    zGroup[k] = zGroup[k - 1] + 1;
-                    z[k] = freqs[zGroup[k]];
-                }
-                
-                break;
-            }
-        }
+        for (int i = 0; i < numIter; ++i, ++count, ++z[m1])
+            for (int j = 0; j < m; ++j)
+                matRcpp(count, j) = v[z[j]];
+        
+        nextCombSecMulti(freqs, zIndex, z, m1, pentExtreme);
     }
 }
 

@@ -1,21 +1,19 @@
 #ifndef NTH_RESULT_H
 #define NTH_RESULT_H
 
-#include <vector>
+#include <Rcpp.h>
 #include <gmp.h>
 
-std::vector<int> nthCombination(int n, int r, double myIndex, bool isRep,
-                                bool isMult, std::vector<int> Reps);
+using nthResultPtr = std::vector<int> (*const)(int n, int r, double dblIdx,
+                                       mpz_t mpzIdx, const std::vector<int> &Reps);
 
-std::vector<int> nthPermutation(int n, int r, double myIndex, bool isRep,
-                                bool isMult, std::vector<int> Reps, std::vector<int> freqs,
-                                bool isStarter = false);
+Rcpp::XPtr<nthResultPtr> putNthResPtrInXPtr(bool IsComb, bool IsMult,
+                                            bool IsRep, bool IsGmp);
 
-std::vector<int> nthCombinationGmp(int n, int r, mpz_t myIndex, bool isRep,
-                                   bool isMult, std::vector<int> Reps);
+std::vector<int> nthComb(int n, int r, double dblIdx, 
+                         mpz_t mpzIdx, const std::vector<int> &Reps);
 
-std::vector<int> nthPermutationGmp(int n, int r, mpz_t myIndex, bool isRep,
-                                   bool isMult, std::vector<int> Reps, std::vector<int> freqs,
-                                   bool isStarter = false);
+std::vector<int> nthCombGmp(int n, int r, double dblIdx, 
+                            mpz_t mpzIdx, const std::vector<int> &Reps);
 
 #endif

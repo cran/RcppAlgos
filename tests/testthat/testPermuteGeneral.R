@@ -16,6 +16,8 @@ test_that("permuteGeneral produces correct results with no constraints and no re
     ## Constraint should not be carried out if no comparisonFun is given
     expect_equal(permuteGeneral(3, 3, constraintFun = "sum",
                                 limitConstraints = 100), permuteGeneral(1:3, 3))
+    
+    expect_equal(nrow(permuteGeneral(8, 8)), factorial(8))
 
     set.seed(11)
     myNums <- rnorm(5)
@@ -36,8 +38,7 @@ test_that("permuteGeneral produces correct results with no constraints and has r
                  permuteGeneral(letters[1:9], 5, TRUE, lower = 59000L))
     expect_equal(ncol(permuteGeneral(5, 3, TRUE)), 3)
     expect_equal(nrow(permuteGeneral(2, 2, TRUE)), 4)
-    expect_equal(nrow(permuteGeneral(5, 3, TRUE, constraintFun = "prod",
-                                     keepResults = TRUE, upper = 10)), 10)
+    expect_equal(nrow(permuteGeneral(5, 3, TRUE, constraintFun = "prod", upper = 10)), 10)
 
     set.seed(111)
     myNums <- rnorm(5)
@@ -49,6 +50,10 @@ test_that("permuteGeneral produces correct results with no constraints and has r
 
     expect_equal(nrow(permuteGeneral(5, 3, TRUE, upper = 10)), 10)
     expect_equal(ncol(permuteGeneral(5, 3, TRUE, constraintFun = "prod", keepResults = TRUE)), 4)
+    
+    ## In older versions the test below would fail b/c it would produce NaNs during prep
+    expect_equal(nrow(permuteGeneral(2, 180, freqs = c(180, 2))), 
+                 permuteCount(2, 180, freqs = c(180, 2)))
 })
 
 test_that("permuteGeneral produces correct results with no constraints for multisets", {
@@ -282,6 +287,9 @@ test_that("permuteGeneral produces correct results with use of FUN", {
     test <- permuteGeneral(6, 6, constraintFun = "mean")[, 7]
     expect_equal(as.vector(test), unlist(permuteGeneral(6, 6, FUN = mean)))
     
+    expect_equal(sum(unlist(permuteGeneral(as.complex(c(1, -1, -1i, 1i)), 3,
+                                           FUN = function(x) sum(Re(x))))), 0)
+    
     test <- permuteGeneral(6, 6, lower = 100, constraintFun = "prod")[, 7]
     expect_equal(as.vector(test), unlist(permuteGeneral(6, 6, lower = 100, FUN = prod)))
     
@@ -342,66 +350,4 @@ test_that("permuteGeneral produces correct results with very large results", {
     expect_equal(nrow(permuteGeneral(100, 10, freqs = rep(1:4, 25), lower = as.character(n1))), 100)
     expect_equal(as.vector(permuteGeneral(100, 10, freqs = rep(1:4, 25), lower = numR)),
                  rep(100:97, times = 4:1))
-})
-
-test_that("permuteGeneral produces appropriate error messages", {
-    expect_error(permuteGeneral(100, 15, upper = 2^32), 
-                 "The number of rows cannot exceed")
-    expect_error(permuteGeneral(100, 15, lower = 100, upper = 2^32), 
-                 "The number of rows cannot exceed")
-    expect_error(permuteGeneral(100, 15, lower = 2^32), 
-                 "The number of rows cannot exceed")
-    expect_error(permuteGeneral(9,4,TRUE,constraintFun = "summ",
-                                comparisonFun = "<",limitConstraints = 10),
-                 "prod, sum, mean, max, or min")
-    expect_error(permuteGeneral(9,4,TRUE,constraintFun = "sum",
-                                comparisonFun = "=<>",limitConstraints = 10),
-                 "'>', '>=', '<', '<=', or '=='")
-    expect_error(permuteGeneral(9,4,TRUE,constraintFun = "sum",
-                                comparisonFun = 60,limitConstraints = 10),
-                 "must be passed as a character")
-    expect_error(permuteGeneral(9,4,FALSE,constraintFun = sum,
-                                comparisonFun = "<",limitConstraints = 10),
-                 "must be passed as a character")
-    expect_error(permuteGeneral(9,4,TRUE,constraintFun = "sum",
-                                comparisonFun = "<",limitConstraints = 10,upper = -1),
-                 "upper must be a positive whole number")
-    expect_error(permuteGeneral(170,7,FALSE,constraintFun = "sum",
-                                comparisonFun = "<",
-                                limitConstraints = 100,
-                                upper = 10^10), "number of rows cannot exceed")
-    expect_error(permuteGeneral(0i ^ (-3:3),7,FALSE,
-                                constraintFun = "sum",
-                                comparisonFun = "<",
-                                limitConstraints = 100,
-                                upper = 10^10), "Only integers, numerical, character, and factor classes are supported for v")
-
-    expect_error(permuteGeneral(5), "m and freqs cannot both be NULL")
-    expect_error(permuteGeneral(5, 1:5), "length of m must be 1")
-    expect_error(permuteGeneral(5, -5), "m must be a positive whole number")
-    expect_error(permuteCount(5, 5, "TRUE"), "Only logical values are supported for repetition")
-    expect_error(permuteGeneral(5, 5, keepResults = "TRUE"), 
-                 "Only logical values are supported for keepResults")
-
-    expect_error(permuteGeneral(5,3,freqs = c(1,2,3,-2,1)), "in freqs must be a positive")
-    expect_error(permuteGeneral(5,15,freqs = c(5,5,5,5,5)), "number of rows cannot exceed")
-    expect_error(permuteGeneral(5,freqs = c(5,5,5,5,5)), "number of rows cannot exceed")
-    expect_error(permuteGeneral(5,freqs = rep(1,6)), "the length of freqs must equal the")
-
-    numR <- permuteCount(1000, 10, TRUE)
-    nextNum <- gmp::add.bigz(numR, 1)
-    expect_error(permuteGeneral(1000, 10, TRUE, lower = nextNum),
-                 "bounds cannot exceed the maximum number of possible results")
-    expect_error(permuteGeneral(1000, 10, TRUE, lower = numR, upper = nextNum),
-                 "bounds cannot exceed the maximum number of possible results")
-    expect_error(permuteGeneral(1000, 10, TRUE, lower = -100),
-                 "lower must be a positive number")
-    expect_error(permuteGeneral(1000, 10, TRUE, upper = -100),
-                 "upper must be a positive number")
-    expect_error(permuteGeneral(1000, 10, TRUE, lower = 10, upper = 9),
-                 "The number of rows must be positive")
-    expect_error(permuteGeneral(1000, 10, freqs = rep(1:4, 250)),
-                 "number of rows cannot exceed")
-
-    expect_error(permuteGeneral(5, 3, FUN = 2), "FUN must be a function")
 })

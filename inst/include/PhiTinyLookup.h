@@ -5,20 +5,14 @@
 #include <vector>
 #include <array>
 
-// The first 550 prime numbers (i.e. the first prime numbers 
-// less than 4000). Starting with the first prime number 2,
-// add each successive element in primesDiffPR to obtain the 
-// next prime number (e.g. p = 2 + primesDiffPR[0] = 3, 
-// p = p + primesDiffPR[1] = 5, etc.)
-
 namespace PhiTinyLookup {
 
-    const std::vector<int16_t> phi6 = {0,1,1,1,1,2};
+    static const std::vector<int16_t> phi6 = {0,1,1,1,1,2};
      
-    const std::vector<int16_t> phi30 = {0,1,1,1,1,1,1,2,2,2,2,3,3,4,4,
+    static const std::vector<int16_t> phi30 = {0,1,1,1,1,1,1,2,2,2,2,3,3,4,4,
                                          4,4,5,5,6,6,6,6,7,7,7,7,7,7,8};
     
-    const std::vector<int16_t> phi210 = {0,
+    static const std::vector<int16_t> phi210 = {0,
         1,1,1,1,1,1,1,1,1,1,2,2,3,3,3,3,4,4,5,5,5,5,6,6,6,6,6,6,7,7,8,8,8,8,8,
         8,9,9,9,9,10,10,11,11,11,11,12,12,12,12,12,12,13,13,13,13,13,13,14,14,
         15,15,15,15,15,15,16,16,16,16,17,17,18,18,18,18,18,18,19,19,19,19,20,
@@ -29,7 +23,7 @@ namespace PhiTinyLookup {
         40,40,40,41,41,42,42,42,42,42,42,43,43,43,43,44,44,45,45,45,45,46,46,
         47,47,47,47,47,47,47,47,47,47,48};
     
-    const std::vector<int16_t> phi2310 = {0,
+    static const std::vector<int16_t> phi2310 = {0,
         1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,3,3,4,4,4,4,5,5,5,5,5,5,6,6,7,7,7,7,7,
         7,8,8,8,8,9,9,10,10,10,10,11,11,11,11,11,11,12,12,12,12,12,12,13,13,14,
         14,14,14,14,14,15,15,15,15,16,16,17,17,17,17,17,17,18,18,18,18,19,19,
@@ -190,7 +184,7 @@ namespace PhiTinyLookup {
     }
 }
 
-const int phiTinySize = 6;
+constexpr int phiTinySize = 6;
 static const std::array<std::vector<int16_t>, phiTinySize + 1> phiTiny = PhiTinyLookup::createPhiTiny();
 
 #endif

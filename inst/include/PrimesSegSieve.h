@@ -1,15 +1,17 @@
 #ifndef PRIMES_SEG_SIEVE_H
 #define PRIMES_SEG_SIEVE_H
 
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
+#include <array>
 
 // The first 3402 prime numbers with the max prime = 31627.
 // This is the first prime greater than the sqrt(10^9). These
 // primes are used to quickly generate a base for sieving.
 
-constexpr unsigned long int lastSmlPri = 3401;
+constexpr std::size_t nPriSqrtBillion = 3402;
 
-static const int_fast64_t smallPrimeBase[3402] = {
+static const std::array<std::int_fast64_t, nPriSqrtBillion> smallPrimeBase = {{
     2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,
     97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,
     191,193,197,199,211,223,227,229,233,239,241,251,257,263,269,271,277,281,
@@ -275,6 +277,6 @@ static const int_fast64_t smallPrimeBase[3402] = {
     31159,31177,31181,31183,31189,31193,31219,31223,31231,31237,31247,31249,
     31253,31259,31267,31271,31277,31307,31319,31321,31327,31333,31337,31357,
     31379,31387,31391,31393,31397,31469,31477,31481,31489,31511,31513,31517,
-    31531,31541,31543,31547,31567,31573,31583,31601,31607,31627};
+    31531,31541,31543,31547,31567,31573,31583,31601,31607,31627}};
 
 #endif
