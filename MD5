@@ -1,4 +1,4 @@
-486a3e04ce73fd4a71ddd6e9d3fbca1e *DESCRIPTION
+76d14c79d0fa682c569a9126e2706268 *DESCRIPTION
 f5abe6c2358622ed01849a73ec8eaead *NAMESPACE
 062e4963d08a52cee3e5382d0a8c0763 *R/Combinatorics.R
 f7a91e43c4390355cac4dd3fd451dbef *R/NumberTheory.R
@@ -6,11 +6,11 @@ f8c7f282842b4cb931b0eeb3ce802454 *R/RcppExports.R
 694307ec4cde9ab1f639095eb3b66225 *R/zzz.R
 1c81b98125cf992791649637c463e7b3 *README.md
 f130b868633559e3cd367d9afb6c6d8a *build/vignette.rds
-5b49cf26b7481139ba41e2c960f12686 *inst/NEWS.Rd
+307968ea8d395294049ac51dddd7ca3a *inst/NEWS.Rd
 717ffdb742c9e601881216ce6641a645 *inst/doc/CombPermConstraints.Rmd
 78a0b2dda78d73344229430a6ad2d74e *inst/doc/CombPermConstraints.html
-b0f75fd3b04f28ff56ac6a83291df1eb *inst/doc/CombinatorialSampling.Rmd
-04a679e761f201fea6e35532b86361c1 *inst/doc/CombinatorialSampling.html
+e2a33a5204ca0e6c06fc7b8e9716cbe0 *inst/doc/CombinatorialSampling.Rmd
+b00f0eb5501ea70e3616bb19656cf89f *inst/doc/CombinatorialSampling.html
 feef4ca7be808915dd04122d9b960956 *inst/doc/ComputationalMathematics.Rmd
 2900825203e615be0011d699fc5011b4 *inst/doc/ComputationalMathematics.html
 1f7e61649095301250c19c8eb4c144aa *inst/doc/GeneralCombinatorics.Rmd
@@ -85,7 +85,7 @@ d49ba5469fe2babff65616050ee0962b *man/isPrimeRcpp.Rd
 8b802a803aa0d229c930ae3d4472b6e9 *src/ComboGroups.cpp
 193c91f50f842090f8f311c7852b7fc3 *src/ComboGroupsUtils.cpp
 d94fe56eced450b96488d1b1c1bf8053 *src/ConstraintsGeneral.cpp
-67fabf394e172b8c9bd72be17eda189d *src/ConstraintsMaster.cpp
+c24bc61cfbed6a7e1b0deb33433ca035 *src/ConstraintsMaster.cpp
 9ff004cf2dc9715022103c37f6c9cc3c *src/ConstraintsSpecial.cpp
 1c0b2d6e7a25332198d791735e99356c *src/ConstraintsUtils.cpp
 14cd44b9251d0851d5b60373382541e5 *src/DivNumSieve.cpp
@@ -116,7 +116,7 @@ d8c91de78d42b5fc9ee0feabbb6e28b7 *src/SampCombPerm.cpp
 978640e9e97941d4b3d0f99ec3ca1e8f *src/StandardUtils.cpp
 06b3840986f5409f74af8f6dc0ffa0b4 *tests/testthat.R
 00ee95301618aaa9b35fb5eadcb0b4cc *tests/testthat/testCombPermResults.R
-484b8f8fce5de4b2892f73f618b4e0ae *tests/testthat/testComboGeneral.R
+3d731680e28769637e7f79e51695f927 *tests/testthat/testComboGeneral.R
 8beda901267a4ca93bb03c7475420449 *tests/testthat/testComboGroups.R
 5a5cc51a094db717b9c13c115924f1f3 *tests/testthat/testDivisorsRcpp.R
 a86801c5598476e7172086925694fd09 *tests/testthat/testDivisorsSieve.R
@@ -133,7 +133,7 @@ dd88abc5f83e52e962e42ef0f944db5e *tests/testthat/testPrimeSieve.R
 94a5f086a8141c33d901a3889bcc971f *tests/testthat/testSample.R
 273019916b717e6854eb9133c4292162 *tests/testthat/testSpecialSubsetSum.R
 717ffdb742c9e601881216ce6641a645 *vignettes/CombPermConstraints.Rmd
-b0f75fd3b04f28ff56ac6a83291df1eb *vignettes/CombinatorialSampling.Rmd
+e2a33a5204ca0e6c06fc7b8e9716cbe0 *vignettes/CombinatorialSampling.Rmd
 feef4ca7be808915dd04122d9b960956 *vignettes/ComputationalMathematics.Rmd
 1f7e61649095301250c19c8eb4c144aa *vignettes/GeneralCombinatorics.Rmd
 5e256a8c02f3bad1c91881f0f14a9635 *vignettes/SubsetSum.Rmd
