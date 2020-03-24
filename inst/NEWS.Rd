@@ -1,9 +1,40 @@
 \name{NEWS}
 \title{News for Package \pkg{RcppAlgos}}
 
-\section{Changes in RcppAlgos version 2.3.6 (Release date: 2019-01-29)}{
+\section{Changes in RcppAlgos version 2.4.1 (Release date: 2020-03-23)}{
     \itemize{
-        \item Fixed bug associated with integer vectors, multisets, and constraints. See \href{https://github.com/jwood000/RcppAlgos/issues/9#issue-467908452}{Issue #9} for more information.
+        \item Bug Fixes:
+        \itemize{
+            \item Removed broken URL in NEWS.Rd
+        }
+    }
+}
+
+\section{Changes in RcppAlgos version 2.4.0 (Release date: Never Released)}{
+    \itemize{
+        \item New Features:
+        \itemize{
+            \item Added \code{comboIter} and \code{permuteIter}. These functions return iterators for iterating over combinations and permutations. They have a similar interface to \code{comboGeneral} and \code{permuteGeneral} and currently only work with standard combinations and permutations. They do not yet work with constraints (This will be the focus of the next release).
+            \item Added "High Performance Benchmarks" and "Combinatorial Iterators in RcppAlgos" vignettes
+        }
+        \item Enhancements:
+        \itemize{
+            \item Now able to interrupt general constraint problems
+        }
+        \item Bug Fixes:
+        \itemize{
+            \item In 2.3.5 and 2.3.6, we mistakingly allowed a \code{constraintFun} to be applied to a logical vector which was crashing R. We have corrected this in 2.4.0+.
+            \item Changed the data type for sizing the index matrix in \code{permuteGeneral}. Originally, we were using \code{int} and when the output was large enough, it was causing an integer overflow thus causing the index matrix to be unproperly sized. We have sinced changed the data type to the recommended \code{std::size_t}.
+        }
+    }
+}
+
+\section{Changes in RcppAlgos version 2.3.6 (Release date: 2020-01-29)}{
+    \itemize{
+        \item Bug Fixes:
+        \itemize{
+            \item Fixed bug associated with integer vectors, multisets, and constraints. See \href{https://github.com/jwood000/RcppAlgos/issues/12}{Issue #12} for more information.
+        }
     }
 }
 

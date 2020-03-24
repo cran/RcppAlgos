@@ -17,12 +17,17 @@ A collection of high performance functions implemented in C++ with Rcpp for solv
 
   - **`comboGeneral/permuteGeneral`**: Generate all combinations/permutations of a vector (including [multisets](<https://en.wikipedia.org/wiki/Multiset>)) meeting specific criteria.
   - **`comboSample/permuteSample`**: Generate reproducible random samples of combinations/permutations
+  - **`comboIter/permuteIter`**: Flexible iterators allow for bidirectional iteration as well as random access.
   - **`primeSieve`**: Fast prime number generator
   - **`primeCount`**: Prime counting function using [Legendre's formula](<http://mathworld.wolfram.com/LegendresFormula.html>)
 
 The `primeSieve` function and the `primeCount` function are both based off of the excellent work by [Kim Walisch](<https://github.com/kimwalisch>). The respective repos can be found here: [kimwalisch/primesieve](<https://github.com/kimwalisch/primesieve>); [kimwalisch/primecount](<https://github.com/kimwalisch/primecount>)
 
 Additionally, many of the sieving functions make use of the fast integer division library [libdivide](<https://github.com/ridiculousfish/libdivide>) by [ridiculousfish](<https://github.com/ridiculousfish>).
+
+## Benchmarks
+
+* [High Performance Benchmarks](<https://jwood000.github.io/RcppAlgos/articles/HighPerformanceBenchmarks.html>)
 
 ## Installation
 
@@ -53,6 +58,18 @@ comboGeneral(4, 3)
 [2,]   1    2    4
 [3,]   1    3    4
 [4,]   2    3    4
+
+
+## Alternatively, iterate over combinations
+a = comboIter(4, 3)
+a$nextIter()
+[1] 1 2 3
+
+a$back()
+[1] 2 3 4
+
+a[[2]]
+[1] 1 2 4
 
 
 ## Pass any atomic type vector
@@ -98,6 +115,7 @@ comboGeneral(5, 7, TRUE, constraintFun = "prod",
 * [Combinatorial Sampling](<https://jwood000.github.io/RcppAlgos/articles/CombinatorialSampling.html>)
 * [Constraints, Integer Partitions, and Compositions](<https://jwood000.github.io/RcppAlgos/articles/CombPermConstraints.html>)
 * [Attacking Problems Related to the Subset Sum Problem](<https://jwood000.github.io/RcppAlgos/articles/SubsetSum.html>)
+* [Combinatorial Iterators in RcppAlgos](<https://jwood000.github.io/RcppAlgos/articles/CombinatoricsIterators.html>)
 
 ## Contact
 

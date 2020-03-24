@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Joseph Wood" />
 
@@ -120,9 +119,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -291,7 +287,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -363,28 +360,29 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="combosample-and-permutesample" class="section level2">
 <h2><code>comboSample</code> and <code>permuteSample</code></h2>
 <p>Let’s first look at the first problem above (i.e. getting 5 random combinations of the vector <code>1:20</code> of length 10):</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">comboSample</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">5</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a>     [,<span class="dv">1</span>] [,<span class="dv">2</span>] [,<span class="dv">3</span>] [,<span class="dv">4</span>] [,<span class="dv">5</span>] [,<span class="dv">6</span>] [,<span class="dv">7</span>] [,<span class="dv">8</span>] [,<span class="dv">9</span>] [,<span class="dv">10</span>]</span>
-<span id="cb3-4"><a href="#cb3-4"></a>[<span class="dv">1</span>,]    <span class="dv">4</span>    <span class="dv">5</span>    <span class="dv">7</span>    <span class="dv">8</span>    <span class="dv">9</span>   <span class="dv">11</span>   <span class="dv">13</span>   <span class="dv">14</span>   <span class="dv">17</span>    <span class="dv">18</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>[<span class="dv">2</span>,]    <span class="dv">4</span>    <span class="dv">6</span>    <span class="dv">7</span>   <span class="dv">10</span>   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">13</span>   <span class="dv">14</span>   <span class="dv">15</span>    <span class="dv">16</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>[<span class="dv">3</span>,]    <span class="dv">1</span>    <span class="dv">3</span>    <span class="dv">4</span>    <span class="dv">7</span>    <span class="dv">9</span>   <span class="dv">11</span>   <span class="dv">14</span>   <span class="dv">15</span>   <span class="dv">17</span>    <span class="dv">20</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a>[<span class="dv">4</span>,]    <span class="dv">3</span>    <span class="dv">4</span>    <span class="dv">9</span>   <span class="dv">10</span>   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">14</span>   <span class="dv">18</span>   <span class="dv">19</span>    <span class="dv">20</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a>[<span class="dv">5</span>,]    <span class="dv">2</span>    <span class="dv">4</span>    <span class="dv">5</span>    <span class="dv">6</span>    <span class="dv">8</span>   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">16</span>   <span class="dv">17</span>    <span class="dv">20</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a></span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="co">## Use the seed argument directly to produce the same output</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="kw">comboSample</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">5</span>, <span class="dt">seed =</span> <span class="dv">42</span>)</span>
-<span id="cb3-12"><a href="#cb3-12"></a>     [,<span class="dv">1</span>] [,<span class="dv">2</span>] [,<span class="dv">3</span>] [,<span class="dv">4</span>] [,<span class="dv">5</span>] [,<span class="dv">6</span>] [,<span class="dv">7</span>] [,<span class="dv">8</span>] [,<span class="dv">9</span>] [,<span class="dv">10</span>]</span>
-<span id="cb3-13"><a href="#cb3-13"></a>[<span class="dv">1</span>,]    <span class="dv">4</span>    <span class="dv">5</span>    <span class="dv">7</span>    <span class="dv">8</span>    <span class="dv">9</span>   <span class="dv">11</span>   <span class="dv">13</span>   <span class="dv">14</span>   <span class="dv">17</span>    <span class="dv">18</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a>[<span class="dv">2</span>,]    <span class="dv">4</span>    <span class="dv">6</span>    <span class="dv">7</span>   <span class="dv">10</span>   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">13</span>   <span class="dv">14</span>   <span class="dv">15</span>    <span class="dv">16</span></span>
-<span id="cb3-15"><a href="#cb3-15"></a>[<span class="dv">3</span>,]    <span class="dv">1</span>    <span class="dv">3</span>    <span class="dv">4</span>    <span class="dv">7</span>    <span class="dv">9</span>   <span class="dv">11</span>   <span class="dv">14</span>   <span class="dv">15</span>   <span class="dv">17</span>    <span class="dv">20</span></span>
-<span id="cb3-16"><a href="#cb3-16"></a>[<span class="dv">4</span>,]    <span class="dv">3</span>    <span class="dv">4</span>    <span class="dv">9</span>   <span class="dv">10</span>   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">14</span>   <span class="dv">18</span>   <span class="dv">19</span>    <span class="dv">20</span></span>
-<span id="cb3-17"><a href="#cb3-17"></a>[<span class="dv">5</span>,]    <span class="dv">2</span>    <span class="dv">4</span>    <span class="dv">5</span>    <span class="dv">6</span>    <span class="dv">8</span>   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">16</span>   <span class="dv">17</span>    <span class="dv">20</span></span>
-<span id="cb3-18"><a href="#cb3-18"></a></span>
-<span id="cb3-19"><a href="#cb3-19"></a><span class="co">## fiveRndCombs produced above</span></span>
-<span id="cb3-20"><a href="#cb3-20"></a><span class="kw">identical</span>(<span class="kw">t</span>(fiveRndCombs),</span>
-<span id="cb3-21"><a href="#cb3-21"></a>          <span class="kw">comboSample</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">5</span>, <span class="dt">seed =</span> <span class="dv">42</span>))</span>
-<span id="cb3-22"><a href="#cb3-22"></a>[<span class="dv">1</span>] <span class="ot">TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">library</span>(RcppAlgos)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">comboSample</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">5</span>)</span>
+<span id="cb3-4"><a href="#cb3-4"></a>     [,<span class="dv">1</span>] [,<span class="dv">2</span>] [,<span class="dv">3</span>] [,<span class="dv">4</span>] [,<span class="dv">5</span>] [,<span class="dv">6</span>] [,<span class="dv">7</span>] [,<span class="dv">8</span>] [,<span class="dv">9</span>] [,<span class="dv">10</span>]</span>
+<span id="cb3-5"><a href="#cb3-5"></a>[<span class="dv">1</span>,]    <span class="dv">4</span>    <span class="dv">5</span>    <span class="dv">7</span>    <span class="dv">8</span>    <span class="dv">9</span>   <span class="dv">11</span>   <span class="dv">13</span>   <span class="dv">14</span>   <span class="dv">17</span>    <span class="dv">18</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>[<span class="dv">2</span>,]    <span class="dv">4</span>    <span class="dv">6</span>    <span class="dv">7</span>   <span class="dv">10</span>   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">13</span>   <span class="dv">14</span>   <span class="dv">15</span>    <span class="dv">16</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>[<span class="dv">3</span>,]    <span class="dv">1</span>    <span class="dv">3</span>    <span class="dv">4</span>    <span class="dv">7</span>    <span class="dv">9</span>   <span class="dv">11</span>   <span class="dv">14</span>   <span class="dv">15</span>   <span class="dv">17</span>    <span class="dv">20</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>[<span class="dv">4</span>,]    <span class="dv">3</span>    <span class="dv">4</span>    <span class="dv">9</span>   <span class="dv">10</span>   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">14</span>   <span class="dv">18</span>   <span class="dv">19</span>    <span class="dv">20</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a>[<span class="dv">5</span>,]    <span class="dv">2</span>    <span class="dv">4</span>    <span class="dv">5</span>    <span class="dv">6</span>    <span class="dv">8</span>   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">16</span>   <span class="dv">17</span>    <span class="dv">20</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">## Use the seed argument directly to produce the same output</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="kw">comboSample</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">5</span>, <span class="dt">seed =</span> <span class="dv">42</span>)</span>
+<span id="cb3-13"><a href="#cb3-13"></a>     [,<span class="dv">1</span>] [,<span class="dv">2</span>] [,<span class="dv">3</span>] [,<span class="dv">4</span>] [,<span class="dv">5</span>] [,<span class="dv">6</span>] [,<span class="dv">7</span>] [,<span class="dv">8</span>] [,<span class="dv">9</span>] [,<span class="dv">10</span>]</span>
+<span id="cb3-14"><a href="#cb3-14"></a>[<span class="dv">1</span>,]    <span class="dv">4</span>    <span class="dv">5</span>    <span class="dv">7</span>    <span class="dv">8</span>    <span class="dv">9</span>   <span class="dv">11</span>   <span class="dv">13</span>   <span class="dv">14</span>   <span class="dv">17</span>    <span class="dv">18</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a>[<span class="dv">2</span>,]    <span class="dv">4</span>    <span class="dv">6</span>    <span class="dv">7</span>   <span class="dv">10</span>   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">13</span>   <span class="dv">14</span>   <span class="dv">15</span>    <span class="dv">16</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a>[<span class="dv">3</span>,]    <span class="dv">1</span>    <span class="dv">3</span>    <span class="dv">4</span>    <span class="dv">7</span>    <span class="dv">9</span>   <span class="dv">11</span>   <span class="dv">14</span>   <span class="dv">15</span>   <span class="dv">17</span>    <span class="dv">20</span></span>
+<span id="cb3-17"><a href="#cb3-17"></a>[<span class="dv">4</span>,]    <span class="dv">3</span>    <span class="dv">4</span>    <span class="dv">9</span>   <span class="dv">10</span>   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">14</span>   <span class="dv">18</span>   <span class="dv">19</span>    <span class="dv">20</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a>[<span class="dv">5</span>,]    <span class="dv">2</span>    <span class="dv">4</span>    <span class="dv">5</span>    <span class="dv">6</span>    <span class="dv">8</span>   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">16</span>   <span class="dv">17</span>    <span class="dv">20</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a></span>
+<span id="cb3-20"><a href="#cb3-20"></a><span class="co">## fiveRndCombs produced above</span></span>
+<span id="cb3-21"><a href="#cb3-21"></a><span class="kw">identical</span>(<span class="kw">t</span>(fiveRndCombs),</span>
+<span id="cb3-22"><a href="#cb3-22"></a>          <span class="kw">comboSample</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">5</span>, <span class="dt">seed =</span> <span class="dv">42</span>))</span>
+<span id="cb3-23"><a href="#cb3-23"></a>[<span class="dv">1</span>] <span class="ot">TRUE</span></span></code></pre></div>
 </div>
 <div id="samples-of-results-with-repetition" class="section level2">
 <h2>Samples of Results with Repetition</h2>

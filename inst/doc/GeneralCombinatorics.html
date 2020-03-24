@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Joseph Wood" />
 
@@ -119,9 +118,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -290,7 +286,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -333,6 +330,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <li><a href="https://jwood000.github.io/RcppAlgos/articles/CombinatorialSampling.html">Combinatorial Sampling</a></li>
 <li><a href="https://jwood000.github.io/RcppAlgos/articles/CombPermConstraints.html">Constraints, Integer Partitions, and Compositions</a></li>
 <li><a href="https://jwood000.github.io/RcppAlgos/articles/SubsetSum.html">Attacking Problems Related to the Subset Sum Problem</a></li>
+<li><a href="https://jwood000.github.io/RcppAlgos/articles/CombinatoricsIterators.html">Combinatorial Iterators in RcppAlgos</a></li>
 </ul>
 <p>For much of the output below, we will be using the following function obtained here <a href="https://stackoverflow.com/a/11601162/4408538">combining head and tail methods in R</a> (credit to user <span class="citation">@flodel</span>)</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>ht &lt;-<span class="st"> </span><span class="cf">function</span>(d, <span class="dt">m =</span> <span class="dv">5</span>, <span class="dt">n =</span> m) {</span>

@@ -3,6 +3,7 @@
 
 #include "UserConstraintFuns.h"
 #include "GmpDependUtils.h"
+#include <chrono>
 
 const std::vector<std::string> compForms = {"<", ">", "<=", ">=", "==", "=<", "=>"};
 const std::vector<std::string> compSpecial = {"==", ">,<", ">=,<", ">,<=", ">=,<="};
@@ -12,6 +13,9 @@ const std::vector<std::string> compHelper = {"<=", "<", "<", "<=", "<="};
 // [1] 0.00000001490116119384766
 // Which is also 2^(-26)
 constexpr double defaultTolerance = 0.00000001490116119384766;
+
+// Used for checking whether user has interrupted computation
+constexpr auto timeout = std::chrono::milliseconds(1000);
 
 struct distinctType {
     int limit = 0;
