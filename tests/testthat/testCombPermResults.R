@@ -79,34 +79,34 @@ test_that("comboGeneral produces correct results with constraintFun only", {
                               lower = 100000, upper = 103000)),
                  comboGeneral(50, 7, freqs = rep(1:5, 10), lower = 100000,
                               upper = 103000, constraintFun = "mean")[,8])
-    
+
     set.seed(12345)
     myNums = rnorm(15)
-    expect_equal(comboGeneral(myNums, 8, constraintFun = "sum", keepResults = TRUE)[, 9], 
+    expect_equal(comboGeneral(myNums, 8, constraintFun = "sum", keepResults = TRUE)[, 9],
                  rowSums(comboGeneral(myNums, 8)))
-    
-    expect_equal(comboGeneral(myNums, 5, TRUE, constraintFun = "sum", keepResults = TRUE)[, 6], 
+
+    expect_equal(comboGeneral(myNums, 5, TRUE, constraintFun = "sum", keepResults = TRUE)[, 6],
                  rowSums(comboGeneral(myNums, 5, TRUE)))
-    
-    expect_equal(comboGeneral(myNums, 5, freqs = rep(2, 15), 
-                              constraintFun = "sum", keepResults = TRUE)[, 6], 
+
+    expect_equal(comboGeneral(myNums, 5, freqs = rep(2, 15),
+                              constraintFun = "sum", keepResults = TRUE)[, 6],
                  rowSums(comboGeneral(myNums, 5, freqs = rep(2, 15))))
-    
+
     ## test product
-    expect_equal(comboGeneral(myNums, 8, constraintFun = "prod", keepResults = TRUE)[, 9], 
+    expect_equal(comboGeneral(myNums, 8, constraintFun = "prod", keepResults = TRUE)[, 9],
                  apply(comboGeneral(myNums, 8), 1, prod))
-    
+
     ## test mean
-    expect_equal(comboGeneral(myNums, 5, freqs = rep(2, 15), 
-                              constraintFun = "mean", keepResults = TRUE)[, 6], 
+    expect_equal(comboGeneral(myNums, 5, freqs = rep(2, 15),
+                              constraintFun = "mean", keepResults = TRUE)[, 6],
                  rowMeans(comboGeneral(myNums, 5, freqs = rep(2, 15))))
-    
+
     ## test max
-    expect_equal(comboGeneral(myNums, 8, constraintFun = "max", keepResults = TRUE)[, 9], 
+    expect_equal(comboGeneral(myNums, 8, constraintFun = "max", keepResults = TRUE)[, 9],
                  apply(comboGeneral(myNums, 8), 1, max))
-    
+
     ## test min
-    expect_equal(comboGeneral(myNums, 5, TRUE, constraintFun = "min", keepResults = TRUE)[, 6], 
+    expect_equal(comboGeneral(myNums, 5, TRUE, constraintFun = "min", keepResults = TRUE)[, 6],
                  apply(comboGeneral(myNums, 5, TRUE), 1, min))
 })
 
@@ -184,6 +184,12 @@ test_that("permuteGeneral produces correct results with constrainFun only", {
     expect_equal(rowSums(permuteGeneral(11, 5)),
                  permuteGeneral(11, 5, constraintFun = "sum")[,6])
 
+    #### NO Repetition
+    ## permuteCount(8)
+    ## [1] 40320
+    expect_equal(permuteGeneral(8, constraintFun = "sum", nThreads = 2),
+                 permuteGeneral(8, constraintFun = "sum"))
+
     #### With Repetition
     numVec <- rnorm(9)
     expect_equal(apply(permuteGeneral(numVec, 5, TRUE), 1, prod),
@@ -193,6 +199,13 @@ test_that("permuteGeneral produces correct results with constrainFun only", {
     numVec <- runif(9)
     expect_equal(rowMeans(permuteGeneral(numVec, 5, freqs = rep(1:3, 3))),
                  permuteGeneral(numVec, 5, freqs = rep(1:3, 3), constraintFun = "mean")[,6])
+
+    #### Multisets
+    ## permuteCount(4, freqs = c(1:3, 6))
+    ## [1] 55440
+    expect_equal(permuteGeneral(4, constraintFun = "sum", freqs = c(1:3, 6),
+                                nThreads = 2),
+                 permuteGeneral(4, constraintFun = "sum", freqs = c(1:3, 6)))
 
 
     ######********************** Upper Only *******************#########
