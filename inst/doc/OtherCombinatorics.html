@@ -12,11 +12,23 @@
 
 <meta name="author" content="Joseph Wood" />
 
-<meta name="date" content="2022-03-12" />
+<meta name="date" content="2022-03-18" />
 
 <title>Cartesian Products and Partitions of Groups into Equal Size</title>
 
-<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -127,7 +139,187 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 
 
@@ -139,29 +331,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<h1 class="title toc-ignore">Cartesian Products and Partitions of Groups into Equal Size</h1>
+<h1 class="title toc-ignore">Cartesian Products and Partitions of Groups
+into Equal Size</h1>
 <h4 class="author">Joseph Wood</h4>
-<h4 class="date">03/12/2022</h4>
+<h4 class="date">03/18/2022</h4>
 
 
 <div id="TOC">
 <ul>
-<li><a href="#cartesian-product-where-order-does-not-matter">Cartesian Product where Order does not Matter</a>
+<li><a href="#cartesian-product-where-order-does-not-matter">Cartesian
+Product where Order does not Matter</a>
 <ul>
 <li><a href="#in-the-wild">In the Wild</a></li>
 </ul></li>
-<li><a href="#partitions-of-groups-of-equal-size-with-combogroups">Partitions of Groups of Equal Size with <code>comboGroups</code></a>
+<li><a href="#partitions-of-groups-of-equal-size-with-combogroups">Partitions
+of Groups of Equal Size with <code>comboGroups</code></a>
 <ul>
-<li><a href="#relevant-posts-on-stackoverflow-as-well-as-oeis.">Relevant Posts on Stackoverflow as well as OEIS.</a></li>
+<li><a href="#relevant-posts-on-stackoverflow-as-well-as-oeis.">Relevant
+Posts on Stackoverflow as well as OEIS.</a></li>
 </ul></li>
 </ul>
 </div>
 
-<p>In combinatorics, sometimes it can be difficult to figure out exactly which tool/method we need to attack our problem. Do we need combinations? permutations? Cartesian product? partitions? What about repetition or multiplicity? The list goes on. Oftentimes the solution ends up being overly complicated and prone to error, or more commonly, a simple brute force solution is employed. The latter is okay in some situations, but in many real world problems, this approach becomes untenable very quickly. The two types of problems addressed below fall into this category.</p>
+<p>In combinatorics, sometimes it can be difficult to figure out exactly
+which tool/method we need to attack our problem. Do we need
+combinations? permutations? Cartesian product? partitions? What about
+repetition or multiplicity? The list goes on. Oftentimes the solution
+ends up being overly complicated and prone to error, or more commonly, a
+simple brute force solution is employed. The latter is okay in some
+situations, but in many real world problems, this approach becomes
+untenable very quickly. The two types of problems addressed below fall
+into this category.</p>
 <div id="cartesian-product-where-order-does-not-matter" class="section level2">
 <h2>Cartesian Product where Order does not Matter</h2>
-<p>Given a list of vectors, <em>v<sub>1</sub></em>, <em>v<sub>2</sub></em>, … , <em>v<sub>n</sub></em>, where the intersection of two or more vectors in non-empty, find all unique combinations (order does not matter) of elements of the cartesian product of all of the vectors.</p>
-<p>For example, lets say we have: <code>v1 = 1:4</code> and <code>v2 = 2:5</code>. The cartestion product is given by <code>expand.grid(v1, v2)</code> (We continue to use the <code>ht</code> function defined in the <a href="https://jwood000.github.io/RcppAlgos/articles/GeneralCombinatorics.html">Combination and Permutation Basics</a> vignette):</p>
+<p>Given a list of vectors, <em>v<sub>1</sub></em>,
+<em>v<sub>2</sub></em>, … , <em>v<sub>n</sub></em>, where the
+intersection of two or more vectors in non-empty, find all unique
+combinations (order does not matter) of elements of the cartesian
+product of all of the vectors.</p>
+<p>For example, lets say we have: <code>v1 = 1:4</code> and
+<code>v2 = 2:5</code>. The cartestion product is given by
+<code>expand.grid(v1, v2)</code> (We continue to use the <code>ht</code>
+function defined in the <a href="https://jwood000.github.io/RcppAlgos/articles/GeneralCombinatorics.html">Combination
+and Permutation Basics</a> vignette):</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expand.grid</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Var1 Var2</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     1    2</span></span>
@@ -180,7 +392,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14    2    5</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15    3    5</span></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16    4    5</span></span></code></pre></div>
-<p>If we don’t care about order, the following row pairs are considered equal and can therefore be pruned to obtain our desired results:</p>
+<p>If we don’t care about order, the following row pairs are considered
+equal and can therefore be pruned to obtain our desired results:</p>
 <ul>
 <li>(r3, r6)</li>
 <li>(r4, r10)</li>
@@ -203,9 +416,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11,]    3    5</span></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [12,]    4    4</span></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13,]    4    5</span></span></code></pre></div>
-<p>Note that the order of <code>expand.grid</code> and <code>comboGrid</code> differ. The order of <code>comboGrid</code> is lexicographical meaning that the last column will vary the fastest whereas with <code>expand.grid</code>, the first column will vary the fastest.</p>
-<p>You will also note that the output of <code>expand.grid</code> is a <code>data.frame</code> whereas with <code>comboGrid</code>, we get a <code>matrix</code>. With <code>comboGrid</code>, we only get a <code>data.frame</code> when the classes of each vector are different as generally speaking, working with matrices is preferrable.</p>
-<p>With the small example above, we only had to filter out 3 out of 16 total results (less than 20%). That isn’t that bad. If this was the general case, we might as well just stick with <code>expand.grid</code> as it is very efficient. Unfortunately, this is not the general case and as the number of vectors with overlap increases, filtering will become impractical.</p>
+<p>Note that the order of <code>expand.grid</code> and
+<code>comboGrid</code> differ. The order of <code>comboGrid</code> is
+lexicographical meaning that the last column will vary the fastest
+whereas with <code>expand.grid</code>, the first column will vary the
+fastest.</p>
+<p>You will also note that the output of <code>expand.grid</code> is a
+<code>data.frame</code> whereas with <code>comboGrid</code>, we get a
+<code>matrix</code>. With <code>comboGrid</code>, we only get a
+<code>data.frame</code> when the classes of each vector are different as
+generally speaking, working with matrices is preferrable.</p>
+<p>With the small example above, we only had to filter out 3 out of 16
+total results (less than 20%). That isn’t that bad. If this was the
+general case, we might as well just stick with <code>expand.grid</code>
+as it is very efficient. Unfortunately, this is not the general case and
+as the number of vectors with overlap increases, filtering will become
+impractical.</p>
 <p>Consider the following example:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pools <span class="ot">=</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">14</span>, <span class="dv">6</span>),</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">11</span>, <span class="dv">12</span>),</span>
@@ -281,23 +507,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2979,]   14    3    4    7    8   15    9   13   12    11</span></span>
 <span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2980,]   14    3    5    7    8   15    9   13   12    11</span></span>
 <span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2981,]   14    4    5    7    8   15    9   13   12    11</span></span></code></pre></div>
-<p>The function <code>comboGrid</code> was highly inspired by the following question on stackoverflow:</p>
+<p>The function <code>comboGrid</code> was highly inspired by the
+following question on stackoverflow:</p>
 <ul>
-<li><a href="https://stackoverflow.com/q/51834467/4408538">Picking unordered combinations from pools with overlap</a></li>
+<li><a href="https://stackoverflow.com/q/51834467/4408538">Picking
+unordered combinations from pools with overlap</a></li>
 </ul>
-<p>Currenlty, the underlying algorithm is not the gold standard. By that, we mean that results are not generated one by one. Efforts are underway to achieve this, but up until this point it has proven quite difficult (See the comprehensive answer by Tim Peters (yes, that <a href="https://stackoverflow.com/users/2705542/tim-peters">Tim Peters</a>)).</p>
-<p>The algorithm in <code>comboGrid</code> leverages <a href="https://en.wikipedia.org/wiki/Fundamental_theorem_of_arithmetic">The Fundamental Theorem of Arithmetic</a> to efficiently generate keys that will be used in a hash function to determine if a particular combination of elements have been encountered. For greater efficiency, we make use of deduplication as <a href="https://stackoverflow.com/a/51886857/4408538">user2357112</a> suggests.</p>
+<p>Currenlty, the underlying algorithm is not the gold standard. By
+that, we mean that results are not generated one by one. Efforts are
+underway to achieve this, but up until this point it has proven quite
+difficult (See the comprehensive answer by Tim Peters (yes, that <a href="https://stackoverflow.com/users/2705542/tim-peters">Tim
+Peters</a>)).</p>
+<p>The algorithm in <code>comboGrid</code> leverages <a href="https://en.wikipedia.org/wiki/Fundamental_theorem_of_arithmetic">The
+Fundamental Theorem of Arithmetic</a> to efficiently generate keys that
+will be used in a hash function to determine if a particular combination
+of elements have been encountered. For greater efficiency, we make use
+of deduplication as <a href="https://stackoverflow.com/a/51886857/4408538">user2357112</a>
+suggests.</p>
 <div id="in-the-wild" class="section level3">
 <h3>In the Wild</h3>
 <ul>
-<li><a href="https://stackoverflow.com/q/68047141/4408538">R - Expand Grid Without Duplicates</a></li>
-<li><a href="https://stackoverflow.com/a/68050873/4408538">Non-redundant version of expand.grid</a></li>
+<li><a href="https://stackoverflow.com/q/68047141/4408538">R - Expand
+Grid Without Duplicates</a></li>
+<li><a href="https://stackoverflow.com/a/68050873/4408538">Non-redundant
+version of expand.grid</a></li>
 </ul>
 </div>
 </div>
 <div id="partitions-of-groups-of-equal-size-with-combogroups" class="section level2">
-<h2>Partitions of Groups of Equal Size with <code>comboGroups</code></h2>
-<p>Given a vector of length <em>n</em> and <em>k</em> groups, where <em>k</em> divides <em>n</em>, each group is comprised of a combination of the vector chosen <em>g = n / k</em> at a time. As is stated in the documentation (see <code>?comboGroups</code>), these can be constructed by first generating all permutations of the vector and subsequently removing entries with permuted groups. Let us consider the following example. Given <code>v = 1:12</code>, generate all partitions <code>v</code> into 3 groups each of size 4.</p>
+<h2>Partitions of Groups of Equal Size with
+<code>comboGroups</code></h2>
+<p>Given a vector of length <em>n</em> and <em>k</em> groups, where
+<em>k</em> divides <em>n</em>, each group is comprised of a combination
+of the vector chosen <em>g = n / k</em> at a time. As is stated in the
+documentation (see <code>?comboGroups</code>), these can be constructed
+by first generating all permutations of the vector and subsequently
+removing entries with permuted groups. Let us consider the following
+example. Given <code>v = 1:12</code>, generate all partitions
+<code>v</code> into 3 groups each of size 4.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>funBruteGrp <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">myLow =</span> <span class="dv">1</span>, myUp) {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    mat <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">permuteGeneral</span>(<span class="dv">12</span>, <span class="at">lower =</span> myLow, <span class="at">upper =</span> myUp,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">FUN =</span> <span class="cf">function</span>(x) {</span>
@@ -333,8 +580,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 48 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 9 )&quot;  &quot;( 12 11 10 8 )&quot;</span></span>
 <span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 49 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 10 )&quot; &quot;( 8 9 11 12 )&quot;  ## &lt;&lt;-- 3rd distinct partition of groups</span></span>
 <span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 50 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 10 )&quot; &quot;( 8 9 12 11 )&quot;</span></span></code></pre></div>
-<p>We are starting to see a pattern. Each new partition is exactly 24 spots away. This makes sense as there are <code>factorial(4) = 24</code> permutations of size 4. Now, this is an oversimplification as if we simply generate every <em>24<sup>th</sup></em> permutation, we will still get duplication as they start to carry over to the other groups. Observe:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">145</span>, <span class="dv">24</span>), <span class="cf">function</span>(x) {</span>
+<p>We are starting to see a pattern. Each new partition is exactly 24
+spots away. This makes sense as there are <code>factorial(4) = 24</code>
+permutations of size 4. Now, this is an oversimplification as if we
+simply generate every <em>24<sup>th</sup></em> permutation, we will
+still get duplication as they start to carry over to the other groups.
+Observe:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">169</span>, <span class="dv">24</span>), <span class="cf">function</span>(x) {</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">funBruteGrp</span>(<span class="at">myLow =</span> x, <span class="at">myUp =</span> x)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>}))</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              Grp1          Grp2           Grp3</span></span>
@@ -346,8 +598,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 121 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 8 7 )&quot;  &quot;( 9 10 11 12 )&quot;  ## &lt;&lt;-- This is the same as the 1st</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 145 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 8 9 )&quot;  &quot;( 7 10 11 12 )&quot;  ## partition. The only difference is</span></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 169 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 8 10 )&quot; &quot;( 7 9 11 12 )&quot;   ## that the 2nd Grp has been permuted</span></span></code></pre></div>
-<p>This only gets more muddled as the number of groups increases. It is also very inefficient, however this exercise hopefully serves to better illustrate these structures.</p>
-<p>The algorithm in <code>comboGroups</code> avoids all of this duplication by implementing a novel algorithm akin to <a href="https://en.cppreference.com/w/cpp/algorithm/next_permutation">std::next_permutation</a> from the algorithm library in <code>C++</code>.</p>
+<p>This only gets more muddled as the number of groups increases. It is
+also very inefficient, however this exercise hopefully serves to better
+illustrate these structures.</p>
+<p>The algorithm in <code>comboGroups</code> avoids all of this
+duplication by implementing a novel algorithm akin to <a href="https://en.cppreference.com/w/cpp/algorithm/next_permutation">std::next_permutation</a>
+from the algorithm library in <code>C++</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">comboGroups</span>(<span class="dv">12</span>, <span class="at">numGroups =</span> <span class="dv">3</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       0       0       0</span></span>
@@ -368,7 +624,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5773,]    1   10   11   12    2    6    7    9    3    4    5    8</span></span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5774,]    1   10   11   12    2    6    8    9    3    4    5    7</span></span>
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5775,]    1   10   11   12    2    7    8    9    3    4    5    6</span></span></code></pre></div>
-<p>Just as in <code>combo/permuteGeneral</code>, we can utilize the arguments <code>lower</code>, <code>upper</code>, <code>Parallel</code>, and <code>nThreads</code>.</p>
+<p>Just as in <code>combo/permuteGeneral</code>, we can utilize the
+arguments <code>lower</code>, <code>upper</code>, <code>Parallel</code>,
+and <code>nThreads</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">comboGroupsCount</span>(<span class="dv">30</span>, <span class="dv">6</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Big Integer (&#39;bigz&#39;) :</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 123378675083039376</span></span>
@@ -398,7 +656,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(a1, a3)</span>
 <span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
-<p>There is one additional argument (i.e. <code>retType</code>) not present in the other two general functions that allows the user to specify the type of object returned. The user can select between <code>&quot;matrix&quot;</code> (the default) and <code>&quot;3Darray&quot;</code>. This structure has a natural connection to 3D space. We have a particular result (<em>1<sup>st</sup></em> dimension) broken down into groups (<em>2<sup>nd</sup></em> dimension) of a certain size (<em>3<sup>rd</sup></em> dimension).</p>
+<p>There is one additional argument (i.e. <code>retType</code>) not
+present in the other two general functions that allows the user to
+specify the type of object returned. The user can select between
+<code>&quot;matrix&quot;</code> (the default) and <code>&quot;3Darray&quot;</code>. This
+structure has a natural connection to 3D space. We have a particular
+result (<em>1<sup>st</sup></em> dimension) broken down into groups
+(<em>2<sup>nd</sup></em> dimension) of a certain size
+(<em>3<sup>rd</sup></em> dimension).</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>my3D <span class="ot">&lt;-</span> <span class="fu">comboGroups</span>(<span class="fu">factor</span>(month.abb), <span class="dv">4</span>, <span class="at">retType =</span> <span class="st">&quot;3Darray&quot;</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>my3D[<span class="dv">1</span>, , ]</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      Grp1 Grp2 Grp3 Grp4</span></span>
@@ -419,10 +684,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="relevant-posts-on-stackoverflow-as-well-as-oeis." class="section level3">
 <h3>Relevant Posts on Stackoverflow as well as OEIS.</h3>
 <ul>
-<li><a href="https://stackoverflow.com/a/51754958/4408538">Iterating through combinations of groups of 4 within a group of 16</a></li>
-<li><a href="https://stackoverflow.com/q/57732672/4408538">Create Combinations in R by Groups</a></li>
-<li><a href="https://stackoverflow.com/q/39126712/4408538">Algorithm that can create all combinations and all groups of those combinations</a></li>
-<li><a href="https://oeis.org/A025035" class="uri">https://oeis.org/A025035</a> (See also sequences A025036-A025042)</li>
+<li><a href="https://stackoverflow.com/a/51754958/4408538">Iterating
+through combinations of groups of 4 within a group of 16</a></li>
+<li><a href="https://stackoverflow.com/q/57732672/4408538">Create
+Combinations in R by Groups</a></li>
+<li><a href="https://stackoverflow.com/q/39126712/4408538">Algorithm
+that can create all combinations and all groups of those
+combinations</a></li>
+<li><a href="https://oeis.org/A025035" class="uri">https://oeis.org/A025035</a> (See also sequences
+A025036-A025042)</li>
 </ul>
 </div>
 </div>

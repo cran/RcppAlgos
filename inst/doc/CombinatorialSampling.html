@@ -12,11 +12,23 @@
 
 <meta name="author" content="Joseph Wood" />
 
-<meta name="date" content="2022-03-12" />
+<meta name="date" content="2022-03-29" />
 
 <title>Combinatorial Sampling</title>
 
-<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -127,7 +139,187 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 
 
@@ -141,33 +333,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Combinatorial Sampling</h1>
 <h4 class="author">Joseph Wood</h4>
-<h4 class="date">03/12/2022</h4>
+<h4 class="date">03/29/2022</h4>
 
 
 <div id="TOC">
 <ul>
 <li><a href="#base-r">Base R</a></li>
 <li><a href="#rcppalgos-solutions">RcppAlgos Solutions</a></li>
-<li><a href="#combosample-and-permutesample"><code>comboSample</code> and <code>permuteSample</code></a>
+<li><a href="#combosample-and-permutesample"><code>comboSample</code>
+and <code>permuteSample</code></a>
 <ul>
-<li><a href="#samples-of-results-with-repetition">Samples of Results with Repetition</a></li>
-<li><a href="#specific-results-with-samplevec">Specific Results with <code>sampleVec</code></a></li>
+<li><a href="#samples-of-results-with-repetition">Samples of Results
+with Repetition</a></li>
+<li><a href="#specific-results-with-samplevec">Specific Results with
+<code>sampleVec</code></a></li>
 <li><a href="#using-namedsample">Using <code>namedSample</code></a></li>
-<li><a href="#parallel-computing-and-gmp-support">Parallel Computing and GMP Support</a></li>
+<li><a href="#parallel-computing-and-gmp-support">Parallel Computing and
+GMP Support</a></li>
 <li><a href="#efficiency">Efficiency</a></li>
 <li><a href="#user-defined-functions">User Defined Functions</a></li>
 </ul></li>
 <li><a href="#partitionssample"><code>partitionsSample</code></a></li>
-<li><a href="#sampling-partitions-of-groups-of-equal-size-with-combogroupssample">Sampling Partitions of Groups of Equal Size with <code>comboGroupsSample</code></a></li>
+<li><a href="#sampling-partitions-of-groups-of-equal-size-with-combogroupssample">Sampling
+Partitions of Groups of Equal Size with
+<code>comboGroupsSample</code></a></li>
 </ul>
 </div>
 
-<p>This document covers topics in generating random samples of combinations/permutations. It is encouraged to read <a href="https://jwood000.github.io/RcppAlgos/articles/GeneralCombinatorics.html">General Combinatorics</a> first.</p>
+<p>This document covers topics in generating random samples of
+combinations/permutations. It is encouraged to read <a href="https://jwood000.github.io/RcppAlgos/articles/GeneralCombinatorics.html">General
+Combinatorics</a> first.</p>
 <hr />
-<p>To illustrate this in base R, let us consider getting 5 random combinations of the vector <code>1:20</code> of length 10. How should we proceed?</p>
+<p>To illustrate this in base R, let us consider getting 5 random
+combinations of the vector <code>1:20</code> of length 10. How should we
+proceed?</p>
 <div id="base-r" class="section level2">
 <h2>Base R</h2>
-<p>A naive approach would be to generate all of the combinations using <code>combn</code> and then call <code>sample</code>:</p>
+<p>A naive approach would be to generate all of the combinations using
+<code>combn</code> and then call <code>sample</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>naive <span class="ot">&lt;-</span> <span class="cf">function</span>(v, m, n, s) {</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    allCombs <span class="ot">&lt;-</span> <span class="fu">combn</span>(v, m)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(s)</span>
@@ -182,26 +385,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]    2    3    4    6    9   10   12   13   15    19</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]    1    4    5   10   13   14   15   17   18    19</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]    1    3    4    5    7    8   13   15   18    19</span></span></code></pre></div>
-<p>This is okay for this small example (there are only <code>choose(20, 10) = 184756</code> results), however what if we wanted to find one hundred thousand random combinations from the vector <code>1:100</code> of length 20? Clearly, the approach above will not be feasible as there are far too many results to generate (<code>choose(100, 20) = 5.359834e+20</code>). Furthermore, there are internal limitations on <code>sample</code>. If we try to pass <code>choose(100, 20)</code>, we will get an error:</p>
+<p>This is okay for this small example (there are only
+<code>choose(20, 10) = 184756</code> results), however what if we wanted
+to find one hundred thousand random combinations from the vector
+<code>1:100</code> of length 20? Clearly, the approach above will not be
+feasible as there are far too many results to generate
+(<code>choose(100, 20) = 5.359834e+20</code>). Furthermore, there are
+internal limitations on <code>sample</code>. If we try to pass
+<code>choose(100, 20)</code>, we will get an error:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="fu">choose</span>(<span class="dv">100</span>, <span class="dv">20</span>), <span class="dv">5</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in sample.int(x, size, replace, prob) : invalid first argument</span></span></code></pre></div>
-<p>We could also try calling <code>sample(100, 20)</code> a bunch of times and hope we don’t get duplicate combinations. This is neither promising nor elegant.</p>
+<p>We could also try calling <code>sample(100, 20)</code> a bunch of
+times and hope we don’t get duplicate combinations. This is neither
+promising nor elegant.</p>
 <hr />
 </div>
 <div id="rcppalgos-solutions" class="section level2">
 <h2>RcppAlgos Solutions</h2>
-<p><code>RcppAlgos</code> provides four functions: <code>comboSample</code>, <code>permuteSample</code>, <code>partitionsSample</code>, and <code>comboGroupsSample</code> for seamlessly attacking these types of problems. All functions provide the following:</p>
+<p><code>RcppAlgos</code> provides four functions:
+<code>comboSample</code>, <code>permuteSample</code>,
+<code>partitionsSample</code>, and <code>comboGroupsSample</code> for
+seamlessly attacking these types of problems. All functions provide the
+following:</p>
 <ul>
-<li>Easily generate random samples of combinations/permutations/partitions or partition of groups in parallel.</li>
-<li>You can pass a vector of specific indices or rely on the internal sampling functions. We call <code>sample</code> when the total number of results is small and for larger cases, the sampling is done in a very similar fashion to <code>urand.bigz</code> from the <code>gmp</code> package.</li>
-<li>Consistent interface to their respective general functions (i.e. <code>{combo/permute/partitions}General</code> and <code>comboGroups</code>)</li>
-<li>Useful when we need a reproducible set of random combinations/permutations/partitions or partitions of groups.</li>
-<li>If the gmp library is needed, the <code>seed</code> parameter must be set in order to have reproducible results (<em>E.g.</em> <code>set.seed()</code>) has no effect in these cases).</li>
+<li>Easily generate random samples of
+combinations/permutations/partitions or partition of groups in
+parallel.</li>
+<li>You can pass a vector of specific indices or rely on the internal
+sampling functions. We call <code>sample</code> when the total number of
+results is small and for larger cases, the sampling is done in a very
+similar fashion to <code>urand.bigz</code> from the <code>gmp</code>
+package.</li>
+<li>Consistent interface to their respective general functions
+(i.e. <code>{combo/permute/partitions}General</code> and
+<code>comboGroups</code>)</li>
+<li>Useful when we need a reproducible set of random
+combinations/permutations/partitions or partitions of groups.</li>
+<li>If the gmp library is needed, the <code>seed</code> parameter must
+be set in order to have reproducible results (<em>E.g.</em>
+<code>set.seed()</code>) has no effect in these cases).</li>
 </ul>
 </div>
 <div id="combosample-and-permutesample" class="section level2">
 <h2><code>comboSample</code> and <code>permuteSample</code></h2>
-<p>Let’s first look at the first problem above (i.e. getting 5 random combinations of the vector <code>1:20</code> of length 10):</p>
+<p>Let’s first look at the first problem above (i.e. getting 5 random
+combinations of the vector <code>1:20</code> of length 10):</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RcppAlgos)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">comboSample</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="at">n =</span> <span class="dv">5</span>)</span>
@@ -227,7 +455,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 <div id="samples-of-results-with-repetition" class="section level3">
 <h3>Samples of Results with Repetition</h3>
-<p>Just like with <code>comboGeneral</code> and <code>permuteGeneral</code>, we can explore results with repetition.</p>
+<p>Just like with <code>comboGeneral</code> and
+<code>permuteGeneral</code>, we can explore results with repetition.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">comboSample</span>(<span class="dv">10</span>, <span class="dv">8</span>, <span class="cn">TRUE</span>, <span class="at">n =</span> <span class="dv">3</span>, <span class="at">seed =</span> <span class="dv">84</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    2    5    5    7    9    9    9    9</span></span>
@@ -254,7 +483,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="specific-results-with-samplevec" class="section level3">
 <h3>Specific Results with <code>sampleVec</code></h3>
-<p>We can also utilize <code>sampleVec</code> to generate specific results.</p>
+<p>We can also utilize <code>sampleVec</code> to generate specific
+results.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## E.g. the below generates the 1st, 5th, 25th, 125th, and</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 625th lexicographical combinations</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">comboSample</span>(<span class="dv">10</span>, <span class="dv">8</span>, <span class="cn">TRUE</span>, <span class="at">sampleVec =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">25</span>, <span class="dv">125</span>, <span class="dv">625</span>))</span>
@@ -276,7 +506,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="using-namedsample" class="section level3">
 <h3>Using <code>namedSample</code></h3>
-<p>Have you ever wondered which lexicographical combinations/permutations are returned when sampling? No worries, simply set <code>namedSample = TRUE</code>:</p>
+<p>Have you ever wondered which lexicographical
+combinations/permutations are returned when sampling? No worries, simply
+set <code>namedSample = TRUE</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>testInd <span class="ot">&lt;-</span> <span class="fu">permuteSample</span>(<span class="dv">30</span>, <span class="dv">10</span>, <span class="at">n =</span> <span class="dv">3</span>, <span class="at">seed =</span> <span class="dv">100</span>, <span class="at">namedSample =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>testInd</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
@@ -293,7 +525,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="parallel-computing-and-gmp-support" class="section level3">
 <h3>Parallel Computing and GMP Support</h3>
-<p>Just like the <code>General</code> counterparts, the sampling functions utilize GMP to allow for exploration of combinations/permutations of large vectors where the total number of results is enormous. They also offer parallel options using <code>Parallel</code> or <code>nThreads</code>.</p>
+<p>Just like the <code>General</code> counterparts, the sampling
+functions utilize GMP to allow for exploration of
+combinations/permutations of large vectors where the total number of
+results is enormous. They also offer parallel options using
+<code>Parallel</code> or <code>nThreads</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Uses min(stdThreadMax() - 1, 5) threads (in this case)</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">permuteSample</span>(<span class="dv">500</span>, <span class="dv">10</span>, <span class="cn">TRUE</span>, <span class="at">n =</span> <span class="dv">5</span>, <span class="at">seed =</span> <span class="dv">123</span>, <span class="at">Parallel =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
@@ -316,7 +552,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="efficiency" class="section level3">
 <h3>Efficiency</h3>
-<p>The algorithms are incredibly efficient and offer tremendous gains over the naive approach above:</p>
+<p>The algorithms are incredibly efficient and offer tremendous gains
+over the naive approach above:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## the function &quot;naive&quot; is defined above</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">naive</span>(<span class="dv">25</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">15</span>))</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   user  system elapsed</span></span>
@@ -325,7 +562,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">comboSample</span>(<span class="dv">25</span>, <span class="dv">10</span>, <span class="at">n =</span> <span class="dv">5</span>, <span class="at">seed =</span> <span class="dv">15</span>))</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   user  system elapsed</span></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  0.002   0.000   0.001</span></span></code></pre></div>
-<p>Even when dealing with extremely large numbers, these algorithms are very fast. And using the parallel options have even greater effects than we saw with the general counterparts (typically around ~2-3 times faster with the general functions, whereas with the last example below with sampling we see a nearly 5 fold improvement).</p>
+<p>Even when dealing with extremely large numbers, these algorithms are
+very fast. And using the parallel options have even greater effects than
+we saw with the general counterparts (typically around ~2-3 times faster
+with the general functions, whereas with the last example below with
+sampling we see a nearly 5 fold improvement).</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Lightning fast even with examples involving many results</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">comboSample</span>(<span class="dv">2500</span>, <span class="dv">100</span>, <span class="at">n =</span> <span class="dv">5</span>, <span class="at">seed =</span> <span class="dv">15</span>))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed</span></span>
@@ -347,7 +588,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="user-defined-functions" class="section level3">
 <h3>User Defined Functions</h3>
-<p>Again, just as with the general functions, you can pass a custom function to <code>combo/permuteSample</code> using the <code>FUN</code> argument.</p>
+<p>Again, just as with the general functions, you can pass a custom
+function to <code>combo/permuteSample</code> using the <code>FUN</code>
+argument.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">permuteSample</span>(<span class="dv">5000</span>, <span class="dv">1000</span>, <span class="at">n =</span> <span class="dv">3</span>, <span class="at">seed =</span> <span class="dv">101</span>, <span class="at">FUN =</span> sd)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1431.949</span></span>
@@ -378,7 +621,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="partitionssample" class="section level2">
 <h2><code>partitionsSample</code></h2>
-<p>The <code>partitionsSample</code> function allows one to draw a random sample of partitions of a number. Many of the features present in <code>comboSample</code> and <code>permuteSample</code> are available in <code>partitionsSample</code>.</p>
+<p>The <code>partitionsSample</code> function allows one to draw a
+random sample of partitions of a number. Many of the features present in
+<code>comboSample</code> and <code>permuteSample</code> are available in
+<code>partitionsSample</code>.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Use the seed parameter to obtain reproducible results</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">partitionsSample</span>(<span class="dv">100</span>, <span class="dv">8</span>, <span class="cn">TRUE</span>, <span class="at">n =</span> <span class="dv">3</span>, <span class="at">seed =</span> <span class="dv">42</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]</span></span>
@@ -405,14 +651,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2621914835336941325</span></span>
 <span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="do">## Algorithms are very efficient</span></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="at">serial =</span> <span class="fu">partitionsSample</span>(<span class="dv">2500</span>, <span class="dv">10</span>, <span class="at">n =</span> <span class="fl">1e3</span>,</span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">seed =</span> <span class="dv">8128</span>))</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(serial <span class="ot">&lt;-</span> <span class="fu">partitionsSample</span>(<span class="dv">2500</span>, <span class="dv">10</span>, <span class="at">n =</span> <span class="fl">1e3</span>,</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">seed =</span> <span class="dv">8128</span>))</span>
 <span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed</span></span>
 <span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   5.220   0.010   5.235</span></span>
 <span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="do">## Use nThreads for greater efficiency</span></span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="at">multi =</span> <span class="fu">partitionsSample</span>(<span class="dv">2500</span>, <span class="dv">10</span>, <span class="at">n =</span> <span class="fl">1e3</span>,</span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">seed =</span> <span class="dv">8128</span>, <span class="at">nThreads =</span> <span class="dv">8</span>))</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(multi <span class="ot">&lt;-</span> <span class="fu">partitionsSample</span>(<span class="dv">2500</span>, <span class="dv">10</span>, <span class="at">n =</span> <span class="fl">1e3</span>,</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">seed =</span> <span class="dv">8128</span>, <span class="at">nThreads =</span> <span class="dv">8</span>))</span>
 <span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed</span></span>
 <span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  10.723   0.022   1.358</span></span>
 <span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a></span>
@@ -426,7 +672,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   23   23   26   26   29   29   38   38   41    47</span></span>
 <span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]   26   26   26   29   29   29   32   41   41    41</span></span>
 <span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]   20   23   23   26   26   35   38   41   44    44</span></span></code></pre></div>
-<p>There are sampling algorithms available for most partition cases, but some cases are not covered. For example, with standard multisets, we are currently unable to <em>efficiently</em> generate the <em>n<sup>th</sup></em> lexicographical result. Another example is when the source vector is not uniform (<em>e.g.</em> when the distance between each element is irregular).</p>
+<p>There are sampling algorithms available for most partition cases, but
+some cases are not covered. For example, with standard multisets, we are
+currently unable to <em>efficiently</em> generate the
+<em>n<sup>th</sup></em> lexicographical result. Another example is when
+the source vector is not uniform (<em>e.g.</em> when the distance
+between each element is irregular).</p>
 <p>Observe the following:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## No sampling algorithm available when the source vector is not uniform</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">partitionsSample</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="fu">seq</span>(<span class="dv">11</span>, <span class="dv">100</span>, <span class="dv">7</span>)), <span class="dv">10</span>, <span class="at">n =</span> <span class="dv">1</span>, <span class="at">target =</span> <span class="dv">340</span>)</span>
@@ -453,16 +704,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    0    1    6   15   29   49</span></span>
 <span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    0    0    0    8   43   49</span></span>
 <span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]    4    7   17   19   22   31</span></span></code></pre></div>
-<p>There is ongoing research in this area and our goal is to eventually be able to cover the standard multiset case.</p>
+<p>There is ongoing research in this area and our goal is to eventually
+be able to cover the standard multiset case.</p>
 </div>
 <div id="sampling-partitions-of-groups-of-equal-size-with-combogroupssample" class="section level2">
-<h2>Sampling Partitions of Groups of Equal Size with <code>comboGroupsSample</code></h2>
-<p>Just as we can generate random samples of combinations and permutations, we are also able to generate random samples of partitions of groups of equal size. There are many problems that present in this manner. Below, we examine one involving playing cards.</p>
-<p>Let’s say we have 4 players and each player is to have 3 cards a piece. Given that the deck is shuffled, the dealer then distrubutes 12 cards.</p>
+<h2>Sampling Partitions of Groups of Equal Size with
+<code>comboGroupsSample</code></h2>
+<p>Just as we can generate random samples of combinations and
+permutations, we are also able to generate random samples of partitions
+of groups of equal size. There are many problems that present in this
+manner. Below, we examine one involving playing cards.</p>
+<p>Let’s say we have 4 players and each player is to have 3 cards a
+piece. Given that the deck is shuffled, the dealer then distrubutes 12
+cards.</p>
 <blockquote>
 <p>What possible hands can each player have?</p>
 </blockquote>
-<p>See <a href="https://stackoverflow.com/a/36903806/4408538">Creating A Deck Of Cards In R Without Using While And Double For Loop</a> (Credit to <span class="citation">@MichaelChirico</span>)</p>
+<p>See <a href="https://stackoverflow.com/a/36903806/4408538">Creating A
+Deck Of Cards In R Without Using While And Double For Loop</a> (Credit
+to <span class="citation">@MichaelChirico</span>)</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cards <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, <span class="st">&quot;J&quot;</span>, <span class="st">&quot;Q&quot;</span>, <span class="st">&quot;K&quot;</span>, <span class="st">&quot;A&quot;</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>suits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;♠&quot;</span>, <span class="st">&quot;♥&quot;</span>, <span class="st">&quot;♦&quot;</span>, <span class="st">&quot;♣&quot;</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>deck <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">rep</span>(cards, <span class="fu">length</span>(suits)),  <span class="co">#card values</span></span>

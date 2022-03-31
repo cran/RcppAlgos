@@ -54,13 +54,15 @@ std::vector<T> Factorize(std::vector<T> &factors) {
 
         std::size_t numFacs = 1;
 
-        for (std::size_t i = 0; i <= numUni; ++i)
+        for (std::size_t i = 0; i <= numUni; ++i) {
             numFacs *= (lengths[i] + 1);
+        }
 
         std::vector<T> myFacs(numFacs);
 
-        for (std::size_t i = 0; i <= lengths[0]; ++i)
+        for (std::size_t i = 0; i <= lengths[0]; ++i) {
             myFacs[i] = static_cast<T>(std::pow(uniFacs[0], i));
+        }
 
         if (numUni > 0) {
             std::size_t fSz = 1;
@@ -164,8 +166,9 @@ void IsPrimeVec(std::size_t m, std::size_t n,
             } else {
                 mpz_set_d(testMpzt, myNums[j]);
 
-                if (mpz_probab_prime_p(testMpzt, MR_REPS) == 0)
+                if (mpz_probab_prime_p(testMpzt, MR_REPS) == 0) {
                     primeTest[j] = false;
+                }
             }
         }
     }

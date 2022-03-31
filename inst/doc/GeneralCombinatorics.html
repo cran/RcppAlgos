@@ -12,11 +12,23 @@
 
 <meta name="author" content="Joseph Wood" />
 
-<meta name="date" content="2022-03-08" />
+<meta name="date" content="2022-03-29" />
 
 <title>Combination and Permutation Basics</title>
 
-<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -127,7 +139,187 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 
 
@@ -141,21 +333,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Combination and Permutation Basics</h1>
 <h4 class="author">Joseph Wood</h4>
-<h4 class="date">03/08/2022</h4>
+<h4 class="date">03/29/2022</h4>
 
 
 <div id="TOC">
 <ul>
-<li><a href="#introducing-combogeneral-and-permutegeneral">Introducing <code>comboGeneral</code> and <code>permuteGeneral</code></a></li>
-<li><a href="#combinationspermutations-with-repetition">Combinations/Permutations with Repetition</a></li>
+<li><a href="#introducing-combogeneral-and-permutegeneral">Introducing
+<code>comboGeneral</code> and <code>permuteGeneral</code></a></li>
+<li><a href="#combinationspermutations-with-repetition">Combinations/Permutations
+with Repetition</a></li>
 <li><a href="#working-with-multisets">Working with Multisets</a>
 <ul>
 <li><a href="#enter-freqs">Enter <code>freqs</code></a></li>
 </ul></li>
 <li><a href="#parallel-computing">Parallel Computing</a>
 <ul>
-<li><a href="#using-arguments-lower-and-upper">Using arguments <code>lower</code> and <code>upper</code></a></li>
-<li><a href="#generating-results-beyond-.machineinteger.max">Generating Results Beyond <code>.Machine$integer.max</code></a></li>
+<li><a href="#using-arguments-lower-and-upper">Using arguments
+<code>lower</code> and <code>upper</code></a></li>
+<li><a href="#generating-results-beyond-.machineinteger.max">Generating
+Results Beyond <code>.Machine$integer.max</code></a></li>
 </ul></li>
 <li><a href="#gmp-support">GMP Support</a></li>
 <li><a href="#user-defined-functions">User Defined Functions</a>
@@ -165,15 +361,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 </div>
 
-<p>This document serves as an overview for attacking <em>common</em> combinatorial problems in <code>R</code>. One of the goals of <code>RcppAlgos</code> is to provide a comprehensive and accessible suite of functionality so that users can easily get to the heart of their problem. As a bonus, the functions in <code>RcppAlgos</code> are extremely efficient and are constantly being improved with every release.</p>
-<p>It should be noted that this document only covers common problems. For more information on other combinatorial problems addressed by <code>RcppAlgos</code>, see the following vignettes:</p>
+<p>This document serves as an overview for attacking <em>common</em>
+combinatorial problems in <code>R</code>. One of the goals of
+<code>RcppAlgos</code> is to provide a comprehensive and accessible
+suite of functionality so that users can easily get to the heart of
+their problem. As a bonus, the functions in <code>RcppAlgos</code> are
+extremely efficient and are constantly being improved with every
+release.</p>
+<p>It should be noted that this document only covers common problems.
+For more information on other combinatorial problems addressed by
+<code>RcppAlgos</code>, see the following vignettes:</p>
 <ul>
-<li><a href="https://jwood000.github.io/RcppAlgos/articles/CombinatorialSampling.html">Combinatorial Sampling</a></li>
-<li><a href="https://jwood000.github.io/RcppAlgos/articles/CombPermConstraints.html">Constraints and Integer Partitions</a></li>
-<li><a href="https://jwood000.github.io/RcppAlgos/articles/SubsetSum.html">Attacking Problems Related to the Subset Sum Problem</a></li>
-<li><a href="https://jwood000.github.io/RcppAlgos/articles/CombinatoricsIterators.html">Combinatorial Iterators in RcppAlgos</a></li>
+<li><a href="https://jwood000.github.io/RcppAlgos/articles/CombinatorialSampling.html">Combinatorial
+Sampling</a></li>
+<li><a href="https://jwood000.github.io/RcppAlgos/articles/CombPermConstraints.html">Constraints
+and Integer Partitions</a></li>
+<li><a href="https://jwood000.github.io/RcppAlgos/articles/SubsetSum.html">Attacking
+Problems Related to the Subset Sum Problem</a></li>
+<li><a href="https://jwood000.github.io/RcppAlgos/articles/CombinatoricsIterators.html">Combinatorial
+Iterators in RcppAlgos</a></li>
 </ul>
-<p>For much of the output below, we will be using the following function obtained here <a href="https://stackoverflow.com/a/11601162/4408538">combining head and tail methods in R</a> (credit to user <span class="citation">@flodel</span>)</p>
+<p>For much of the output below, we will be using the following function
+obtained here <a href="https://stackoverflow.com/a/11601162/4408538">combining head and
+tail methods in R</a> (credit to user <span class="citation">@flodel</span>)</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ht <span class="ot">&lt;-</span> <span class="cf">function</span>(d, <span class="at">m =</span> <span class="dv">5</span>, <span class="at">n =</span> m) {</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## print the head and tail together</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;head --&gt;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
@@ -184,9 +394,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <hr />
 <div id="introducing-combogeneral-and-permutegeneral" class="section level2">
-<h2>Introducing <code>comboGeneral</code> and <code>permuteGeneral</code></h2>
-<p>Easily executed with a very simple interface. The output is in <a href="https://en.wikipedia.org/wiki/Lexicographical_order">lexicographical order</a>.</p>
-<p>We first look at getting results without repetition. You can pass an integer <em>n</em> and it will be converted to the sequence <code>1:n</code>, or you can pass any vector with an atomic type (i.e. <code>logical</code>, <code>integer</code>, <code>numeric</code>, <code>complex</code>, <code>character</code>, and <code>raw</code>).</p>
+<h2>Introducing <code>comboGeneral</code> and
+<code>permuteGeneral</code></h2>
+<p>Easily executed with a very simple interface. The output is in <a href="https://en.wikipedia.org/wiki/Lexicographical_order">lexicographical
+order</a>.</p>
+<p>We first look at getting results without repetition. You can pass an
+integer <em>n</em> and it will be converted to the sequence
+<code>1:n</code>, or you can pass any vector with an atomic type
+(i.e. <code>logical</code>, <code>integer</code>, <code>numeric</code>,
+<code>complex</code>, <code>character</code>, and <code>raw</code>).</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RcppAlgos)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="do">## combn output for reference</span></span>
@@ -299,7 +515,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="combinationspermutations-with-repetition" class="section level2">
 <h2>Combinations/Permutations with Repetition</h2>
-<p>There are many problems in combinatorics which require finding combinations/permutations with repetition. This is easily achieved by setting <code>repetition</code> to <code>TRUE</code>.</p>
+<p>There are many problems in combinatorics which require finding
+combinations/permutations with repetition. This is easily achieved by
+setting <code>repetition</code> to <code>TRUE</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fourDays <span class="ot">&lt;-</span> <span class="fu">weekdays</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2019-10-09&quot;</span>) <span class="sc">+</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="cn">TRUE</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ht</span>(<span class="fu">comboGeneral</span>(fourDays, <span class="at">repetition =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; head --&gt;</span></span>
@@ -385,7 +603,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="working-with-multisets" class="section level2">
 <h2>Working with Multisets</h2>
-<p>Sometimes, the standard combination/permutation functions don’t quite get us to our desired goal. For example, one may need all permutations of a vector with some of the elements repeated a specific number of times (i.e. a multiset). Consider the following vector <code>a &lt;- c(1,1,1,1,2,2,2,7,7,7,7,7)</code> and one would like to find permutations of <code>a</code> of length 6. Using traditional methods, we would need to generate all permutations, then eliminate duplicate values. Even considering that <code>permuteGeneral</code> is very efficient, this approach is clunky and not as fast as it could be. Observe:</p>
+<p>Sometimes, the standard combination/permutation functions don’t quite
+get us to our desired goal. For example, one may need all permutations
+of a vector with some of the elements repeated a specific number of
+times (i.e. a multiset). Consider the following vector
+<code>a &lt;- c(1,1,1,1,2,2,2,7,7,7,7,7)</code> and one would like to
+find permutations of <code>a</code> of length 6. Using traditional
+methods, we would need to generate all permutations, then eliminate
+duplicate values. Even considering that <code>permuteGeneral</code> is
+very efficient, this approach is clunky and not as fast as it could be.
+Observe:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>getPermsWithSpecificRepetition <span class="ot">&lt;-</span> <span class="cf">function</span>(z, n) {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    b <span class="ot">&lt;-</span> <span class="fu">permuteGeneral</span>(z, n)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    myDupes <span class="ot">&lt;-</span> <span class="fu">duplicated</span>(b)</span>
@@ -399,7 +626,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2.477   0.069   2.553</span></span></code></pre></div>
 <div id="enter-freqs" class="section level3">
 <h3>Enter <code>freqs</code></h3>
-<p>Situations like this call for the use of the <code>freqs</code> argument. Simply, enter the number of times each unique element is repeated and Voila!</p>
+<p>Situations like this call for the use of the <code>freqs</code>
+argument. Simply, enter the number of times each unique element is
+repeated and Voila!</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(test2 <span class="ot">&lt;-</span> <span class="fu">permuteGeneral</span>(<span class="fu">unique</span>(a), <span class="dv">6</span>, <span class="at">freqs =</span> <span class="fu">rle</span>(a)<span class="sc">$</span>lengths))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  user  system elapsed</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     0       0       0</span></span>
@@ -438,7 +667,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="parallel-computing" class="section level2">
 <h2>Parallel Computing</h2>
-<p>Using the parameter <code>Parallel</code> or <code>nThreads</code>, we can generate combinations/permutations with greater efficiency.</p>
+<p>Using the parameter <code>Parallel</code> or <code>nThreads</code>,
+we can generate combinations/permutations with greater efficiency.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(microbenchmark)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">## RcppAlgos uses the &quot;number of threads available minus one&quot; when Parallel is TRUE</span></span>
@@ -468,7 +698,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  parallel 1.000000 1.000000 1.000000 1.000000 1.000000 1.00000   100  a</span></span></code></pre></div>
 <div id="using-arguments-lower-and-upper" class="section level3">
 <h3>Using arguments <code>lower</code> and <code>upper</code></h3>
-<p>There are arguments <code>lower</code> and <code>upper</code> that can be utilized to generate chunks of combinations/permutations without having to generate all of them followed by subsetting. As the output is in lexicographical order, these arguments specify where to start and stop generating. For example, <code>comboGeneral(5, 3)</code> outputs 10 combinations of the vector <code>1:5</code> chosen 3 at a time. We can set <code>lower</code> to 5 in order to start generation from the <em>5<sup>th</sup></em> lexicographical combination. Similarly, we can set <code>upper</code> to 4 in order to only generate the first 4 combinations. We can also use them together to produce only a certain chunk of combinations. For example, setting <code>lower</code> to 4 and <code>upper</code> to 6 only produces the <em>4<sup>th</sup></em>, <em>5<sup>th</sup></em>, and <em>6<sup>th</sup></em> lexicographical combinations. Observe:</p>
+<p>There are arguments <code>lower</code> and <code>upper</code> that
+can be utilized to generate chunks of combinations/permutations without
+having to generate all of them followed by subsetting. As the output is
+in lexicographical order, these arguments specify where to start and
+stop generating. For example, <code>comboGeneral(5, 3)</code> outputs 10
+combinations of the vector <code>1:5</code> chosen 3 at a time. We can
+set <code>lower</code> to 5 in order to start generation from the
+<em>5<sup>th</sup></em> lexicographical combination. Similarly, we can
+set <code>upper</code> to 4 in order to only generate the first 4
+combinations. We can also use them together to produce only a certain
+chunk of combinations. For example, setting <code>lower</code> to 4 and
+<code>upper</code> to 6 only produces the <em>4<sup>th</sup></em>,
+<em>5<sup>th</sup></em>, and <em>6<sup>th</sup></em> lexicographical
+combinations. Observe:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">comboGeneral</span>(<span class="dv">5</span>, <span class="dv">3</span>, <span class="at">lower =</span> <span class="dv">4</span>, <span class="at">upper =</span> <span class="dv">6</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    1    3    4</span></span>
@@ -484,7 +727,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="generating-results-beyond-.machineinteger.max" class="section level3">
 <h3>Generating Results Beyond <code>.Machine$integer.max</code></h3>
-<p>#&gt; In addition to being useful by avoiding the unnecessary overhead of generating all combination/permutations followed by subsetting just to see a few specific results, <code>lower</code> and <code>upper</code> can be utilized to generate large number of combinations/permutations in parallel (see this <a href="https://stackoverflow.com/a/51595866/4408538">stackoverflow post</a> for a real use case). Observe:</p>
+<p>#&gt; In addition to being useful by avoiding the unnecessary
+overhead of generating all combination/permutations followed by
+subsetting just to see a few specific results, <code>lower</code> and
+<code>upper</code> can be utilized to generate large number of
+combinations/permutations in parallel (see this <a href="https://stackoverflow.com/a/51595866/4408538">stackoverflow
+post</a> for a real use case). Observe:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Over 3 billion results</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">comboCount</span>(<span class="dv">35</span>, <span class="dv">15</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3247943160</span></span>
@@ -511,12 +759,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>     x</span>
 <span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>}, <span class="at">mc.cores =</span> <span class="dv">6</span>))</span>
 <span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  29.387  30.304  32.721</span></span></code></pre></div>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  63.994  59.189  31.574</span></span></code></pre></div>
 </div>
 </div>
 <div id="gmp-support" class="section level2">
 <h2>GMP Support</h2>
-<p>The arguments <code>lower</code> and <code>upper</code> are also useful when one needs to explore combinations/permutations where the number of results is large:</p>
+<p>The arguments <code>lower</code> and <code>upper</code> are also
+useful when one needs to explore combinations/permutations where the
+number of results is large:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">222</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>myVec <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -542,7 +792,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="user-defined-functions" class="section level2">
 <h2>User Defined Functions</h2>
-<p>You can also pass user defined functions by utilizing the argument <code>FUN</code>. This feature’s main purpose is for convenience, however it is somewhat more efficient than generating all combinations/permutations and then using a function from the <code>apply</code> family (N.B. the argument <code>Parallel</code> has no effect when <code>FUN</code> is employed).</p>
+<p>You can also pass user defined functions by utilizing the argument
+<code>FUN</code>. This feature’s main purpose is for convenience,
+however it is somewhat more efficient than generating all
+combinations/permutations and then using a function from the
+<code>apply</code> family (N.B. the argument <code>Parallel</code> has
+no effect when <code>FUN</code> is employed).</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>funCustomComb <span class="ot">=</span> <span class="cf">function</span>(n, r) {</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    combs <span class="ot">=</span> <span class="fu">comboGeneral</span>(n, r)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(combs), <span class="cf">function</span>(x) <span class="fu">cumprod</span>(combs[x,]))</span>
@@ -578,7 +833,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;a&quot;   &quot;b&quot;   &quot;c&quot;   &quot;ab&quot;  &quot;ac&quot;  &quot;bc&quot;  &quot;abc&quot;</span></span></code></pre></div>
 <div id="using-fun.value" class="section level3">
 <h3>Using <code>FUN.VALUE</code></h3>
-<p>As of version <code>2.5.0</code>, we can make use of <code>FUN.VALUE</code> which serves as a template for the return value from <code>FUN</code>. The behavior is nearly identical to <code>vapply</code>:</p>
+<p>As of version <code>2.5.0</code>, we can make use of
+<code>FUN.VALUE</code> which serves as a template for the return value
+from <code>FUN</code>. The behavior is nearly identical to
+<code>vapply</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Example from earlier involving the powerset</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">comboGeneral</span>(<span class="fu">c</span>(<span class="st">&quot;&quot;</span>, letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]), <span class="dv">3</span>,</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">freqs =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>)),</span>

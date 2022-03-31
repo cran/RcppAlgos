@@ -1,3 +1,21 @@
+# RcppAlgos 2.5.3
+
+## Other:
+
+* Fixed urls
+
+# RcppAlgos 2.5.2
+
+## Bug Fixes:
+
+* Fixed valgrind memory issue with package `cpp11`. Now using `cpp11::stop` instead of `Rf_error` so as to avoid `longjmp` (the root cause of the memory issues).
+
+# RcppAlgos 2.5.1
+
+## Bug Fixes:
+
+* Fixed memory issue when the number of results under contraint is less than the requested number.
+
 # RcppAlgos 2.5.0
 
 ## New Features:
@@ -21,6 +39,10 @@
 * When `permuteGeneral` is used with multisets and the width is maximized, multithreading would fail. This is fixed in 2.5.0.
 
 * Fixed bug in retreiving the nth result in `comboGroup` and `comboGroupSample` when the number of results was greater than `2^31 - 1` and less than `2^53 - 1`. E.g. `comboGroupsSample(27, 9, seed = 4, sampleVec = 1606990240475839)` gives incorrect results in the 5th group in prior versions. Now fixed!.
+
+## Other:
+
+* In this version we no longer output lexicographical composititions in very special circumstances outlined in older documentation using `permuteGeneral`. This was done for consistency as we felt that the output diverged too much from the general constrained output of `permuteGeneral` (See [Output Order with permuteGeneral](<https://jwood000.github.io/RcppAlgos/articles/CombPermConstraints.html#output-order-with-permutegeneral>)). Research is in the initial stage that is focused on implementing a new family of functions similar to the partition family of functions, but for compositions.
 
 # RcppAlgos 2.4.3
 

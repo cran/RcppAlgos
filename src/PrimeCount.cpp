@@ -1,4 +1,3 @@
-#include "NumbersUtils/PrimeSieveCount.h"
 #include "NumbersUtils/PrimesSegSieve.h"
 #include "NumbersUtils/PhiTinyLookup.h"
 #include "NumbersUtils/Eratosthenes.h"
@@ -379,8 +378,9 @@ namespace PrimeCounting {
             phiPi[i] = count;
         }
 
-        for (std::int64_t i = (maxPrime + 1); i <= sqrtBound; ++i)
+        for (std::int64_t i = (maxPrime + 1); i <= sqrtBound; ++i) {
             phiPi[i] = count;
+        }
 
         bool Parallel = false;
 
@@ -398,6 +398,7 @@ namespace PrimeCounting {
     }
 }
 
+[[cpp11::register]]
 SEXP PrimeCountCpp(SEXP Rn, SEXP RNumThreads, SEXP RmaxThreads) {
     double dblNum;
     CleanConvert::convertPrimitive(Rn, dblNum, VecType::Numeric, "n");

@@ -1,8 +1,8 @@
 #include "Permutations/PermuteCount.h"
 #include "Cpp14MakeUnique.h"
+#include "SetUpUtils.h"
 #include <algorithm> // std::sort, std::max_element
 #include <numeric>   // std::accumulate, std::iota
-#include <gmp.h>
 
 // All functions below are exactly the same as the functions
 // in StandardCount.cpp. The only difference is that they
@@ -17,8 +17,9 @@ void NumPermsWithRepGmp(mpz_t result, const std::vector<int> &v) {
     const int myMax = myLens[0];
     const int numUni = myLens.size();
 
-    for (int i = v.size(); i > myMax; --i)
+    for (int i = v.size(); i > myMax; --i) {
         mpz_mul_ui(result, result, i);
+    }
 
     if (numUni > 1) {
         mpz_t div;
@@ -39,8 +40,9 @@ void NumPermsNoRepGmp(mpz_t result, int n, int k) {
 
     mpz_set_ui(result, 1u);
 
-    for (int i = n, m = n - k; i > m; --i)
+    for (int i = n, m = n - k; i > m; --i) {
         mpz_mul_ui(result, result, i);
+    }
 }
 
 void MultisetPermRowNumGmp(mpz_t result, int n, int r,
@@ -55,9 +57,11 @@ void MultisetPermRowNumGmp(mpz_t result, int n, int r,
     } else if (r == sumFreqs) {
         std::vector<int> freqs(sumFreqs);
 
-        for (int i = 0, k = 0; i < static_cast<int>(myReps.size()); ++i)
-            for (int j = 0; j < myReps[i]; ++j, ++k)
+        for (int i = 0, k = 0; i < static_cast<int>(myReps.size()); ++i) {
+            for (int j = 0; j < myReps[i]; ++j, ++k) {
                 freqs[k] = i;
+            }
+        }
 
         NumPermsWithRepGmp(result, freqs);
     } else {
@@ -133,13 +137,7 @@ void MultisetPermRowNumGmp(mpz_t result, int n, int r,
 
         mpz_clear(temp);
         mpz_clear(prodR);
-
-        for (int i = 0; i < myMax; ++i) {
-            mpz_clear(cumProd[i]);
-        }
-
-        for (std::size_t i = 0; i < uR1; ++i) {
-            mpz_clear(resV[i]);
-        }
+        MpzClearVec(cumProd.get(), myMax);
+        MpzClearVec(resV.get(), uR1);
     }
 }

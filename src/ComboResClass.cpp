@@ -220,7 +220,12 @@ SEXP ComboRes::nextNumCombs(SEXP RNum) {
         bUpper   = true;
         SEXP res = PROTECT(MatrixReturn(nRows));
         increment(IsGmp, mpzIndex, dblIndex, numIncrement);
-        zUpdateIndex(vNum, vInt, z, sexpVec, res, width, nRows);
+
+        // Since this is called with constraints as well, the
+        // requested number of results may not materialize thus
+        // Rf_nrows(res) may not equal nRows
+        nRows = Rf_nrows(res);
+        if (nRows) zUpdateIndex(vNum, vInt, z, sexpVec, res, width, nRows);
         if (!IsComb) TopOffPerm(z, myReps, n, width, IsRep, IsMult);
         UNPROTECT(1);
         return res;
@@ -256,19 +261,19 @@ SEXP ComboRes::nextGather() {
         mpz_sub(mpzTemp, cnstrtCountMpz, mpzIndex);
 
         if (mpz_cmp_si(mpzTemp, std::numeric_limits<int>::max()) > 0) {
-            Rf_error("The number of requested rows is greater than ",
+            cpp11::stop("The number of requested rows is greater than ",
                 std::to_string(std::numeric_limits<int>::max()).c_str());
         }
     } else {
         dblTemp = cnstrtCount - dblIndex;
 
         if (dblTemp > std::numeric_limits<int>::max()) {
-            Rf_error("The number of requested rows is greater than ",
+            cpp11::stop("The number of requested rows is greater than ",
                 std::to_string(std::numeric_limits<int>::max()).c_str());
         }
     }
 
-    const int nRows = (IsGmp) ? mpz_get_si(mpzTemp) : dblTemp;
+    int nRows = (IsGmp) ? mpz_get_si(mpzTemp) : dblTemp;
 
     if (nRows > 0) {
         if (CheckGrTSi(IsGmp, mpzIndex, dblIndex, 0)) {
@@ -294,7 +299,11 @@ SEXP ComboRes::nextGather() {
             dblIndex = cnstrtCount + 1;
         }
 
-        zUpdateIndex(vNum, vInt, z, sexpVec, res, width, nRows);
+        // Since this is called with constraints as well, the
+        // requested number of results may not materialize thus
+        // Rf_nrows(res) may not equal nRows
+        nRows = Rf_nrows(res);
+        if (nRows) zUpdateIndex(vNum, vInt, z, sexpVec, res, width, nRows);
         if (!IsComb) TopOffPerm(z, myReps, n, width, IsRep, IsMult);
         UNPROTECT(1);
         return res;
