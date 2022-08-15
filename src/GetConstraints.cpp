@@ -47,102 +47,93 @@ SEXP ConstraintsReturn(
         int strtLen, int cap, bool IsGmp
     ) {
 
-    const int width = (part.isPart) ? part.width : m;
-    const int nCols = (xtraCol) ? width + 1 : width;
+    const int width     = (part.isPart) ? part.width : m;
+    const int nCols     = (xtraCol) ? width + 1 : width;
+    const int lastElem  = n - 1;
+    const int lastCol   = width - 1;
+    const bool IsVecRet = (numUnknown || part.ptype == PartitionType::Multiset);
 
     if (part.isPart && !part.solnExist) {
         if (myType == VecType::Integer) {
-            SEXP res = PROTECT(Rf_allocMatrix(INTSXP, 0, width));
-            UNPROTECT(1);
+            cpp11::sexp res = Rf_allocMatrix(INTSXP, 0, width);
             return res;
         } else {
-            SEXP res = PROTECT(Rf_allocMatrix(REALSXP, 0, width));
-            UNPROTECT(1);
+            cpp11::sexp res = Rf_allocMatrix(REALSXP, 0, width);
             return res;
         }
-    } else if (numUnknown || part.ptype == PartitionType::Multiset) {
-        if (myType == VecType::Integer) {
-            std::vector<int> cnstrntVec;
-            std::vector<int> resVec;
-            const double vecMax = std::floor(cnstrntVec.max_size() / width);
-            const double upperBound = std::min(vecMax, dblIntMax);
-            const int maxRows = std::min(upperBound, userNum);
+    } else if (myType == VecType::Integer && IsVecRet) {
+        std::vector<int> cnstrntVec;
+        std::vector<int> resVec;
+        const double vecMax = std::floor(cnstrntVec.max_size() / width);
+        const double upperBound = std::min(vecMax, dblIntMax);
+        const int maxRows = std::min(upperBound, userNum);
 
-            ConstraintsVector(freqs, cnstrntVec, resVec, vInt, tarIntVals,
-                              compVec, Reps, mainFun, funTest, z, ctype,
-                              part.ptype, lower, lowerMpz, n, maxRows, width,
-                              nThreads, IsComb, IsRep, IsMult, bUpper,
-                              xtraCol, IsGmp);
+        ConstraintsVector(freqs, cnstrntVec, resVec, vInt, tarIntVals,
+                          compVec, Reps, mainFun, funTest, z, ctype,
+                          part.ptype, lower, lowerMpz, n, maxRows, width,
+                          nThreads, IsComb, IsRep, IsMult, bUpper,
+                          xtraCol, IsGmp);
 
-            const int vecLen = cnstrntVec.size();
-            const int numResult = vecLen / width;
+        const int vecLen = cnstrntVec.size();
+        const int numResult = vecLen / width;
 
-            SEXP res = PROTECT(Rf_allocMatrix(INTSXP, numResult, nCols));
-            int* matInt = INTEGER(res);
+        cpp11::sexp res = Rf_allocMatrix(INTSXP, numResult, nCols);
+        int* matInt = INTEGER(res);
 
-            VectorToMatrix(cnstrntVec, resVec, matInt,
-                           part.target, numResult, width,
-                           upperBound, xtraCol, part.isPart);
-            UNPROTECT(1);
-            return res;
+        VectorToMatrix(cnstrntVec, resVec, matInt,
+                       part.target, numResult, width,
+                       upperBound, xtraCol, part.isPart);
+        return res;
+    } else if (IsVecRet) {
+        std::vector<double> cnstrntVec;
+        std::vector<double> resVec;
+        const double vecMax = std::floor(cnstrntVec.max_size() / width);
+        const double upperBound = std::min(vecMax, dblIntMax);
+        const int maxRows = std::min(upperBound, userNum);
+
+        ConstraintsVector(freqs, cnstrntVec, resVec, vNum, tarVals,
+                          compVec, Reps, mainFun, funTest, z, ctype,
+                          part.ptype, lower, lowerMpz, n, maxRows, width,
+                          nThreads, IsComb, IsRep, IsMult, bUpper,
+                          xtraCol, IsGmp);
+
+        const int vecLen = cnstrntVec.size();
+        const int numResult = vecLen / width;
+
+        cpp11::sexp res = Rf_allocMatrix(REALSXP, numResult, nCols);
+        double* matDbl = REAL(res);
+        VectorToMatrix(cnstrntVec, resVec, matDbl,
+                       part.target, numResult, width,
+                       upperBound, xtraCol, part.isPart);
+        return res;
+    } else if (myType == VecType::Integer) {
+        cpp11::sexp res = Rf_allocMatrix(INTSXP, nRows, nCols);
+        int* matInt = INTEGER(res);
+
+        if (ctype == ConstraintType::PartStandard) {
+            StandardPartitions(matInt, z, part.ptype, lower, lowerMpz,
+                               nCols, width, nRows, nThreads, lastCol,
+                               lastElem, part.mapTar, strtLen, cap, IsRep,
+                               IsMult, IsGmp, IsComb, part.includeZero,
+                               part.isComp, !part.isWeak);
         } else {
-            std::vector<double> cnstrntVec;
-            std::vector<double> resVec;
-            const double vecMax = std::floor(cnstrntVec.max_size() / width);
-            const double upperBound = std::min(vecMax, dblIntMax);
-            const int maxRows = std::min(upperBound, userNum);
-
-            ConstraintsVector(freqs, cnstrntVec, resVec, vNum, tarVals,
-                              compVec, Reps, mainFun, funTest, z, ctype,
-                              part.ptype, lower, lowerMpz, n, maxRows, width,
-                              nThreads, IsComb, IsRep, IsMult, bUpper,
-                              xtraCol, IsGmp);
-
-            const int vecLen = cnstrntVec.size();
-            const int numResult = vecLen / width;
-
-            SEXP res = PROTECT(Rf_allocMatrix(REALSXP, numResult, nCols));
-            double* matDbl = REAL(res);
-            VectorToMatrix(cnstrntVec, resVec, matDbl,
-                           part.target, numResult, width,
-                           upperBound, xtraCol, part.isPart);
-            UNPROTECT(1);
-            return res;
-        }
-    } else {
-        const int lastElem = n - 1;
-        const int lastCol  = width - 1;
-
-        if (myType == VecType::Integer) {
-            SEXP res = PROTECT(Rf_allocMatrix(INTSXP, nRows, nCols));
-            int* matInt = INTEGER(res);
-
-            if (ctype == ConstraintType::PartStandard) {
-                StandardPartitions(matInt, z, part.ptype, lower, lowerMpz,
-                                   nCols, width, nRows, nThreads, lastCol,
-                                   lastElem, part.mapTar, strtLen, cap, IsRep,
-                                   IsMult, IsGmp, IsComb, part.includeZero);
-            } else {
-                GeneralPartitions(matInt, vInt, z, part, lower, lowerMpz,
-                                  nCols, nRows, nThreads, lastCol, lastElem,
-                                  strtLen, cap, IsComb);
-            }
-
-            if (xtraCol) AddResultToParts(matInt, part.target, nRows, width);
-            UNPROTECT(1);
-            return res;
-        } else {
-            SEXP res = PROTECT(Rf_allocMatrix(REALSXP, nRows, nCols));
-            double* matDbl = REAL(res);
-
-            GeneralPartitions(matDbl, vNum, z, part, lower, lowerMpz,
+            GeneralPartitions(matInt, vInt, z, part, lower, lowerMpz,
                               nCols, nRows, nThreads, lastCol, lastElem,
                               strtLen, cap, IsComb);
-
-            if (xtraCol) AddResultToParts(matDbl, part.target, nRows, width);
-            UNPROTECT(1);
-            return res;
         }
+
+        if (xtraCol) AddResultToParts(matInt, part.target, nRows, width);
+        return res;
+    } else {
+        cpp11::sexp res = Rf_allocMatrix(REALSXP, nRows, nCols);
+        double* matDbl = REAL(res);
+
+        GeneralPartitions(matDbl, vNum, z, part, lower, lowerMpz,
+                          nCols, nRows, nThreads, lastCol, lastElem,
+                          strtLen, cap, IsComb);
+
+        if (xtraCol) AddResultToParts(matDbl, part.target, nRows, width);
+        return res;
     }
 }
 
@@ -171,25 +162,23 @@ SEXP GetConstraints(
 
         if (myType == VecType::Integer) {
             const funcPtr<int> funInt = GetFuncPtr<int>(funTest);
-            SEXP res = PROTECT(Rf_allocMatrix(INTSXP, nRows, nCols));
+            cpp11::sexp res = Rf_allocMatrix(INTSXP, nRows, nCols);
             int* matInt = INTEGER(res);
 
             ResultsMain(matInt, vInt, funInt, n, m, IsComb, Parallel,
                         IsRep, IsMult, IsGmp, freqs, startZ, myReps,
                         lower, lowerMpz, nRows, nThreads);
 
-            UNPROTECT(1);
             return res;
         } else {
             funDbl = GetFuncPtr<double>(funTest);
-            SEXP res = PROTECT(Rf_allocMatrix(REALSXP, nRows, nCols));
+            cpp11::sexp res = Rf_allocMatrix(REALSXP, nRows, nCols);
             double* matNum = REAL(res);
 
             ResultsMain(matNum, vNum, funDbl, n, m, IsComb, Parallel,
                         IsRep, IsMult, IsGmp, freqs, startZ, myReps,
                         lower, lowerMpz, nRows, nThreads);
 
-            UNPROTECT(1);
             return res;
         }
     } else {

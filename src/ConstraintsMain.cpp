@@ -9,7 +9,8 @@ SEXP CombinatoricsCnstrt(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
                          SEXP Rlow, SEXP Rhigh, SEXP RmainFun,
                          SEXP RcompFun, SEXP Rtarget, SEXP RIsComb,
                          SEXP RKeepRes, SEXP Rparallel, SEXP RnThreads,
-                         SEXP RmaxThreads, SEXP Rtolerance) {
+                         SEXP RmaxThreads, SEXP Rtolerance,
+                         SEXP RIsComposition, SEXP RIsWeak) {
     int n = 0;
     int m = 0;
     int nRows = 0;
@@ -58,18 +59,26 @@ SEXP CombinatoricsCnstrt(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
     ConstraintType ctype = ConstraintType::NoConstraint;
     PartDesign part;
 
-    part.isRep = IsRep;
-    part.isMult = IsMult;
+    part.isRep   = IsRep;
+    part.isMult  = IsMult;
     part.mIsNull = Rf_isNull(Rm);
+    part.isWeak  = CleanConvert::convertFlag(RIsWeak, "weak");
+    part.isComp  = CleanConvert::convertFlag(RIsComposition,
+                                             "IsComposition");
+    part.isComb = IsComb;
 
     if (IsConstrained) {
         ConstraintSetup(vNum, myReps, tarVals, vInt, tarIntVals,
                         funDbl, part, ctype, n, m, compVec, mainFun,
                         funTest, myType, Rtarget, RcompFun,
-                        Rtolerance, Rlow, IsComb, false);
+                        Rtolerance, Rlow);
     }
 
-    const double computedRows = (part.count > 0) ? part.count :
+    const bool usePartCount = part.isPart &&
+                              !part.isGmp &&
+                              !part.numUnknown;
+
+    const double computedRows = usePartCount ? part.count :
         GetComputedRows(IsMult, IsComb, IsRep, n, m, Rm, freqs, myReps);
 
     const bool IsGmp = (computedRows > Significand53);
@@ -92,7 +101,7 @@ SEXP CombinatoricsCnstrt(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
     const bool numUnknown = ctype == ConstraintType::PartitionEsque ||
                             ctype == ConstraintType::SpecialCnstrnt ||
                             ctype == ConstraintType::General        ||
-                            part.numUnknown;
+                            (part.isPart && part.numUnknown);
 
     double lower = 0;
     double upper = 0;
@@ -121,9 +130,11 @@ SEXP CombinatoricsCnstrt(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
                   lower, lowerMpz[0], IsRep, IsMult, IsGmp);
     } else {
         if (bLower) {
-            nthPartsPtr nthPartFun = GetNthPartsFunc(part.ptype, IsGmp);
-            startZ = nthPartFun(part.mapTar, part.width,
-                                cap, strtLen, lower, lowerMpz[0]);
+            const nthPartsPtr nthPartFun = GetNthPartsFunc(
+                part.ptype, IsGmp, part.isComp
+            );
+            startZ = nthPartFun(part.mapTar, part.width, cap,
+                                strtLen, lower, lowerMpz[0]);
 
             if (ctype == ConstraintType::PartStandard && !part.includeZero) {
                 for (auto &z_i: startZ) {
@@ -160,17 +171,14 @@ SEXP CombinatoricsCnstrt(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
     SetThreads(Parallel, maxThreads, nRows,
                myType, nThreads, RnThreads, limit);
 
-    SEXP res = PROTECT(
-        GetConstraints(
-          part, compVec, freqs, myReps, vNum, vInt, tarVals, tarIntVals,
-          startZ, mainFun, funTest, funDbl, lower, lowerMpz[0], userNum,
-          ctype, myType, nThreads, nRows, n, strtLen, cap, m, IsComb,
-          Parallel, IsGmp, IsRep, IsMult, bUpper, KeepRes, numUnknown
-        )
+    cpp11::sexp res = GetConstraints(
+      part, compVec, freqs, myReps, vNum, vInt, tarVals, tarIntVals,
+      startZ, mainFun, funTest, funDbl, lower, lowerMpz[0], userNum,
+      ctype, myType, nThreads, nRows, n, strtLen, cap, m, IsComb,
+      Parallel, IsGmp, IsRep, IsMult, bUpper, KeepRes, numUnknown
     );
 
     mpz_clear(lowerMpz[0]);
     mpz_clear(upperMpz[0]);
-    UNPROTECT(1);
     return res;
 }

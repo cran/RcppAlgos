@@ -8,6 +8,7 @@
 #include <numeric>   // std::iota
 #include <cmath>
 
+constexpr int maxVecSize = std::numeric_limits<int>::max() / 2;
 static gmp_randstate_t seed_state;
 static int seed_init = 0;
 
@@ -70,6 +71,37 @@ bool IsDecimal(SEXP Rv) {
     }
 }
 
+int GetLength(SEXP Rv, VecType myType) {
+
+    if (myType >= VecType::Logical) {
+        return(Rf_length(Rv));
+    } else if (IsDecimal(Rv)) {
+        return(1);
+    } else if (Rf_length(Rv) == 1) {
+        int seqEnd = 0;
+
+        // numOnly = true, checkWhole = true, negPoss = true
+        CleanConvert::convertPrimitive(Rv, seqEnd, myType,
+                                       "v, if v is not a character"
+                                       " and of length 1,",
+                                       true, true, true);
+
+        const int first = (seqEnd < 0) ? -1 : ((seqEnd == 0) ? 0 : 1);
+        std::pair<int, int> mnmx = std::minmax(first, seqEnd);
+        const int n = mnmx.second - mnmx.first + 1;
+
+        if (n >= maxVecSize) {
+            cpp11::stop("Not enough memory! The vector you have"
+                            " requested is larger than %s",
+                            std::to_string(maxVecSize).c_str());
+        }
+
+        return(n);
+    } else {
+        return(Rf_length(Rv));
+    }
+}
+
 void SetFreqsAndM(std::vector<int> &Reps,
                   std::vector<int> &freqs, SEXP RFreqs, SEXP Rm,
                   int &n, int &m, bool &IsMult, bool &IsRep) {
@@ -101,10 +133,9 @@ void SetFreqsAndM(std::vector<int> &Reps,
 
     if (Rf_isNull(Rm)) {
         m = freqs.empty() ? n : freqs.size();
+    } else if (Rf_length(Rm) > 1) {
+        cpp11::stop("length of m must be 1");
     } else {
-        if (Rf_length(Rm) > 1)
-            cpp11::stop("length of m must be 1");
-
         CleanConvert::convertPrimitive(Rm, m, VecType::Integer, "m");
     }
 }
@@ -118,8 +149,11 @@ void SetFinalValues(VecType &myType, std::vector<int> &Reps,
                     bool IsMult, bool IsRep, bool IsConstrained) {
 
     if (IsConstrained && vNum.size()) {
+        bool any_na = false;
+
         for (int i = (vNum.size() - 1); i >= 0; --i) {
             if (CleanConvert::CheckNA(vNum[i], myType)) {
+                any_na = true;
                 vNum.erase(vNum.begin() + i);
 
                 if (IsMult) {
@@ -147,16 +181,19 @@ void SetFinalValues(VecType &myType, std::vector<int> &Reps,
             std::sort(vNum.begin(), vNum.end());
         }
 
-        freqs.clear();
+        if (any_na) {
+            freqs.clear();
 
-        for (int i = 0; i < static_cast<int>(Reps.size()); ++i) {
-            for (int j = 0; j < Reps[i]; ++j) {
-                freqs.push_back(i);
+            for (int i = 0; i < static_cast<int>(Reps.size()); ++i) {
+                for (int j = 0; j < Reps[i]; ++j) {
+                    freqs.push_back(i);
+                }
             }
         }
     }
 
     if (myType == VecType::Integer && vInt.size() == 0) {
+        vInt.clear();
         vInt.reserve(n);
 
         for (auto v_i: vNum) {
@@ -208,7 +245,6 @@ void SetBasic(SEXP Rv, std::vector<double> &vNum,
         const int first = (seqEnd < 0) ? -1 : ((seqEnd == 0) ? 0 : 1);
         std::pair<int, int> mnmx = std::minmax(first, seqEnd);
         n = mnmx.second - mnmx.first + 1;
-        constexpr int maxVecSize = std::numeric_limits<int>::max() / 2;
 
         if (n >= maxVecSize) {
             cpp11::stop("Not enough memory! The vector you have"
@@ -235,8 +271,6 @@ void SetValues(VecType &myType, std::vector<int> &Reps,
     SetFinalValues(myType, Reps, freqs, vInt, vNum,
                    n, m, IsMult, IsRep, IsConstrained);
 }
-
-
 
 void SetThreads(bool &Parallel, int maxThreads, int nRows,
                 VecType myType, int &nThreads, SEXP RNumThreads, int limit) {
@@ -526,7 +560,7 @@ void SetRandomSample(SEXP RindexVec, SEXP RNumSamp, int &sampSize,
 
         if (Rf_length(RNumSamp) > 1) {
             cpp11::stop("length of n must be 1. For specific "
-                     "combinations, use sampleVec.");
+                        "combinations, use sampleVec.");
         }
 
         CleanConvert::convertPrimitive(RNumSamp, sampSize,
@@ -537,10 +571,10 @@ void SetRandomSample(SEXP RindexVec, SEXP RNumSamp, int &sampSize,
                 cpp11::stop("n exceeds the maximum number of possible results");
             }
 
-            SEXP sample = PROTECT(Rf_lang3(baseSample,
-                                           Rf_ScalarReal(computedRows),
-                                           RNumSamp));
-            SEXP val = PROTECT(Rf_eval(sample, rho));
+            cpp11::sexp sample = Rf_lang3(baseSample,
+                                          Rf_ScalarReal(computedRows),
+                                          RNumSamp);
+            cpp11::sexp val = Rf_eval(sample, rho);
             mySample.resize(sampSize);
 
             if (computedRows < std::numeric_limits<int>::max()) {
@@ -557,7 +591,6 @@ void SetRandomSample(SEXP RindexVec, SEXP RNumSamp, int &sampSize,
                 }
             }
 
-            UNPROTECT(2);
         }
     } else {
         if (IsGmp) {
@@ -663,85 +696,82 @@ void SetRandomSampleMpz(SEXP RindexVec, SEXP RmySeed, int sampSize,
 
 void SetSampleNames(SEXP object, bool IsGmp, int sampSize,
                     const std::vector<double> &mySample,
-                    mpz_t *const myBigSamp, SEXP colNames,
-                    int xtraDims) {
+                    mpz_t *const myBigSamp, bool IsNamed,
+                    SEXP colNames, int xtraDims) {
 
-    SEXP myNames = PROTECT(Rf_allocVector(STRSXP, sampSize));
+    if (IsNamed) {
+        cpp11::sexp myNames = Rf_allocVector(STRSXP, sampSize);
 
-    if (IsGmp) {
-        for (int i = 0; i < sampSize; ++i) {
-            mpz_add_ui(myBigSamp[i], myBigSamp[i], 1);
-            auto buffer = FromCpp14::make_unique<char[]>(
-                mpz_sizeinbase(myBigSamp[i], 10) + 2
-            );
+        if (IsGmp) {
+            for (int i = 0; i < sampSize; ++i) {
+                mpz_add_ui(myBigSamp[i], myBigSamp[i], 1);
+                auto buffer = FromCpp14::make_unique<char[]>(
+                    mpz_sizeinbase(myBigSamp[i], 10) + 2
+                );
 
-            mpz_get_str(buffer.get(), 10, myBigSamp[i]);
-            SET_STRING_ELT(myNames, i, Rf_mkChar(buffer.get()));
+                mpz_get_str(buffer.get(), 10, myBigSamp[i]);
+                SET_STRING_ELT(myNames, i, Rf_mkChar(buffer.get()));
+            }
+        } else {
+            for (int i = 0; i < sampSize; ++i) {
+                const std::string name = std::to_string(
+                    static_cast<int64_t>(mySample[i] + 1)
+                );
+
+                SET_STRING_ELT(myNames, i, Rf_mkChar(name.c_str()));
+            }
         }
-    } else {
-        for (int i = 0; i < sampSize; ++i) {
-            const std::string name = std::to_string(
-                static_cast<int64_t>(mySample[i] + 1)
-            );
 
-            SET_STRING_ELT(myNames, i, Rf_mkChar(name.c_str()));
+        if (Rf_isMatrix(object) || Rf_isArray(object)) {
+            cpp11::sexp dimNames = Rf_allocVector(VECSXP, 1 + xtraDims);
+            SET_VECTOR_ELT(dimNames, 0, myNames);
+            if (xtraDims) SET_VECTOR_ELT(dimNames, xtraDims, colNames);
+            Rf_setAttrib(object, R_DimNamesSymbol, dimNames);
+        } else if (Rf_isList(object) || Rf_isVector(object)) {
+            Rf_setAttrib(object, R_NamesSymbol, myNames);
         }
-    }
-
-    if (Rf_isMatrix(object) || Rf_isArray(object)) {
-        SEXP dimNames = PROTECT(Rf_allocVector(VECSXP, 1 + xtraDims));
-        SET_VECTOR_ELT(dimNames, 0, myNames);
-        if (xtraDims) SET_VECTOR_ELT(dimNames, xtraDims, colNames);
-        Rf_setAttrib(object, R_DimNamesSymbol, dimNames);
-        UNPROTECT(2 + (xtraDims > 0));
-    } else if (Rf_isList(object) || Rf_isVector(object)) {
-        Rf_setAttrib(object, R_NamesSymbol, myNames);
-        UNPROTECT(1);
     }
 }
 
 SEXP GetIntVec(const std::vector<int> &v) {
     const int size = v.size();
-    SEXP res = PROTECT(Rf_allocVector(INTSXP, size));
+    cpp11::sexp res = Rf_allocVector(INTSXP, size);
     int* ptrRes = INTEGER(res);
 
     for (int i = 0; i < size; ++i) {
         ptrRes[i] = v[i];
     }
 
-    UNPROTECT(1);
     return res;
 }
 
 SEXP GetDblVec(const std::vector<double> &v) {
     const int size = v.size();
-    SEXP res = PROTECT(Rf_allocVector(REALSXP, size));
+    cpp11::sexp res = Rf_allocVector(REALSXP, size);
     double* ptrRes = REAL(res);
 
     for (int i = 0; i < size; ++i) {
         ptrRes[i] = v[i];
     }
 
-    UNPROTECT(1);
     return res;
 }
 
 SEXP GetInt64Vec(const std::vector<std::int64_t> &v) {
     const int size = v.size();
-    SEXP res = PROTECT(Rf_allocVector(REALSXP, size));
+    cpp11::sexp res = Rf_allocVector(REALSXP, size);
     double* ptrRes = REAL(res);
 
     for (int i = 0; i < size; ++i) {
         ptrRes[i] = v[i];
     }
 
-    UNPROTECT(1);
     return res;
 }
 
 void SetIntNames(SEXP res, std::size_t myRange, int myMin, int myMax) {
 
-    SEXP myNames  = PROTECT(Rf_allocVector(INTSXP, myRange));
+    cpp11::sexp myNames  = Rf_allocVector(INTSXP, myRange);
     int* ptrNames = INTEGER(myNames);
 
     for (int k = 0, retM = myMin; retM <= myMax; ++retM, ++k) {
@@ -755,7 +785,7 @@ void SetDblNames(SEXP res, std::size_t myRange,
                  double myMin, double myMax) {
 
     double retM = myMin;
-    SEXP myNames  = PROTECT(Rf_allocVector(REALSXP, myRange));
+    cpp11::sexp myNames  = Rf_allocVector(REALSXP, myRange);
     double* ptrNames = REAL(myNames);
 
     for (int k = 0; retM <= myMax; ++retM, ++k) {
@@ -768,7 +798,7 @@ void SetDblNames(SEXP res, std::size_t myRange,
 void SetDblNames(SEXP res, const std::vector<double> &myNums) {
 
     const int size = myNums.size();
-    SEXP myNames  = PROTECT(Rf_allocVector(REALSXP, size));
+    cpp11::sexp myNames  = Rf_allocVector(REALSXP, size);
     double* ptrNames = REAL(myNames);
 
     for (int k = 0; k < size; ++k) {

@@ -1,3 +1,35 @@
+# RcppAlgos 2.6.0
+
+## New Features:
+
+* Added integer composition functions: `compositionsCount`, `compositionsGeneral`, `compositionsSample`, `compositionsIter`, and `compositionsRank`.
+
+# RcppAlgos 2.5.5
+
+## New Features:
+
+* Added ranking functions: `comboRank`, `permuteRank`, and `partitionsRank`.
+
+* Added back the ability to interrupt general constraint problems via `cpp11::check_user_interrupt()`.
+
+## Other:
+
+* Corrected `if()` conditions comparing `class()` to string. Changed to `is.character`.
+
+## Bug Fixes:
+
+* Now checking class of input vector for partition funcitons.
+
+* Now when `partitionsCount` returns 0, the number of results is zero. Before, we were checking for count of partitions to be greater than zero, otherwise we would use the standard combinatorial counting functions to determine the number of results. This lead to strange results with elements not present in the original vector.
+
+* For `partitionsSample`, in cases when we would rely on generating the partitions one at a time until there are no more (e.g. with `partitionsGeneral`), the number of partitions isn't calculated. This leads to the error: "n exceeds the maximum number of possible results". This is now fixed.
+
+# RcppAlgos 2.5.4
+
+## Other:
+
+* Added missing includes
+
 # RcppAlgos 2.5.3
 
 ## Other:
@@ -120,7 +152,7 @@
 
 ## Bug Fixes:
 
-* Corrected checks for total number of partitions and assignment of number of rows when `upper` is applied in `combo/permuteGeneral`. See [Issue #9](<https://github.com/jwood000/RcppAlgos/issues/9#issue-467908452Issue%20#9>) for more information.
+* Corrected checks for total number of partitions and assignment of number of rows when `upper` is applied in `{combo|permute}General`. See [Issue #9](<https://github.com/jwood000/RcppAlgos/issues/9#issue-467908452Issue%20#9>) for more information.
 
 * `permuteGeneral` no longer alters source vector. See [Issue #11](<https://github.com/jwood000/RcppAlgos/issues/11>) for more information.
 
@@ -132,9 +164,9 @@
 
 * Fixed clang-UBSAN issue in `2.3.2`. It was caused by populating a vector of ints with values larger than `2^31 - 1`.
 
-* Added optimized algorithm to `combo/permuteGeneral` when `constraintFun = "sum"`, `comparisonFun = "=="`, and the vector passed has a special form. This problem is a special case of the subset sum problem.
+* Added optimized algorithm to `{combo|permute}General` when `constraintFun = "sum"`, `comparisonFun = "=="`, and the vector passed has a special form. This problem is a special case of the subset sum problem.
 
-* Using `std::vector` and `push_back` member function instead of pre-allocating matrix when constraint is applied in combo/permuteGeneral. This alleviates the need to guess the upper limit and subsequently subset as only elements that meet the constraints are added.
+* Using `std::vector` and `push_back` member function instead of pre-allocating matrix when constraint is applied in `{combo|permute}General`. This alleviates the need to guess the upper limit and subsequently subset as only elements that meet the constraints are added.
 
 * Fixed error in `PollardRho.cpp` when number passed had factors close to the limit in the predefined lookup table (i.e. `constexpr int64_t FirstOmittedPrime = 3989`)
 

@@ -1,7 +1,45 @@
 \name{NEWS}
 \title{News for Package \pkg{RcppAlgos}}
 
-\section{Changes in RcppAlgos version 2.5.3 (Release date: 2022-03-30)}{
+\section{Changes in RcppAlgos version 2.6.0 (Release date: 2022-08-15)}{
+    \itemize{
+        \item New Features:
+        \itemize{
+            \item Added integer composition functions: \code{compositionsCount}, \code{compositionsGeneral}, \code{compositionsSample}, \code{compositionsIter}, and \code{compositionsRank}.
+        }
+    }
+}
+
+\section{Changes in RcppAlgos version 2.5.5 (Release date: Never Released)}{
+    \itemize{
+        \item New Features:
+        \itemize{
+            \item Added ranking functions: \code{comboRank}, \code{permuteRank}, and \code{partitionsRank}
+            \item Added back the ability to interrupt general constraint problems via \code{cpp11::check_user_interrupt()}.
+        }
+        \item Other:
+        \itemize{
+            \item Corrected \code{if()} conditions comparing \code{class()} to string. Changed to \code{is.character}.
+        }
+        \item Bug Fixes:
+        \itemize{
+            \item Now checking class of input vector for partition funcitons.
+            \item Now when \code{partitionsCount} returns 0, the number of results is zero. Before, we were checking for the count of partitions to be greater than zero, otherwise we would use the standard combinatorial counting functions to determine the number of results. This lead to strange results with elements not present in the original vector.
+            \item For \code{partitionsSample}, in cases when we would rely on generating the partitions one at a time until there are no more (e.g. with \code{partitionsGeneral}), the number of partitions isn't calculated. This leads to the error: "n exceeds the maximum number of possible results". This is now fixed.
+        }
+    }
+}
+
+\section{Changes in RcppAlgos version 2.5.4 (Release date: Never Released)}{
+    \itemize{
+        \item Other:
+        \itemize{
+            \item Added missing includes
+        }
+    }
+}
+
+\section{Changes in RcppAlgos version 2.5.3 (Release date: 2022-03-31)}{
     \itemize{
         \item Other:
         \itemize{
@@ -136,7 +174,7 @@
         }
         \item Bug Fixes:
         \itemize{
-            \item Corrected checks for total number of partitions and assignment of number of rows when \code{upper} is applied in \code{combo/permuteGeneral}. See \href{https://github.com/jwood000/RcppAlgos/issues/9#issue-467908452}{Issue #9} for more information.
+            \item Corrected checks for total number of partitions and assignment of number of rows when \code{upper} is applied in \code{{combo|permute}General}. See \href{https://github.com/jwood000/RcppAlgos/issues/9#issue-467908452}{Issue #9} for more information.
             \item \code{permuteGeneral} no longer alters source vector. See \href{https://github.com/jwood000/RcppAlgos/issues/11}{Issue #11} for more information.
         }
     }
@@ -151,8 +189,8 @@
 \section{Changes in RcppAlgos version 2.3.3 (Release date: 2019-06-30)}{
     \itemize{
         \item Fixed clang-UBSAN issue in 2.3.2. It was caused by populating a vector of ints with values larger than 2^31 - 1.
-        \item Added optimized algorithm to combo/permuteGeneral when constraintFun = "sum", comparisonFun = "==", and the vector passed has a special form. This problem is a special case of the subset sum problem.
-        \item Using std::vector and push_back member function instead of pre-allocating matrix when constraint is applied in combo/permuteGeneral. This alleviates the need to guess the upper limit and subsequently subset as only elements that meet the constraints are added.
+        \item Added optimized algorithm to \code{{combo|permute}General} when constraintFun = "sum", comparisonFun = "==", and the vector passed has a special form. This problem is a special case of the subset sum problem.
+        \item Using std::vector and push_back member function instead of pre-allocating matrix when constraint is applied in \code{{combo|permute}General}. This alleviates the need to guess the upper limit and subsequently subset as only elements that meet the constraints are added.
         \item Fixed error in PollardRho.cpp when number passed had factors close to the limit in the predefined lookup table (i.e. constexpr int64_t FirstOmittedPrime = 3989)
     }
 }
@@ -198,7 +236,7 @@
         \item {Added gmp support to combinatorial functions. Now, one can accurately and quickly work with combinations/permutations of large vectors \emph{E.g.}:
             \itemize{
                 \item \code{comboSample(runif(10000), 100, n = 10, seed = 42, Parallel = TRUE)}
-                \item \code{permuteGeneral(factor(state.name), 20, 
+                \item \code{permuteGeneral(factor(state.name), 20,
                             lower = 1e15, upper = 1e15 + 1000)}
             }
         }
@@ -327,5 +365,3 @@
         \item Initial Release
     }
 }
-
-

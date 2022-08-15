@@ -12,7 +12,6 @@
 
 <meta name="author" content="Joseph Wood" />
 
-<meta name="date" content="2022-03-18" />
 
 <title>Cartesian Products and Partitions of Groups into Equal Size</title>
 
@@ -38,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -334,7 +334,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Cartesian Products and Partitions of Groups
 into Equal Size</h1>
 <h4 class="author">Joseph Wood</h4>
-<h4 class="date">03/18/2022</h4>
+<h4 class="date">07/2/2022</h4>
 
 
 <div id="TOC">
@@ -355,13 +355,13 @@ Posts on Stackoverflow as well as OEIS.</a></li>
 
 <p>In combinatorics, sometimes it can be difficult to figure out exactly
 which tool/method we need to attack our problem. Do we need
-combinations? permutations? Cartesian product? partitions? What about
-repetition or multiplicity? The list goes on. Oftentimes the solution
-ends up being overly complicated and prone to error, or more commonly, a
-simple brute force solution is employed. The latter is okay in some
-situations, but in many real world problems, this approach becomes
-untenable very quickly. The two types of problems addressed below fall
-into this category.</p>
+combinations? permutations? Cartesian product? partitions? compositions?
+What about repetition or multiplicity? The list goes on. Oftentimes the
+solution ends up being overly complicated and prone to error, or more
+commonly, a simple brute force solution is employed. The latter is okay
+in some situations, but in many real world problems, this approach
+becomes untenable very quickly. The two types of problems addressed
+below fall into this category.</p>
 <div id="cartesian-product-where-order-does-not-matter" class="section level2">
 <h2>Cartesian Product where Order does not Matter</h2>
 <p>Given a list of vectors, <em>v<sub>1</sub></em>,
@@ -624,7 +624,7 @@ from the algorithm library in <code>C++</code>.</p>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5773,]    1   10   11   12    2    6    7    9    3    4    5    8</span></span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5774,]    1   10   11   12    2    6    8    9    3    4    5    7</span></span>
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5775,]    1   10   11   12    2    7    8    9    3    4    5    6</span></span></code></pre></div>
-<p>Just as in <code>combo/permuteGeneral</code>, we can utilize the
+<p>Just as in <code>{combo|permute}General</code>, we can utilize the
 arguments <code>lower</code>, <code>upper</code>, <code>Parallel</code>,
 and <code>nThreads</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">comboGroupsCount</span>(<span class="dv">30</span>, <span class="dv">6</span>)</span>

@@ -47,7 +47,8 @@ SEXP CombinatoricsCount(SEXP Rv, SEXP Rm, SEXP RisRep,
 SEXP PartitionsCount(SEXP Rtarget, SEXP Rv, SEXP Rm,
                      SEXP RisRep, SEXP RFreqs, SEXP RcompFun,
                      SEXP Rlow, SEXP Rtolerance,
-                     SEXP RPartDesign, SEXP Rshow) {
+                     SEXP RPartDesign, SEXP Rshow,
+                     SEXP RIsComposition, SEXP RIsWeak) {
     int n = 0;
     int m = 0;
 
@@ -80,20 +81,19 @@ SEXP PartitionsCount(SEXP Rtarget, SEXP Rv, SEXP Rm,
     ConstraintType ctype;
     PartDesign part;
 
-    part.isRep = IsRep;
-    part.isMult = IsMult;
+    part.isRep   = IsRep;
+    part.isMult  = IsMult;
     part.mIsNull = Rf_isNull(Rm);
+    part.isWeak  = CleanConvert::convertFlag(RIsWeak, "weak");
+    part.isComp  = CleanConvert::convertFlag(RIsComposition, "composition");
+    part.isComb  = !part.isComp;
 
-    if (IsConstrained) {
-        ConstraintSetup(vNum, myReps, targetVals, vInt, targetIntVals,
-                        funDbl, part, ctype, n, m, compVec, mainFun,
-                        mainFun, myType, Rtarget, RcompFun, Rtolerance,
-                        Rlow, true, true);
-    }
+    ConstraintSetup(vNum, myReps, targetVals, vInt, targetIntVals,
+                    funDbl, part, ctype, n, m, compVec, mainFun,
+                    mainFun, myType, Rtarget, RcompFun, Rtolerance,
+                    Rlow, true);
 
-    if (part.ptype != PartitionType::CoarseGrained &&
-        part.ptype != PartitionType::NotPartition) {
-
+    if (!part.numUnknown) {
         if (bDesign) {
             bool Verbose = CleanConvert::convertFlag(Rshow, "showDetail");
             return GetDesign(part, ctype, n, Verbose);
@@ -104,8 +104,8 @@ SEXP PartitionsCount(SEXP Rtarget, SEXP Rv, SEXP Rm,
     } else if (bDesign) {
         cpp11::stop("No design available for this case!");
     } else {
-        cpp11::stop("The count is unknown for this case. To get the total"
-                 " number, generate all results!");
+        cpp11::stop("The count is unknown for this case.\n To get the"
+                    " total number, generate all results!");
     }
 }
 

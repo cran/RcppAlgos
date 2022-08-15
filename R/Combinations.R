@@ -21,7 +21,7 @@ comboGeneral <- function(v, m = NULL, repetition = FALSE, freqs = NULL,
         return(.Call(`_RcppAlgos_CombinatoricsCnstrt`, v, m, repetition,
                      freqs, lower, upper, constraintFun, comparisonFun,
                      limitConstraints, TRUE, keepResults, Parallel,
-                     nThreads, pkgEnv$nThreads, tolerance))
+                     nThreads, pkgEnv$nThreads, tolerance, FALSE, FALSE))
     }
 }
 
@@ -37,6 +37,11 @@ comboSample <- function(v, m = NULL, repetition = FALSE, freqs = NULL,
     return(.Call(`_RcppAlgos_SampleCombPerm`, v, m, repetition, freqs, sampleVec,
                  TRUE, seed, n, sample, FUN, new.env(), Parallel, nThreads,
                  pkgEnv$nThreads, namedSample, FUN.VALUE))
+}
+
+comboRank <- function(..., v, repetition = FALSE, freqs = NULL) {
+    GetRank(..., v = v, repetition = repetition,
+            freqs = freqs, IsComb = TRUE)
 }
 
 comboCount <-  function(v, m = NULL, repetition = FALSE, freqs = NULL) {
@@ -55,8 +60,9 @@ comboIter <- function(v, m = NULL, repetition = FALSE, freqs = NULL,
                       keepResults, FUN)
     IsCnstrd <- .Call(`_RcppAlgos_CheckConstrndCpp`, constraintFun,
                       comparisonFun, limitConstraints)
-    InitVals <- .Call(`_RcppAlgos_GetClassVals`, v, m, repetition, freqs,
-                      TRUE, FUN, nThreads, pkgEnv$nThreads, IsCnstrd)
+    InitVals <- .Call(`_RcppAlgos_GetClassVals`, v, m, repetition,
+                      freqs, TRUE, FUN, nThreads, pkgEnv$nThreads,
+                      IsCnstrd, FALSE, FALSE)
 
     if (RetValue == 1) {
         new("Combo", InitVals, Parallel)

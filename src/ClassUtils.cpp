@@ -2,6 +2,7 @@
 #include "ImportExportMPZ.h"
 #include "SetUpUtils.h"
 #include <algorithm>   // std::max_element
+#include <cmath>       // std::abs
 
 void SetIndexVec(SEXP RindexVec, std::vector<double> &mySample,
                  std::size_t &sampSize, bool IsGmp, double computedRows) {
@@ -184,23 +185,21 @@ void zUpdateIndex(const std::vector<double> &vNum,
 
     switch (TYPEOF(mat)) {
         case LGLSXP: {
-            SEXP yBool = PROTECT(Rf_allocVector(LGLSXP, m));
+            cpp11::sexp yBool = Rf_allocVector(LGLSXP, m);
             int* matBool = INTEGER(mat);
             int* yBoolPt = INTEGER(yBool);
             UpdateExact(matBool, yBoolPt, vInt, z, lastRow, nRows, m, n1);
-            UNPROTECT(1);
             break;
         } case INTSXP: {
             const int numAdd = static_cast<int>(bAddOne);
-            SEXP yInt = PROTECT(Rf_allocVector(INTSXP, m));
+            cpp11::sexp yInt = Rf_allocVector(INTSXP, m);
             int* matInt = INTEGER(mat);
             int* yIntPt = INTEGER(yInt);
             UpdateExact(matInt, yIntPt, vInt, z,
                         lastRow, nRows, m, n1, numAdd);
-            UNPROTECT(1);
             break;
         } case REALSXP: {
-            SEXP yNum = PROTECT(Rf_allocVector(REALSXP, m));
+            cpp11::sexp yNum = Rf_allocVector(REALSXP, m);
             double* matNum = REAL(mat);
             double* yNumPt = REAL(yNum);
 
@@ -220,10 +219,9 @@ void zUpdateIndex(const std::vector<double> &vNum,
                 z[j] = ind;
             }
 
-            UNPROTECT(1);
             break;
         } case STRSXP: {
-            SEXP yChar = PROTECT(Rf_allocVector(STRSXP, m));
+            cpp11::sexp yChar = Rf_allocVector(STRSXP, m);
 
             for (int i = 0; i < m; ++i) {
                 SET_STRING_ELT(yChar, i,
@@ -241,10 +239,9 @@ void zUpdateIndex(const std::vector<double> &vNum,
                 z[j] = ind;
             }
 
-            UNPROTECT(1);
             break;
         } case CPLXSXP: {
-            SEXP yCmplx = PROTECT(Rf_allocVector(CPLXSXP, m));
+            cpp11::sexp yCmplx = Rf_allocVector(CPLXSXP, m);
             Rcomplex* matCmplx = COMPLEX(mat);
             Rcomplex* xCmplxPt = COMPLEX(v);
             Rcomplex* yCmplxPt = COMPLEX(yCmplx);
@@ -255,22 +252,21 @@ void zUpdateIndex(const std::vector<double> &vNum,
 
             for (int j = 0; j < m; ++j) {
                 int ind = 0;
-                bool bTestImg = std::abs(xCmplxPt[ind].i - yCmplxPt[j].i) > myTolerance;
+                bool bTestImg  = std::abs(xCmplxPt[ind].i - yCmplxPt[j].i) > myTolerance;
                 bool bTestReal = std::abs(xCmplxPt[ind].r - yCmplxPt[j].r) > myTolerance;
 
                 while (ind < n1 && (bTestImg || bTestReal)) {
                     ++ind;
-                    bTestImg = std::abs(xCmplxPt[ind].i - yCmplxPt[j].i) > myTolerance;
+                    bTestImg  = std::abs(xCmplxPt[ind].i - yCmplxPt[j].i) > myTolerance;
                     bTestReal = std::abs(xCmplxPt[ind].r - yCmplxPt[j].r) > myTolerance;
                 }
 
                 z[j] = ind;
             }
 
-            UNPROTECT(1);
             break;
         } case RAWSXP: {
-            SEXP yRaw = PROTECT(Rf_allocVector(RAWSXP, m));
+            cpp11::sexp yRaw = Rf_allocVector(RAWSXP, m);
             Rbyte* matRaw = RAW(mat);
             Rbyte* xRawPt = RAW(v);
             std::vector<Rbyte> stlRawVec(n1 + 1);
@@ -281,7 +277,6 @@ void zUpdateIndex(const std::vector<double> &vNum,
 
             Rbyte* yRawPt = RAW(yRaw);
             UpdateExact(matRaw, yRawPt, stlRawVec, z, lastRow, nRows, m, n1);
-            UNPROTECT(1);
             break;
         } default:{
             cpp11::stop("Only atomic types are supported for v");

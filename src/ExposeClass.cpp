@@ -18,7 +18,9 @@ static void Finalizer(SEXP ext) {
 }
 
 // RVals contains: v, vNum, vInt, m, RcompRows, maxThreads, & nThreads
-// RboolVec contains: IsFac, IsComb, IsMult, IsRep, IsGmp, & IsFull
+// RboolVec contains: IsFac, IsComb, IsMult, IsRep,
+//                    IsGmp, IsFull, IsComp, & IsWeak
+//
 // freqInfo contains: myReps & freqs
 [[cpp11::register]]
 SEXP CombClassNew(SEXP RVals, SEXP RboolVec, SEXP freqInfo, SEXP Rparallel,
@@ -57,10 +59,9 @@ SEXP CombClassNew(SEXP RVals, SEXP RboolVec, SEXP freqInfo, SEXP Rparallel,
             Parallel
         );
 
-        SEXP ext = PROTECT(R_MakeExternalPtr(ptr, R_NilValue, R_NilValue));
+        cpp11::sexp ext = R_MakeExternalPtr(ptr, R_NilValue, R_NilValue);
         R_RegisterCFinalizerEx(ext, Finalizer, TRUE);
 
-        UNPROTECT(1);
         return ext;
     } else if (ReturnValue == 2) {
         class ComboApply* ptr = new ComboApply(
@@ -69,10 +70,9 @@ SEXP CombClassNew(SEXP RVals, SEXP RboolVec, SEXP freqInfo, SEXP Rparallel,
             Parallel, RstdFun, Rrho, R_RFunVal
         );
 
-        SEXP ext = PROTECT(R_MakeExternalPtr(ptr, R_NilValue, R_NilValue));
+        cpp11::sexp ext = R_MakeExternalPtr(ptr, R_NilValue, R_NilValue);
         R_RegisterCFinalizerEx(ext, Finalizer, TRUE);
 
-        UNPROTECT(1);
         return ext;
     } else {
         const bool KeepRes = CleanConvert::convertFlag(RKeepRes, "keepResults");
@@ -95,7 +95,8 @@ SEXP CombClassNew(SEXP RVals, SEXP RboolVec, SEXP freqInfo, SEXP Rparallel,
         const std::string mainFun = funTest == "mean" ? "sum" : funTest;
         funcPtr<double> funDbl = GetFuncPtr<double>(mainFun);
 
-        const bool IsComb   = static_cast<bool>(bVec[1]);
+        const bool IsComp   = static_cast<bool>(bVec[6]);
+        const bool IsComb   = static_cast<bool>(bVec[1]) && !IsComp;
         const bool IsMult   = static_cast<bool>(bVec[2]);
         const bool IsRep    = static_cast<bool>(bVec[3]);
         const bool IsStdGmp = static_cast<bool>(bVec[4]);
@@ -106,6 +107,9 @@ SEXP CombClassNew(SEXP RVals, SEXP RboolVec, SEXP freqInfo, SEXP Rparallel,
         part.isRep   = IsRep;
         part.isMult  = IsMult;
         part.mIsNull = static_cast<bool>(Rf_asLogical(RmIsNull));
+        part.isComp  = IsComp;
+        part.isComb  = IsComb;
+        part.isWeak  = static_cast<bool>(bVec[7]);
 
         std::vector<std::string> compVec;
         std::vector<double> tarVals;
@@ -115,18 +119,22 @@ SEXP CombClassNew(SEXP RVals, SEXP RboolVec, SEXP freqInfo, SEXP Rparallel,
             ConstraintSetup(vNum, myReps, tarVals, vInt, tarIntVals,
                             funDbl, part, ctype, n, m, compVec, mainFun,
                             funTest, myType, Rtarget, RcompFun,
-                            Rtolerance, R_NilValue, IsComb, true);
+                            Rtolerance, R_NilValue, true);
         }
 
         auto computedRowsMpz = FromCpp14::make_unique<mpz_t[]>(1);
         mpz_init(computedRowsMpz[0]);
 
         if (IsStdGmp) {
-            createMPZArray(VECTOR_ELT(RVals, 4), computedRowsMpz.get(), 1,
-                           "computedRowsMpz");
+            createMPZArray(VECTOR_ELT(RVals, 4), computedRowsMpz.get(),
+                           1, "computedRowsMpz");
         }
 
-        const double computedRows = (part.count > 0) ? part.count :
+        const bool usePartCount = part.isPart &&
+                                  !part.isGmp &&
+                                  !part.numUnknown;
+
+        const double computedRows = usePartCount ? part.count :
             (IsStdGmp ? mpz_get_d(computedRowsMpz[0]) :
                  Rf_asReal(VECTOR_ELT(RVals, 4)));
         const bool IsGmp = (computedRows > Significand53);
@@ -139,7 +147,7 @@ SEXP CombClassNew(SEXP RVals, SEXP RboolVec, SEXP freqInfo, SEXP Rparallel,
         const bool numUnknown = ctype == ConstraintType::PartitionEsque ||
                                 ctype == ConstraintType::SpecialCnstrnt ||
                                 ctype == ConstraintType::General        ||
-                                part.numUnknown;
+                                (part.isPart && part.numUnknown);
 
         std::vector<int> startZ(m);
         const int cap     = n - part.includeZero;
@@ -177,10 +185,9 @@ SEXP CombClassNew(SEXP RVals, SEXP RboolVec, SEXP freqInfo, SEXP Rparallel,
                 computedRows, computedRowsMpz[0]
             );
 
-            SEXP ext = PROTECT(R_MakeExternalPtr(ptr, R_NilValue, R_NilValue));
+            cpp11::sexp ext = R_MakeExternalPtr(ptr, R_NilValue, R_NilValue);
             R_RegisterCFinalizerEx(ext, Finalizer, TRUE);
 
-            UNPROTECT(1);
             return ext;
         } else if (ctype == ConstraintType::General ||
                    ctype == ConstraintType::PartitionEsque) {
@@ -193,10 +200,9 @@ SEXP CombClassNew(SEXP RVals, SEXP RboolVec, SEXP freqInfo, SEXP Rparallel,
                 computedRows, computedRowsMpz[0]
             );
 
-            SEXP ext = PROTECT(R_MakeExternalPtr(ptr, R_NilValue, R_NilValue));
+            cpp11::sexp ext = R_MakeExternalPtr(ptr, R_NilValue, R_NilValue);
             R_RegisterCFinalizerEx(ext, Finalizer, TRUE);
 
-            UNPROTECT(1);
             return ext;
         } else if (ctype == ConstraintType::SpecialCnstrnt) {
             // We must use a single thread to ensure the proper constraint
@@ -214,10 +220,9 @@ SEXP CombClassNew(SEXP RVals, SEXP RboolVec, SEXP freqInfo, SEXP Rparallel,
                 computedRows, computedRowsMpz[0]
             );
 
-            SEXP ext = PROTECT(R_MakeExternalPtr(ptr, R_NilValue, R_NilValue));
+            cpp11::sexp ext = R_MakeExternalPtr(ptr, R_NilValue, R_NilValue);
             R_RegisterCFinalizerEx(ext, Finalizer, TRUE);
 
-            UNPROTECT(1);
             return ext;
         } else {
             class Partitions* ptr = new Partitions(
@@ -228,10 +233,9 @@ SEXP CombClassNew(SEXP RVals, SEXP RboolVec, SEXP freqInfo, SEXP Rparallel,
                 computedRows, computedRowsMpz[0]
             );
 
-            SEXP ext = PROTECT(R_MakeExternalPtr(ptr, R_NilValue, R_NilValue));
+            cpp11::sexp ext = R_MakeExternalPtr(ptr, R_NilValue, R_NilValue);
             R_RegisterCFinalizerEx(ext, Finalizer, TRUE);
 
-            UNPROTECT(1);
             return ext;
         }
     }

@@ -18,7 +18,8 @@ SEXP CopyRv(SEXP Rv, const std::vector<int> &vInt,
 [[cpp11::register]]
 SEXP GetClassVals(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
                   SEXP RIsComb, SEXP stdFun, SEXP RThreads,
-                  SEXP RmaxThreads, SEXP RIsCnstrd) {
+                  SEXP RmaxThreads, SEXP RIsCnstrd,
+                  SEXP RIsComposition, SEXP RIsWeak) {
 
     int n = 0;
     int m = 0;
@@ -32,15 +33,15 @@ SEXP GetClassVals(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
     std::vector<double> vNum;
 
     bool IsRep = CleanConvert::convertFlag(RisRep, "repetition");
-    const bool IsComb = CleanConvert::convertFlag(RIsComb, "IsComb");
+    const bool IsComb        = CleanConvert::convertFlag(RIsComb, "IsComb");
+    const bool IsFactor      = Rf_isFactor(Rv);
     const bool IsConstrained = Rf_asLogical(RIsCnstrd);
-    const bool IsFactor = Rf_isFactor(Rv);
 
     SetType(myType, Rv);
     SetValues(myType, myReps, freqs, vInt, vNum, Rv,
               RFreqs, Rm, n, m, IsMult, IsRep, IsConstrained);
 
-    const SEXP sexpVec = PROTECT(CopyRv(Rv, vInt, vNum, myType, IsFactor));
+    const cpp11::sexp sexpVec = CopyRv(Rv, vInt, vNum, myType, IsFactor);
     const double computedRows = GetComputedRows(IsMult, IsComb, IsRep,
                                                 n, m, Rm, freqs, myReps);
     const bool IsGmp = (computedRows > SampleLimit);
@@ -53,12 +54,12 @@ SEXP GetClassVals(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
                           IsComb, IsRep, n, m, Rm, freqs, myReps);
     }
 
-    SEXP sexpNumRows = PROTECT(CleanConvert::GetCount(
+    cpp11::sexp sexpNumRows = CleanConvert::GetCount(
         IsGmp, computedRowsMpz, computedRows
-    ));
+    );
 
     mpz_clear(computedRowsMpz);
-    SEXP freqsInfo = PROTECT(Rf_allocVector(VECSXP, 2));
+    cpp11::sexp freqsInfo = Rf_allocVector(VECSXP, 2);
     SET_VECTOR_ELT(freqsInfo, 0, GetIntVec(myReps));
     SET_VECTOR_ELT(freqsInfo, 1, GetIntVec(freqs));
 
@@ -66,13 +67,16 @@ SEXP GetClassVals(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
     const bool IsFullPerm = (IsComb || IsRep) ? false :
         (m == n || m == static_cast<int>(freqs.size()));
 
-    SEXP bVec = PROTECT(Rf_allocVector(LGLSXP, 6));
+    cpp11::sexp bVec = Rf_allocVector(LGLSXP, 8);
     INTEGER(bVec)[0] = IsFactor;
     INTEGER(bVec)[1] = IsComb;
     INTEGER(bVec)[2] = IsMult;
     INTEGER(bVec)[3] = IsRep;
     INTEGER(bVec)[4] = IsGmp;
     INTEGER(bVec)[5] = IsFullPerm;
+    INTEGER(bVec)[6] = CleanConvert::convertFlag(RIsComposition,
+                                                 "IsComposition");
+    INTEGER(bVec)[7] = CleanConvert::convertFlag(RIsWeak, "weak");
 
     const bool applyFun = !Rf_isNull(stdFun) && !IsFactor;
 
@@ -82,7 +86,7 @@ SEXP GetClassVals(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
 
     // RVals is a list containing: v, vNum, vInt, m,
     // RcompRows, nThreads, maxThreads
-    SEXP RVals = PROTECT(Rf_allocVector(VECSXP, 7));
+    cpp11::sexp RVals = Rf_allocVector(VECSXP, 7);
     SET_VECTOR_ELT(RVals, 0, sexpVec);
     SET_VECTOR_ELT(RVals, 1, GetDblVec(vNum));
     SET_VECTOR_ELT(RVals, 2, GetIntVec(vInt));
@@ -91,14 +95,14 @@ SEXP GetClassVals(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
     SET_VECTOR_ELT(RVals, 5, RmaxThreads);
     SET_VECTOR_ELT(RVals, 6, RThreads);
 
-    const char *names[] = {"RVals", "bVec", "FreqsInfo",
-                           "applyFun", ""};
-    SEXP res = PROTECT(Rf_mkNamed(VECSXP, names));
+    const char *names[] = {
+        "RVals", "bVec", "FreqsInfo", "applyFun", ""
+    };
+    cpp11::sexp res = Rf_mkNamed(VECSXP, names);
     SET_VECTOR_ELT(res, 0, RVals);
     SET_VECTOR_ELT(res, 1, bVec);
     SET_VECTOR_ELT(res, 2, freqsInfo);
     SET_VECTOR_ELT(res, 3, Rf_ScalarLogical(applyFun));
 
-    UNPROTECT(6);
     return res;
 }

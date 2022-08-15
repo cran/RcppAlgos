@@ -120,10 +120,7 @@ void ThreadSafeSample(T* mat, SEXP res, const std::vector<T> &v,
                       nthPartFun, m, sampSize, tar, strtLen, cap, IsGmp);
     }
 
-    if (IsNamed) {
-        SetSampleNames(res, IsGmp, sampSize, mySample, myBigSamp);
-    }
-
+    SetSampleNames(res, IsGmp, sampSize, mySample, myBigSamp, IsNamed);
     MpzClearVec(myBigSamp, sampSize, IsGmp);
 }
 
@@ -132,7 +129,8 @@ SEXP SamplePartitions(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
                       SEXP RindexVec, SEXP RmySeed, SEXP RNumSamp,
                       SEXP baseSample, SEXP Rparallel, SEXP RNumThreads,
                       SEXP RmaxThreads, SEXP RNamed, SEXP RcompFun,
-                      SEXP Rtarget, SEXP Rtolerance, SEXP myEnv) {
+                      SEXP Rtarget, SEXP Rtolerance, SEXP myEnv,
+                      SEXP RIsComposition, SEXP RIsWeak) {
 
     int n = 0;
     int m = 0;
@@ -170,14 +168,18 @@ SEXP SamplePartitions(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
     ConstraintType ctype = ConstraintType::NoConstraint;
     PartDesign part;
 
-    part.isRep = IsRep;
-    part.isMult = IsMult;
+    part.isRep   = IsRep;
+    part.isMult  = IsMult;
     part.mIsNull = Rf_isNull(Rm);
-    SEXP Rlow = R_NilValue;
+    part.isWeak  = CleanConvert::convertFlag(RIsWeak, "weak");
+    part.isComp  = CleanConvert::convertFlag(RIsComposition,
+                                             "IsComposition");
+    part.isComb = !part.isComp;
 
-    ConstraintSetup(vNum, myReps, targetVals, vInt, targetIntVals,
-                    funDbl, part, ctype, n, m, compVec, mainFun, mainFun,
-                    myType, Rtarget, RcompFun, Rtolerance, Rlow, true, false);
+    cpp11::sexp Rlow = R_NilValue;
+    ConstraintSetup(vNum, myReps, targetVals, vInt, targetIntVals, funDbl,
+                    part, ctype, n, m, compVec, mainFun, mainFun, myType,
+                    Rtarget, RcompFun, Rtolerance, Rlow);
 
     if (part.ptype == PartitionType::Multiset ||
         part.ptype == PartitionType::CoarseGrained ||
@@ -189,6 +191,16 @@ SEXP SamplePartitions(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
     int sampSize;
     std::vector<double> mySample;
 
+    // This can occur if we are dealing with capped cases where calculating
+    // the number of partitions could take a long time. When this occurs with
+    // partitionsGeneral, it is faster to generate partitions and push them
+    // to a vector until the next partitions algorithm exhaust, then we can
+    // convert this to an R matrix (instead of preallocating a matrix).
+    //
+    // When we are dealing with sampling, we have to know the total number
+    // of partitions, thus the following:
+
+    if (part.numUnknown) PartitionsCount(myReps, part, n, true);
     const bool SampleGmp = (part.count > SampleLimit);
 
     if (SampleGmp && !part.isGmp) {
@@ -219,38 +231,44 @@ SEXP SamplePartitions(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
                                       [](int i){return i > 0;});
 
     if (myType == VecType::Integer) {
-        SEXP res = PROTECT(Rf_allocMatrix(INTSXP, sampSize, part.width));
+        cpp11::sexp res = Rf_allocMatrix(INTSXP, sampSize, part.width);
         int* matInt = INTEGER(res);
 
         if (part.width == 1) {
             matInt[0] = Rf_asInteger(Rtarget);
+            SetSampleNames(res, false, sampSize,
+                           mySample, myVec.get(), IsNamed);
         } else {
-            const nthPartsPtr nthPartFun = GetNthPartsFunc(part.ptype,
-                                                           part.isGmp);
+            const nthPartsPtr nthPartFun = GetNthPartsFunc(
+                part.ptype, part.isGmp, part.isComp
+            );
+
             ThreadSafeSample(matInt, res, vInt, mySample, myVec.get(),
                              myReps, nthPartFun, part.width, sampSize,
                              nThreads, Parallel, IsNamed, part.mapTar,
                              strtLen, cap, part.isGmp);
         }
 
-        UNPROTECT(1);
         return res;
     } else {
-        SEXP res = PROTECT(Rf_allocMatrix(REALSXP, sampSize, part.width));
+        cpp11::sexp res = Rf_allocMatrix(REALSXP, sampSize, part.width);
         double* matNum = REAL(res);
 
         if (part.width == 1) {
             matNum[0] = Rf_asReal(Rtarget);
+            SetSampleNames(res, false, sampSize,
+                           mySample, myVec.get(), IsNamed);
         } else {
-            const nthPartsPtr nthPartFun = GetNthPartsFunc(part.ptype,
-                                                           part.isGmp);
+            const nthPartsPtr nthPartFun = GetNthPartsFunc(
+                part.ptype, part.isGmp, part.isComp
+            );
+
             ThreadSafeSample(matNum, res, vNum, mySample, myVec.get(),
                              myReps, nthPartFun, part.width, sampSize,
                              nThreads, Parallel, IsNamed, part.mapTar,
                              strtLen, cap, part.isGmp);
         }
 
-        UNPROTECT(1);
         return res;
     }
 }
