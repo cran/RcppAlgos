@@ -1,7 +1,7 @@
 #include "NumbersUtils/PrimesSegSieve.h"
 #include "NumbersUtils/PhiTinyLookup.h"
 #include "NumbersUtils/Eratosthenes.h"
-#include "CleanConvert.h"
+#include "CppConvert.h"
 #include <algorithm>
 #include <numeric>
 #include <thread>
@@ -243,7 +243,7 @@ namespace PrimeCounting {
                 // iterations and that the threads following will have at least firstStep + 1
 
                 // Here we have m = multOne, p = power, and s = firstStep:
-                // m^(p +  1) - m^p = m^p * (m - 1) > (s + 1)  -->>  m^p > (s + 1) / (m - 1)  -->>
+                // m^(p + 1) - m^p = m^p * (m - 1) > (s + 1)  -->>  m^p > (s + 1) / (m - 1)  -->>
                 // p * log(m) > log((s + 1) / (m - 1))  -->>  p > log((s + 1) / (m - 1)) / log(m)
                 double power = std::ceil(std::log((firstStep + 1) / (multOne - 1)) / std::log(multOne)) + 1;
 
@@ -401,12 +401,12 @@ namespace PrimeCounting {
 [[cpp11::register]]
 SEXP PrimeCountCpp(SEXP Rn, SEXP RNumThreads, SEXP RmaxThreads) {
     double dblNum;
-    CleanConvert::convertPrimitive(Rn, dblNum, VecType::Numeric, "n");
+    CppConvert::convertPrimitive(Rn, dblNum, VecType::Numeric, "n");
     const std::int64_t n = static_cast<std::int64_t>(dblNum);
 
     int nThreads = 1;
     int maxThreads = 1;
-    CleanConvert::convertPrimitive(RmaxThreads, maxThreads,
+    CppConvert::convertPrimitive(RmaxThreads, maxThreads,
                                    VecType::Integer, "maxThreads");
 
     if (n < 100000) {
@@ -427,7 +427,7 @@ SEXP PrimeCountCpp(SEXP Rn, SEXP RNumThreads, SEXP RmaxThreads) {
     }
 
     if (!Rf_isNull(RNumThreads)) {
-        CleanConvert::convertPrimitive(RNumThreads, nThreads,
+        CppConvert::convertPrimitive(RNumThreads, nThreads,
                                        VecType::Integer, "nThreads");
     }
 

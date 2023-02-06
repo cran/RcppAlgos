@@ -12,7 +12,7 @@
 
 <meta name="author" content="Joseph Wood" />
 
-<meta name="date" content="2022-08-14" />
+<meta name="date" content="2023-02-04" />
 
 <title>Constraints, Partitions, and Compositions</title>
 
@@ -31,23 +31,23 @@ document.addEventListener('DOMContentLoaded', function(e) {
 </script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
 
 
 
 <style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -65,55 +65,54 @@ pre > code.sourceCode { white-space: pre-wrap; }
 pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
-  { counter-reset: source-line 0; }
+{ counter-reset: source-line 0; }
 pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
+{ position: relative; left: -4em; counter-increment: source-line; }
 pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
 div.sourceCode
-  {   }
+{ }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -122,13 +121,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -335,58 +341,59 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Constraints, Partitions, and
 Compositions</h1>
 <h4 class="author">Joseph Wood</h4>
-<h4 class="date">08/14/2022</h4>
+<h4 class="date">02/04/2023</h4>
 
 
 <div id="TOC">
 <ul>
-<li><a href="#constraint-functions">Constraint Functions</a>
+<li><a href="#constraint-functions" id="toc-constraint-functions">Constraint Functions</a>
 <ul>
-<li><a href="#faster-than-rowsums-and-rowmeans">Faster than
+<li><a href="#faster-than-rowsums-and-rowmeans" id="toc-faster-than-rowsums-and-rowmeans">Faster than
 <code>rowSums</code> and <code>rowMeans</code></a></li>
 </ul></li>
-<li><a href="#comparison-operators-and-limitconstraints">Comparison
-Operators and <code>limitConstraints</code></a>
+<li><a href="#comparison-operators-and-limitconstraints" id="toc-comparison-operators-and-limitconstraints">Comparison Operators
+and <code>limitConstraints</code></a>
 <ul>
-<li><a href="#one-comparison-operator">One Comparison Operator</a></li>
-<li><a href="#two-comparison-operators">Two Comparison
-Operators</a></li>
-<li><a href="#using-tolerance">Using <code>tolerance</code></a></li>
-<li><a href="#output-order-with-permutegeneral">Output Order with
+<li><a href="#one-comparison-operator" id="toc-one-comparison-operator">One Comparison Operator</a></li>
+<li><a href="#two-comparison-operators" id="toc-two-comparison-operators">Two Comparison Operators</a></li>
+<li><a href="#using-tolerance" id="toc-using-tolerance">Using
+<code>tolerance</code></a></li>
+<li><a href="#output-order-with-permutegeneral" id="toc-output-order-with-permutegeneral">Output Order with
 <code>permuteGeneral</code></a></li>
 </ul></li>
-<li><a href="#integer-partitions">Integer Partitions</a>
+<li><a href="#integer-partitions" id="toc-integer-partitions">Integer
+Partitions</a>
 <ul>
-<li><a href="#case-1-all-integer-partitions-of-n">Case 1: All Integer
+<li><a href="#case-1-all-integer-partitions-of-n" id="toc-case-1-all-integer-partitions-of-n">Case 1: All Integer
 Partitions of <em>N</em></a></li>
-<li><a href="#case-2-integer-partitions-of-n-of-length-m">Case 2:
-Integer Partitions of <em>N</em> of Length <em>m</em></a></li>
-<li><a href="#case-3-integer-partitions-of-n-into-distinct-parts">Case
-3: Integer Partitions of <em>N</em> into Distinct Parts</a></li>
-<li><a href="#case-4-integer-partitions-of-n-into-parts-of-varying-multiplicity">Case
+<li><a href="#case-2-integer-partitions-of-n-of-length-m" id="toc-case-2-integer-partitions-of-n-of-length-m">Case 2: Integer
+Partitions of <em>N</em> of Length <em>m</em></a></li>
+<li><a href="#case-3-integer-partitions-of-n-into-distinct-parts" id="toc-case-3-integer-partitions-of-n-into-distinct-parts">Case 3:
+Integer Partitions of <em>N</em> into Distinct Parts</a></li>
+<li><a href="#case-4-integer-partitions-of-n-into-parts-of-varying-multiplicity" id="toc-case-4-integer-partitions-of-n-into-parts-of-varying-multiplicity">Case
 4: Integer Partitions of <em>N</em> into Parts of Varying
 Multiplicity</a></li>
 </ul></li>
-<li><a href="#efficiency-generating-partitions">Efficiency Generating
+<li><a href="#efficiency-generating-partitions" id="toc-efficiency-generating-partitions">Efficiency Generating
 Partitions</a></li>
-<li><a href="#integer-compositions">Integer Compositions</a>
+<li><a href="#integer-compositions" id="toc-integer-compositions">Integer Compositions</a>
 <ul>
-<li><a href="#case-5-all-compositions-of-n">Case 5: All Compositions of
+<li><a href="#case-5-all-compositions-of-n" id="toc-case-5-all-compositions-of-n">Case 5: All Compositions of
 <em>N</em></a></li>
-<li><a href="#case-6-compositions-of-n-of-length-m">Case 6: Compositions
-of <em>N</em> of Length <em>m</em></a></li>
-<li><a href="#case-7-compositions-of-n-into-distinct-parts">Case 7:
+<li><a href="#case-6-compositions-of-n-of-length-m" id="toc-case-6-compositions-of-n-of-length-m">Case 6: Compositions of
+<em>N</em> of Length <em>m</em></a></li>
+<li><a href="#case-7-compositions-of-n-into-distinct-parts" id="toc-case-7-compositions-of-n-into-distinct-parts">Case 7:
 Compositions of <em>N</em> into Distinct Parts</a></li>
-<li><a href="#case-8-integer-compositions-of-n-into-parts-of-varying-multiplicity">Case
+<li><a href="#case-8-integer-compositions-of-n-into-parts-of-varying-multiplicity" id="toc-case-8-integer-compositions-of-n-into-parts-of-varying-multiplicity">Case
 8: Integer Compositions of <em>N</em> into Parts of Varying
 Multiplicity</a></li>
 </ul></li>
-<li><a href="#efficiency-generating-partitions-and-compositions">Efficiency
+<li><a href="#efficiency-generating-partitions-and-compositions" id="toc-efficiency-generating-partitions-and-compositions">Efficiency
 Generating Partitions and Compositions</a></li>
-<li><a href="#safely-interrupt-execution-with-cpp11check_user_interrupt">Safely
+<li><a href="#safely-interrupt-execution-with-cpp11check_user_interrupt" id="toc-safely-interrupt-execution-with-cpp11check_user_interrupt">Safely
 Interrupt Execution with <code>cpp11::check_user_interrupt</code></a>
 <ul>
-<li><a href="#note-about-interrupting-execution">Note about Interrupting
+<li><a href="#note-about-interrupting-execution" id="toc-note-about-interrupting-execution">Note about Interrupting
 Execution</a></li>
 </ul></li>
 </ul>
@@ -414,37 +421,49 @@ set, an additional column is added that represents the result of
 applying the given function to that combination/permutation. You can
 also set <code>keepResults = TRUE</code> (more on this later).</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RcppAlgos)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## base R using combn and FUN</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>combnSum <span class="ot">=</span> <span class="fu">combn</span>(<span class="dv">20</span>, <span class="dv">10</span>, sum)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>algosSum <span class="ot">=</span> <span class="fu">comboGeneral</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="at">constraintFun =</span> <span class="st">&quot;sum&quot;</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Notice the additional column (i.e. the 11th column)</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(algosSum)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11]</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    1    2    3    4    5    6    7    8    9    10    55</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    1    2    3    4    5    6    7    8    9    11    56</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]    1    2    3    4    5    6    7    8    9    12    57</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]    1    2    3    4    5    6    7    8    9    13    58</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]    1    2    3    4    5    6    7    8    9    14    59</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6,]    1    2    3    4    5    6    7    8    9    15    60</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">width =</span> <span class="dv">90</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;RcppAlgos&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] ‘2.7.1’</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste</span>(<span class="fu">capture.output</span>(<span class="fu">sessionInfo</span>())[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">collapse =</span> <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R version 4.2.1 (2022-06-23)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Platform: aarch64-apple-darwin20 (64-bit)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running under: macOS Monterey 12.6</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="do">## base R using combn and FUN</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>combnSum <span class="ot">=</span> <span class="fu">combn</span>(<span class="dv">20</span>, <span class="dv">10</span>, sum)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>algosSum <span class="ot">=</span> <span class="fu">comboGeneral</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="at">constraintFun =</span> <span class="st">&quot;sum&quot;</span>)</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">as.integer</span>(combnSum), algosSum[,<span class="dv">11</span>])</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="do">## Using parallel</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>paralSum <span class="ot">=</span> <span class="fu">comboGeneral</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="at">constraintFun =</span> <span class="st">&quot;sum&quot;</span>, <span class="at">Parallel =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(paralSum, algosSum)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(microbenchmark)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="at">serial =</span> <span class="fu">comboGeneral</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="at">constraintFun =</span> <span class="st">&quot;sum&quot;</span>),</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>             <span class="at">parallel =</span> <span class="fu">comboGeneral</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="at">constraintFun =</span> <span class="st">&quot;sum&quot;</span>, <span class="at">Parallel =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>             <span class="at">combnSum =</span> <span class="fu">combn</span>(<span class="dv">20</span>, <span class="dv">10</span>, sum), <span class="at">unit =</span> <span class="st">&quot;relative&quot;</span>)</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      expr        min         lq       mean    median         uq        max neval cld</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    serial   3.177339   3.173798   3.054257   3.14192   2.948129   2.859115   100  a</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  parallel   1.000000   1.000000   1.000000   1.00000   1.000000   1.000000   100  a</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  combnSum 234.997953 208.891710 189.269384 201.36549 188.176221 176.208449   100   b</span></span></code></pre></div>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="do">## Notice the additional column (i.e. the 11th column)</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(algosSum)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11]</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    1    2    3    4    5    6    7    8    9    10    55</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    1    2    3    4    5    6    7    8    9    11    56</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]    1    2    3    4    5    6    7    8    9    12    57</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]    1    2    3    4    5    6    7    8    9    13    58</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]    1    2    3    4    5    6    7    8    9    14    59</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6,]    1    2    3    4    5    6    7    8    9    15    60</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">as.integer</span>(combnSum), algosSum[,<span class="dv">11</span>])</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="do">## Using parallel</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>paralSum <span class="ot">=</span> <span class="fu">comboGeneral</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="at">constraintFun =</span> <span class="st">&quot;sum&quot;</span>, <span class="at">Parallel =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(paralSum, algosSum)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(microbenchmark)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="at">serial =</span> <span class="fu">comboGeneral</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="at">constraintFun =</span> <span class="st">&quot;sum&quot;</span>),</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>             <span class="at">parallel =</span> <span class="fu">comboGeneral</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="at">constraintFun =</span> <span class="st">&quot;sum&quot;</span>, <span class="at">Parallel =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>             <span class="at">combnSum =</span> <span class="fu">combn</span>(<span class="dv">20</span>, <span class="dv">10</span>, sum), <span class="at">unit =</span> <span class="st">&quot;relative&quot;</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in microbenchmark(serial = comboGeneral(20, 10, constraintFun = &quot;sum&quot;), : less</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; accurate nanosecond times to avoid potential integer overflows</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      expr       min         lq       mean     median         uq      max neval</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    serial   2.85647   2.596129   2.274646   2.462919   2.269758  1.47776   100</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  parallel   1.00000   1.000000   1.000000   1.000000   1.000000  1.00000   100</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  combnSum 141.39460 126.747503 106.165544 117.321396 105.572137 52.35709   100</span></span></code></pre></div>
 <div id="faster-than-rowsums-and-rowmeans" class="section level3">
 <h3>Faster than <code>rowSums</code> and <code>rowMeans</code></h3>
 <p>Finding row sums or row means is even faster than simply applying the
@@ -458,10 +477,10 @@ highly efficient <code>rowSums</code>/<code>rowMeans</code>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">parallel =</span> <span class="fu">comboGeneral</span>(<span class="dv">25</span>, <span class="dv">10</span>, <span class="at">constraintFun =</span> <span class="st">&quot;sum&quot;</span>, <span class="at">Parallel =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">rowsums =</span> <span class="fu">rowSums</span>(combs), <span class="at">unit =</span> <span class="st">&quot;relative&quot;</span>)</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      expr     min       lq     mean   median       uq       max neval cld</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    serial 3.18877 3.009145 2.592448 2.556819 2.446044 1.4423210   100   c</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  parallel 1.00000 1.000000 1.000000 1.000000 1.000000 1.0000000   100 a</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   rowsums 2.90689 2.636867 2.212371 2.069613 2.254097 0.6039177   100  b</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      expr      min       lq     mean   median       uq       max neval</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    serial 3.296404 2.806014 2.634000 2.670500 2.512724 1.7484462   100</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  parallel 1.000000 1.000000 1.000000 1.000000 1.000000 1.0000000   100</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   rowsums 1.988693 1.696716 1.588996 1.563037 1.499136 0.8372406   100</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(<span class="fu">rowSums</span>(combs),</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>          <span class="fu">comboGeneral</span>(<span class="dv">25</span>, <span class="dv">10</span>,</span>
@@ -474,10 +493,10 @@ highly efficient <code>rowSums</code>/<code>rowMeans</code>
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">parallel =</span> <span class="fu">comboGeneral</span>(<span class="dv">25</span>, <span class="dv">10</span>, <span class="at">constraintFun =</span> <span class="st">&quot;mean&quot;</span>, <span class="at">Parallel =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>             <span class="at">rowmeans =</span> <span class="fu">rowMeans</span>(combs), <span class="at">unit =</span> <span class="st">&quot;relative&quot;</span>)</span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      expr      min       lq     mean   median       uq      max neval cld</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    serial 3.063023 2.561861 2.411453 2.542078 2.529883 1.553592   100   c</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  parallel 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000   100 a</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  rowmeans 1.759344 1.443430 1.348248 1.418801 1.404468 0.532154   100  b</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      expr      min       lq     mean   median       uq      max neval</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    serial 2.342782 2.277912 2.229839 2.232503 2.148877 2.660739   100</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  parallel 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000   100</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  rowmeans 1.295473 1.296983 1.254463 1.270345 1.222643 1.084184   100</span></span>
 <span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(<span class="fu">rowMeans</span>(combs),</span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>          <span class="fu">comboGeneral</span>(<span class="dv">25</span>, <span class="dv">10</span>,</span>
@@ -508,7 +527,7 @@ for the <code>limitConstraint</code>.</p>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>myNums <span class="ot">=</span> <span class="fu">sample</span>(<span class="dv">500</span>, <span class="dv">20</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>myNums</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 329 313 430  95 209 442 351 317 444 315 246 355 128 131 288   9 352 489 354 244</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 329 313 430  95 209 442 351 317 444 315 246 355 128 131 288   9 352 489 354 244</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Find all 5-tuples combinations without repetition of myNums</span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="do">## (defined above) such that the sum is equal to 1176.</span></span>
@@ -543,7 +562,7 @@ for the <code>limitConstraint</code>.</p>
 <span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="do">## Again, we authenticate with brute force</span></span>
 <span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>allCombs <span class="ot">=</span> <span class="fu">comboGeneral</span>(<span class="fu">sort</span>(myNums), <span class="dv">5</span>, <span class="cn">TRUE</span>)</span>
 <span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(p2, allCombs[<span class="fu">which</span>(<span class="fu">rowMeans</span>(allCombs) <span class="sc">&lt;=</span> <span class="dv">150</span>), ])</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] FALSE  </span><span class="al">###</span><span class="co"> &lt;&lt;--- What? They should be the same</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] FALSE  </span><span class="al">###</span><span class="co"> &lt;-- What? They should be the same</span></span>
 <span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="do">## N.B.</span></span>
 <span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(p2[<span class="dv">1</span>, ])</span>
@@ -618,8 +637,8 @@ added to the output that is the result of applying
 errors</a> can occur. As stated in <a href="https://en.wikipedia.org/wiki/Floating-point_error_mitigation">floating-point
 error mitigation</a>:</p>
 <blockquote>
-<p><em><strong>“By definition, floating-point error cannot be
-eliminated, and, at best, can only be managed.”</strong></em></p>
+<p><strong><em>“By definition, floating-point error cannot be
+eliminated, and, at best, can only be managed.”</em></strong></p>
 </blockquote>
 <p>Here is a great stackoverflow post that further illuminates this
 tricky topic:</p>
@@ -693,16 +712,16 @@ Observe:</p>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">constraintFun =</span> <span class="st">&quot;mean&quot;</span>, <span class="at">comparisonFun =</span> <span class="fu">c</span>(<span class="st">&quot;&gt;&quot;</span>, <span class="st">&quot;&lt;&quot;</span>),</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">limitConstraints =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>), <span class="at">keepResults =</span> <span class="cn">TRUE</span>, <span class="at">tolerance =</span> <span class="dv">0</span>)</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [,1] [,2] [,3]     [,4]</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]    2    5    7 4.666667   &lt;-- First combination that meets the criteria</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]    2    5    7 4.666667   </span><span class="al">###</span><span class="co"> &lt;-- First combination that meets the criteria</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]    2    7    5 4.666667</span></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]    5    2    7 4.666667</span></span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]    5    7    2 4.666667</span></span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]    7    2    5 4.666667</span></span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]    7    5    2 4.666667</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]    3    3    7 4.333333   &lt;-- Second combination that meets the criteria</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]    3    3    7 4.333333   </span><span class="al">###</span><span class="co"> &lt;-- Second combination that meets the criteria</span></span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]    3    7    3 4.333333</span></span>
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]    7    3    3 4.333333</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]    3    5    5 4.333333   &lt;-- Third combination that meets the criteria</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,]    3    5    5 4.333333   </span><span class="al">###</span><span class="co"> &lt;-- Third combination that meets the criteria</span></span>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11,]    5    3    5 4.333333</span></span>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [12,]    5    5    3 4.333333</span></span></code></pre></div>
 <p>As you can see, the <em>2<sup>nd</sup></em> through the
@@ -723,7 +742,7 @@ partitions</a>.</p>
 <code>comboGeneral</code> with <code>constraintFun = &quot;sum&quot;</code> and
 <code>comparisonFun = &quot;==&quot;</code>. Instead of using the very general
 <code>limitConstraints</code> parameter, we use <code>target</code> with
-a default of <code>max(abs(v))</code> as it seems more fitting for
+a default of <code>max(v)</code> as it seems more fitting for
 partitions.</p>
 <div id="case-1-all-integer-partitions-of-n" class="section level3">
 <h3>Case 1: All Integer Partitions of <em>N</em></h3>
@@ -806,21 +825,21 @@ desired length and deciding whether to include zero or not.</p>
 <span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
 <span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1]</span></span>
 <span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   10</span></span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[2]]</span></span>
 <span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2]</span></span>
 <span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    1    9</span></span>
 <span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    2    8</span></span>
 <span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]    3    7</span></span>
 <span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]    4    6</span></span>
-<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[3]]</span></span>
 <span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
 <span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    1    2    7</span></span>
 <span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    1    3    6</span></span>
 <span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]    1    4    5</span></span>
 <span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]    2    3    5</span></span>
-<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;</span></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[4]]</span></span>
 <span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4]</span></span>
 <span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    1    2    3    4</span></span></code></pre></div>
@@ -861,29 +880,29 @@ of the output will be determined by the longest non-zero combination
 that sums to <em>N</em>.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## m is NOT NULL and output has at most 2 zeros</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">partitionsGeneral</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">3</span>, <span class="at">freqs =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">10</span>)))</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    0    0   10</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    0    1    9</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]    0    2    8</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]    0    3    7</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]    0    4    6</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6,]    1    2    7</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7,]    1    3    6</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [8,]    1    4    5</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [9,]    2    3    5</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [,1] [,2] [,3]</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]    0    0   10</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]    0    1    9</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]    0    2    8</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]    0    3    7</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]    0    4    6</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]    1    2    7</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]    1    3    6</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]    1    4    5</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]    2    3    5</span></span>
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="do">## m is NULL and output has at most 2 zeros</span></span>
 <span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="fu">partitionsGeneral</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">freqs =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">10</span>)))</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4]</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    0    0    1    9</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    0    0    2    8</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]    0    0    3    7</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]    0    0    4    6</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,]    0    1    2    7</span></span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6,]    0    1    3    6</span></span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7,]    0    1    4    5</span></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [8,]    0    2    3    5</span></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [9,]    1    2    3    4</span></span></code></pre></div>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [,1] [,2] [,3] [,4]</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,]    0    0    1    9</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,]    0    0    2    8</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,]    0    0    3    7</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,]    0    0    4    6</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,]    0    1    2    7</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,]    0    1    3    6</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,]    0    1    4    5</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,]    0    2    3    5</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,]    1    2    3    4</span></span></code></pre></div>
 </div>
 </div>
 <div id="case-4-integer-partitions-of-n-into-parts-of-varying-multiplicity" class="section level3">
@@ -918,13 +937,13 @@ in parallel using the <code>nThreads</code> argument.</p>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Single threaded</span></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">partitionsGeneral</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">60</span>, <span class="at">repetition =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  user  system elapsed</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.092   0.051   0.143</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.025   0.012   0.037</span></span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Using nThreads</span></span>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">partitionsGeneral</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">60</span>, <span class="at">repetition =</span> <span class="cn">TRUE</span>, <span class="at">nThreads=</span><span class="dv">4</span>))</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  user  system elapsed</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.116   0.103   0.056</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.033   0.023   0.015</span></span>
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="do">## partitions of 120 into distinct parts</span></span>
@@ -932,12 +951,12 @@ in parallel using the <code>nThreads</code> argument.</p>
 <span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2194432</span></span>
 <span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">partitionsGeneral</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">120</span>, <span class="at">freqs =</span> <span class="fu">c</span>(<span class="dv">120</span>, <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">120</span>))))</span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  user  system elapsed</span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  0.11    0.00    0.11</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.020   0.007   0.027</span></span>
 <span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">partitionsGeneral</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">120</span>, <span class="at">freqs =</span> <span class="fu">c</span>(<span class="dv">120</span>, <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">120</span>)), <span class="at">nThreads=</span><span class="dv">4</span>))</span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  user  system elapsed</span></span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.146   0.001   0.038</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.027   0.005   0.011</span></span>
 <span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="do">## partitions of 100 into parts of 15 with specific multiplicity</span></span>
@@ -946,8 +965,8 @@ in parallel using the <code>nThreads</code> argument.</p>
 <span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="do">## Over 6 million in just over a second!</span></span>
 <span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">partitionsGeneral</span>(<span class="dv">100</span>, <span class="dv">15</span>, <span class="at">freqs =</span> <span class="fu">rep</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">8</span>, <span class="dv">20</span>)))</span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed</span></span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.735   0.366   1.100</span></span></code></pre></div>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.299   0.085   0.385</span></span></code></pre></div>
 </div>
 <div id="integer-compositions" class="section level2">
 <h2>Integer Compositions</h2>
@@ -1093,8 +1112,8 @@ parallel computation. With <code>permuteGeneral</code>, the parallel
 options have no effect when generating compositions.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">## compositions of 25</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">compositionsGeneral</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">repetition =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   1.624   0.384   2.013</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   1.650   0.099   1.748</span></span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">compositionsCount</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">repetition=</span><span class="cn">TRUE</span>)</span>
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 16777216</span></span>
@@ -1102,23 +1121,23 @@ options have no effect when generating compositions.</p>
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Use multiple threads for greater efficiency. Generate</span></span>
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="do">## over 16 million compositions in under a second!</span></span>
 <span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">compositionsGeneral</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">repetition =</span> <span class="cn">TRUE</span>, <span class="at">nThreads =</span> <span class="dv">4</span>))</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   1.921   0.465   0.734</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   1.827   0.102   0.510</span></span>
 <span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="do">## weak compositions of 12 usnig nThreads = 4</span></span>
 <span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(weakComp12 <span class="ot">&lt;-</span> <span class="fu">compositionsGeneral</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">repetition =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">weak =</span> <span class="cn">TRUE</span>, <span class="at">nThreads =</span> <span class="dv">4</span>))</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  user  system elapsed </span></span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.028   0.000   0.007</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.012   0.006   0.005</span></span>
 <span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="do">## And using permuteGeneral</span></span>
 <span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(weakPerm12 <span class="ot">&lt;-</span> <span class="fu">permuteGeneral</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>, <span class="dv">12</span>, <span class="at">repetition =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">constraintFun =</span> <span class="st">&quot;sum&quot;</span>,</span>
 <span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">comparisonFun =</span> <span class="st">&quot;==&quot;</span>,</span>
 <span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">limitConstraints =</span> <span class="dv">12</span>))</span>
-<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  user  system elapsed</span></span>
-<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.021   0.000   0.021</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.012   0.003   0.015</span></span>
 <span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(weakPerm12)</span>
 <span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1352078      12</span></span>
@@ -1133,8 +1152,8 @@ options have no effect when generating compositions.</p>
 <span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">constraintFun =</span> <span class="st">&quot;sum&quot;</span>,</span>
 <span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">comparisonFun =</span> <span class="st">&quot;==&quot;</span>,</span>
 <span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">limitConstraints =</span> <span class="dv">25</span>))</span>
-<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed</span></span>
-<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.045   0.009   0.054</span></span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.024   0.006   0.031</span></span>
 <span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(comp25_gen)</span>
 <span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 946092     10</span></span></code></pre></div>
@@ -1166,8 +1185,10 @@ simply hit <code>Ctrl + c</code>, or <code>esc</code> if using
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="do">## No problem... simply hit Ctrl + c or if in RStudio, hit esc</span></span>
 <span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="do">## or hit the &quot;Stop&quot; button</span></span>
 <span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(testInterrupt <span class="ot">&lt;-</span> <span class="fu">partitionsGeneral</span>(s, <span class="dv">20</span>, <span class="cn">TRUE</span>, <span class="at">target =</span> <span class="dv">0</span>))</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Timing stopped at: 2.012 0.006 2.023</span></span></code></pre></div>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="do">## system.time(testInterrupt &lt;- partitionsGeneral(s, 20, TRUE, target = 0))</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Timing stopped at: 1.029 0.011 1.04</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span></code></pre></div>
 <div id="note-about-interrupting-execution" class="section level3">
 <h3>Note about Interrupting Execution</h3>
 <p>Generally, we encourage user to use iterators (See <a href="https://jwood000.github.io/RcppAlgos/articles/CombinatoricsIterators.html">Combinatorial
@@ -1181,8 +1202,8 @@ combinatorial explosion without fear of having to restart R.</p>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Test one iteration to see if we need to relax the tolerance</span></span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(iter<span class="sc">@</span><span class="fu">nextIter</span>())</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   7.777   0.005   7.783</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   5.294   0.011   5.306</span></span>
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 8 seconds per iteration is a bit much... Let&#39;s loosen things</span></span>
 <span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="do">## a little by increasing the tolerance from sqrt(.Machine$double.eps)</span></span>
@@ -1190,8 +1211,8 @@ combinatorial explosion without fear of having to restart R.</p>
 <span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>relaxedIter <span class="ot">=</span> <span class="fu">partitionsIter</span>(s, <span class="dv">20</span>, <span class="cn">TRUE</span>, <span class="at">target =</span> <span class="dv">0</span>, <span class="at">tolerance =</span> <span class="fl">1e-5</span>)</span>
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(relaxedIter<span class="sc">@</span><span class="fu">nextIter</span>())</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed</span></span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.001   0.000   0.001</span></span></code></pre></div>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.000   0.000   0.001</span></span></code></pre></div>
 </div>
 </div>
 

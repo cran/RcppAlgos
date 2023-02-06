@@ -7,8 +7,9 @@
 #include "Partitions/PartitionsCount.h"
 #include "Permutations/PermuteCount.h"
 #include "Combinations/ComboCount.h"
-#include "CleanConvert.h"  // Significand53
-#include <algorithm>       // std::count_if, std::find
+#include <memory>
+#include "CppConvert/Constants.h"  // Significand53
+#include <algorithm>               // std::count_if, std::find
 
 constexpr double cutOff = 3.0;
 
@@ -17,11 +18,11 @@ std::unique_ptr<CountClass> MakeCount(PartitionType ptype, bool isComp) {
     if (isComp) {
         switch (ptype) {
             case PartitionType::RepStdAll: {
-                return FromCpp14::make_unique<CompsRepZero>();
+                return std::make_unique<CompsRepZero>();
             } case PartitionType::RepNoZero: {
-                return FromCpp14::make_unique<CompsRepLen>();
+                return std::make_unique<CompsRepLen>();
             } case PartitionType::RepShort: {
-                return FromCpp14::make_unique<CompsRepZero>();
+                return std::make_unique<CompsRepZero>();
             } default: {
                 return nullptr;
             }
@@ -30,161 +31,150 @@ std::unique_ptr<CountClass> MakeCount(PartitionType ptype, bool isComp) {
 
     switch (ptype) {
         case PartitionType::RepStdAll: {
-            return FromCpp14::make_unique<RepAll>();
+            return std::make_unique<RepAll>();
         } case PartitionType::RepNoZero: {
-            return FromCpp14::make_unique<RepLen>();
+            return std::make_unique<RepLen>();
         } case PartitionType::RepShort: {
-            return FromCpp14::make_unique<RepLen>();
+            return std::make_unique<RepLen>();
         } case PartitionType::RepCapped: {
-            return FromCpp14::make_unique<RepLenCap>();
+            return std::make_unique<RepLenCap>();
         } case PartitionType::DstctStdAll: {
-            return FromCpp14::make_unique<DistinctAll>();
+            return std::make_unique<DistinctAll>();
         } case PartitionType::DstctMultiZero: {
-            return FromCpp14::make_unique<DistinctMZ>();
+            return std::make_unique<DistinctMZ>();
         } case PartitionType::DstctOneZero: {
-            return FromCpp14::make_unique<DistinctLen>();
+            return std::make_unique<DistinctLen>();
         } case PartitionType::DstctNoZero: {
-            return FromCpp14::make_unique<DistinctLen>();
+            return std::make_unique<DistinctLen>();
         } case PartitionType::DstctCapped: {
-            return FromCpp14::make_unique<DistinctLenCap>();
+            return std::make_unique<DistinctLenCap>();
         } case PartitionType::DstctCappedMZ: {
-            return FromCpp14::make_unique<DistinctCapMZ>();
+            return std::make_unique<DistinctCapMZ>();
         } default: {
-            return FromCpp14::make_unique<RepAll>();
+            return std::make_unique<RepAll>();
         }
     }
 }
 
-void CountClass::ClearMpz() {
-    for (int i = 0; i < size; ++i) {
-        mpz_clear(p1[i]);
-        mpz_clear(p2[i]);
-    }
-}
 
 void CountClass::InitializeMpz() {
     if (size) {
-        p1 = FromCpp14::make_unique<mpz_t[]>(size);
-        p2 = FromCpp14::make_unique<mpz_t[]>(size);
-
-        for (int i = 0; i < size; ++i) {
-            mpz_init(p1[i]);
-            mpz_init(p2[i]);
-        }
+        p1.resize(size);
+        p2.resize(size);
     }
 }
 
-void DistinctLen::GetCount(mpz_t res, int n, int m, int cap,
+void DistinctLen::GetCount(mpz_class &res, int n, int m, int cap,
                            int strtLen, bool bLiteral) {
 
-    if (mpz_cmp_ui(res, 0u) == 0 || mpz_cmp_d(res, Significand53) > 0) {
-        CountPartsDistinctLen(res, p1.get(), p2.get(), n, m, cap, strtLen);
+    if (cmp(res, 0) == 0 || cmp(res, Significand53) > 0) {
+        CountPartsDistinctLen(res, p1, p2, n, m, cap, strtLen);
     } else {
         const double dblRes = CountPartsDistinctLen(n, m, cap, strtLen);
-        mpz_set_d(res, dblRes);
+        res = dblRes;
     }
 }
 
-void DistinctLenCap::GetCount(mpz_t res, int n, int m, int cap,
+void DistinctLenCap::GetCount(mpz_class &res, int n, int m, int cap,
                               int strtLen, bool bLiteral) {
 
-    if (mpz_cmp_ui(res, 0u) == 0 || mpz_cmp_d(res, Significand53) > 0) {
-        CountPartsDistinctLenCap(res, p1.get(), p2.get(),
+    if (cmp(res, 0) == 0 || cmp(res, Significand53) > 0) {
+        CountPartsDistinctLenCap(res, p1, p2,
                                  n, m, cap, strtLen);
     } else {
         const double dblRes = CountPartsDistinctLenCap(n, m, cap, strtLen);
-        mpz_set_d(res, dblRes);
+        res = dblRes;
     }
 }
 
-void DistinctMZ::GetCount(mpz_t res, int n, int m, int cap,
+void DistinctMZ::GetCount(mpz_class &res, int n, int m, int cap,
                           int strtLen, bool bLiteral) {
 
-    if (mpz_cmp_ui(res, 0u) == 0 || mpz_cmp_d(res, Significand53) > 0) {
+    if (cmp(res, 0) == 0 || cmp(res, Significand53) > 0) {
         if (bLiteral) {
-            CountPartsDistinctMultiZero(res, p1.get(), p2.get(),
+            CountPartsDistinctMultiZero(res, p1, p2,
                                         n, m, cap, strtLen);
         } else {
-            CountPartsDistinctLen(res, p1.get(), p2.get(),
+            CountPartsDistinctLen(res, p1, p2,
                                   n, m, cap, strtLen);
         }
     } else {
         const double dblRes = bLiteral ?
             CountPartsDistinctMultiZero(n, m, cap, strtLen) :
             CountPartsDistinctLen(n, m, cap, strtLen);
-        mpz_set_d(res, dblRes);
+        res = dblRes;
     }
 }
 
-void DistinctCapMZ::GetCount(mpz_t res, int n, int m, int cap,
+void DistinctCapMZ::GetCount(mpz_class &res, int n, int m, int cap,
                              int strtLen, bool bLiteral) {
 
-    if (mpz_cmp_ui(res, 0u) == 0 || mpz_cmp_d(res, Significand53) > 0) {
+    if (cmp(res, 0) == 0 || cmp(res, Significand53) > 0) {
         if (bLiteral) {
-            CountPartsDistinctCapMZ(res, p1.get(), p2.get(),
+            CountPartsDistinctCapMZ(res, p1, p2,
                                     n, m, cap, strtLen);
         } else {
-            CountPartsDistinctLenCap(res, p1.get(), p2.get(),
+            CountPartsDistinctLenCap(res, p1, p2,
                                      n, m, cap, strtLen);
         }
     } else {
         const double dblRes = bLiteral ?
             CountPartsDistinctCapMZ(n, m, cap, strtLen) :
             CountPartsDistinctLenCap(n, m, cap, strtLen);
-        mpz_set_d(res, dblRes);
+        res = dblRes;
     }
 }
 
-void RepLen::GetCount(mpz_t res, int n, int m, int cap,
+void RepLen::GetCount(mpz_class &res, int n, int m, int cap,
                       int strtLen, bool bLiteral) {
 
-    if (mpz_cmp_ui(res, 0u) == 0 || mpz_cmp_d(res, Significand53) > 0) {
-        CountPartsRepLen(res, p1.get(), p2.get(), n, m, cap, strtLen);
+    if (cmp(res, 0) == 0 || cmp(res, Significand53) > 0) {
+        CountPartsRepLen(res, p1, p2, n, m, cap, strtLen);
     } else {
         const double dblRes = CountPartsRepLen(n, m, cap, strtLen);
-        mpz_set_d(res, dblRes);
+        res = dblRes;
     }
 }
 
-void RepLenCap::GetCount(mpz_t res, int n, int m, int cap,
+void RepLenCap::GetCount(mpz_class &res, int n, int m, int cap,
                          int strtLen, bool bLiteral) {
 
-    if (mpz_cmp_ui(res, 0u) == 0 || mpz_cmp_d(res, Significand53) > 0) {
-        CountPartsRepLenCap(res, p1.get(), p2.get(), n, m, cap, strtLen);
+    if (cmp(res, 0) == 0 || cmp(res, Significand53) > 0) {
+        CountPartsRepLenCap(res, p1, p2, n, m, cap, strtLen);
     } else {
         const double dblRes = CountPartsRepLenCap(n, m, cap, strtLen);
-        mpz_set_d(res, dblRes);
+        res = dblRes;
     }
 }
 
-void DistinctAll::GetCount(mpz_t res, int n, int m, int cap,
+void DistinctAll::GetCount(mpz_class &res, int n, int m, int cap,
                            int strtLen, bool bLiteral) {
 
-    if (mpz_cmp_ui(res, 0u) == 0 || mpz_cmp_d(res, Significand53) > 0) {
+    if (cmp(res, 0) == 0 || cmp(res, Significand53) > 0) {
         CountPartsDistinct(res, n, m, cap, strtLen);
     } else {
         const double dblRes = CountPartsDistinct(n, m, cap, strtLen);
-        mpz_set_d(res, dblRes);
+        res = dblRes;
     }
 }
 
-void RepAll::GetCount(mpz_t res, int n, int m, int cap,
+void RepAll::GetCount(mpz_class &res, int n, int m, int cap,
                       int strtLen, bool bLiteral) {
 
-    if (mpz_cmp_ui(res, 0u) == 0 || mpz_cmp_d(res, Significand53) > 0) {
+    if (cmp(res, 0) == 0 || cmp(res, Significand53) > 0) {
         CountPartsRep(res, n, m, cap, strtLen);
     } else {
         const double dblRes = CountPartsRep(n, m, cap, strtLen);
-        mpz_set_d(res, dblRes);
+        res = dblRes;
     }
 }
 
-void CompsRepLen::GetCount(mpz_t res, int n, int m, int cap,
+void CompsRepLen::GetCount(mpz_class &res, int n, int m, int cap,
                            int strtLen, bool bLiteral) {
     CountCompsRepLen(res, n, m, cap, strtLen);
 }
 
-void CompsRepZero::GetCount(mpz_t res, int n, int m, int cap,
+void CompsRepZero::GetCount(mpz_class &res, int n, int m, int cap,
                             int strtLen, bool bLiteral) {
     if (bLiteral) {
         CountCompsRepZero(res, n, m, cap, strtLen);
@@ -303,7 +293,8 @@ void PartitionsCount(const std::vector<int> &Reps,
 
     part.count = 0.0;
     part.numUnknown = false;
-    mpz_init(part.bigCount);
+    part.bigCount = 0;
+
     const double capNumIters = static_cast<double>(part.mapTar + 1) *
                                static_cast<double>(part.width - 1) *
                                static_cast<double>(lenV + 1);
@@ -334,7 +325,6 @@ void PartitionsCount(const std::vector<int> &Reps,
                     myClass->InitializeMpz();
                     myClass->GetCount(part.bigCount, part.mapTar,
                                       part.width, part.cap, strtLen);
-                    myClass->ClearMpz();
                 } else {
                     myClass->GetCount(part.bigCount, part.mapTar,
                                       part.width, part.cap, strtLen);

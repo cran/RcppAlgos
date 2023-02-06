@@ -1,6 +1,6 @@
-#ifndef PERMUTE_DISTINCT_APPLY_H
-#define PERMUTE_DISTINCT_APPLY_H
+#pragma once
 
+#include <memory>
 #include "PermuteHelper.h"
 #include "FunAssign.h"
 
@@ -11,7 +11,7 @@ void PermuteDistinctApplyFun(SEXP res, const std::vector<T> &v,
                              int commonLen = 1, int commonType = INTSXP) {
 
     const int retType = TYPEOF(res);
-    auto arrPerm = FromCpp14::make_unique<int[]>(n);
+    auto arrPerm = std::make_unique<int[]>(n);
 
     for (int i = 0; i < n; ++i) {
         arrPerm[i] = z[i];
@@ -58,7 +58,7 @@ void PermuteDistinctApplyFun(SEXP res, SEXP v, SEXP vectorPass,
                              int commonLen = 1, int commonType = INTSXP) {
 
     const int retType = TYPEOF(res);
-    auto arrPerm = FromCpp14::make_unique<int[]>(n);
+    auto arrPerm = std::make_unique<int[]>(n);
 
     for (int i = 0; i < n; ++i) {
         arrPerm[i] = z[i];
@@ -98,5 +98,3 @@ void PermuteDistinctApplyFun(SEXP res, SEXP v, SEXP vectorPass,
     FunAssign(res, vectorPass, sexpFun, rho,
               commonType, commonLen, nRows - 1, nRows, retType);
 }
-
-#endif
