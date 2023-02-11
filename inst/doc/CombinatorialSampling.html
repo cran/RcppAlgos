@@ -12,7 +12,7 @@
 
 <meta name="author" content="Joseph Wood" />
 
-<meta name="date" content="2023-02-04" />
+<meta name="date" content="2023-02-09" />
 
 <title>Combinatorial Sampling and Ranking</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Combinatorial Sampling and Ranking</h1>
 <h4 class="author">Joseph Wood</h4>
-<h4 class="date">02/04/2023</h4>
+<h4 class="date">02/09/2023</h4>
 
 
 <div id="TOC">
@@ -451,8 +451,8 @@ from the <code>gmp</code> package.</li>
 <li>The <code>seed</code> parameter allows for generating reproducible
 samples.</li>
 <li>If the gmp library is needed, the <code>seed</code> parameter must
-be set in order to have reproducible results
-(e.g. <code>set.seed()</code>) has no effect in these cases).</li>
+be set in order to have reproducible results (<em>E.g.</em>
+<code>set.seed()</code>) has no effect in these cases).</li>
 </ul>
 </div>
 <div id="combosample-and-permutesample" class="section level2">
@@ -586,11 +586,11 @@ over the naive approach above:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## the function &quot;naive&quot; is defined above</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">naive</span>(<span class="dv">25</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">15</span>))</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   1.466   0.020   1.486</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   1.510   0.011   1.521</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">comboSample</span>(<span class="dv">25</span>, <span class="dv">10</span>, <span class="at">n =</span> <span class="dv">5</span>, <span class="at">seed =</span> <span class="dv">15</span>))</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.000   0.000   0.001</span></span></code></pre></div>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.001   0.000   0.000</span></span></code></pre></div>
 <p>Even when dealing with extremely large numbers, these algorithms are
 very fast. And using the parallel options have even greater effects than
 we saw with the general counterparts (typically around ~2-3 times faster
@@ -599,7 +599,7 @@ sampling we see a nearly 5x improvement).</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Lightning fast even with examples involving many results</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">comboSample</span>(<span class="dv">2500</span>, <span class="dv">100</span>, <span class="at">n =</span> <span class="dv">5</span>, <span class="at">seed =</span> <span class="dv">15</span>))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       0       0       0</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.001   0.000   0.001</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="do">## The total number of combinations has ~180 digits</span></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>gmp<span class="sc">::</span><span class="fu">log10.bigz</span>(<span class="fu">comboCount</span>(<span class="dv">2500</span>, <span class="dv">100</span>))</span>
@@ -608,12 +608,12 @@ sampling we see a nearly 5x improvement).</p>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Still fast with larger samples</span></span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">comboSample</span>(<span class="dv">2500</span>, <span class="dv">100</span>, <span class="at">n =</span> <span class="fl">1e4</span>, <span class="at">seed =</span> <span class="dv">157</span>))</span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.649   0.003   0.652</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    0.66    0.00    0.66</span></span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Using Parallel/nThreads in these cases has an even greater effect</span></span>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">comboSample</span>(<span class="dv">2500</span>, <span class="dv">100</span>, <span class="at">n =</span> <span class="fl">1e4</span>, <span class="at">seed =</span> <span class="dv">157</span>, <span class="at">nThreads =</span> <span class="dv">8</span>))</span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.915   0.004   0.125</span></span></code></pre></div>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.910   0.003   0.120</span></span></code></pre></div>
 </div>
 <div id="user-defined-functions" class="section level3">
 <h3>User Defined Functions</h3>
@@ -682,13 +682,13 @@ random sample of partitions of a number. Many of the features present in
 <span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(serial <span class="ot">&lt;-</span> <span class="fu">partitionsSample</span>(<span class="dv">2500</span>, <span class="dv">10</span>, <span class="at">n =</span> <span class="fl">1e3</span>,</span>
 <span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">seed =</span> <span class="dv">8128</span>))</span>
 <span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   2.864   0.020   2.884</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   2.939   0.002   2.941</span></span>
 <span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="do">## Use nThreads for greater efficiency</span></span>
 <span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(multi <span class="ot">&lt;-</span> <span class="fu">partitionsSample</span>(<span class="dv">2500</span>, <span class="dv">10</span>, <span class="at">n =</span> <span class="fl">1e3</span>,</span>
 <span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">seed =</span> <span class="dv">8128</span>, <span class="at">nThreads =</span> <span class="dv">8</span>))</span>
 <span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   4.191   0.020   0.570</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   4.203   0.013   0.566</span></span>
 <span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(multi, serial)</span>
 <span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
@@ -704,8 +704,8 @@ random sample of partitions of a number. Many of the features present in
 some cases are not covered. For example, with standard multisets, we are
 currently unable to <em>efficiently</em> generate the
 <em>n<sup>th</sup></em> lexicographical result. Another example is when
-the source vector is not uniform (e.g. when the distance between each
-element is irregular).</p>
+the source vector is not uniform (<em>e.g.</em> when the distance
+between each element is irregular).</p>
 <p>Observe the following:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## No sampling algorithm available when the source vector is not uniform</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">partitionsSample</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="fu">seq</span>(<span class="dv">11</span>, <span class="dv">100</span>, <span class="dv">7</span>)), <span class="dv">10</span>, <span class="at">n =</span> <span class="dv">1</span>, <span class="at">target =</span> <span class="dv">340</span>)</span>
@@ -770,13 +770,13 @@ in <code>compositionsSample</code>.</p>
 <span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(serial <span class="ot">&lt;-</span> <span class="fu">compositionsSample</span>(<span class="dv">2500</span>, <span class="dv">10</span>, <span class="cn">TRUE</span>,</span>
 <span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">n =</span> <span class="fl">1e4</span>, <span class="at">seed =</span> <span class="dv">8128</span>))</span>
 <span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.261   0.003   0.263</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.261   0.000   0.261</span></span>
 <span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="do">## Use nThreads for greater efficiency</span></span>
 <span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(multi <span class="ot">&lt;-</span> <span class="fu">compositionsSample</span>(<span class="dv">2500</span>, <span class="dv">10</span>, <span class="cn">TRUE</span>, <span class="at">n =</span> <span class="fl">1e4</span>,</span>
 <span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">seed =</span> <span class="dv">8128</span>, <span class="at">nThreads =</span> <span class="dv">8</span>))</span>
 <span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.360   0.001   0.054</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.367   0.001   0.049</span></span>
 <span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(multi, serial)</span>
 <span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
@@ -892,7 +892,7 @@ very quickly. For example:</p>
 <span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">print</span>(<span class="fu">naive_rank</span>(<span class="dv">25</span>, <span class="dv">12</span>, comb)))</span>
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2000000</span></span>
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   5.901   0.109   6.010</span></span></code></pre></div>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   5.958   0.059   6.017</span></span></code></pre></div>
 </div>
 <div id="rcppalgos-solutions-1" class="section level2">
 <h2>RcppAlgos Solutions</h2>

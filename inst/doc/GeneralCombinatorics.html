@@ -12,7 +12,7 @@
 
 <meta name="author" content="Joseph Wood" />
 
-<meta name="date" content="2023-02-04" />
+<meta name="date" content="2023-02-09" />
 
 <title>Combination and Permutation Basics</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Combination and Permutation Basics</h1>
 <h4 class="author">Joseph Wood</h4>
-<h4 class="date">02/04/2023</h4>
+<h4 class="date">02/09/2023</h4>
 
 
 <div id="TOC">
@@ -461,7 +461,7 @@ integer <em>n</em> and it will be converted to the sequence
 <span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="do">## They are very efficient...</span></span>
 <span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">comboGeneral</span>(<span class="dv">25</span>, <span class="dv">12</span>))</span>
 <span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.050   0.014   0.063</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.054   0.013   0.067</span></span>
 <span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="fu">comboCount</span>(<span class="dv">25</span>, <span class="dv">12</span>)</span>
 <span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5200300</span></span>
@@ -486,7 +486,7 @@ integer <em>n</em> and it will be converted to the sequence
 <span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a><span class="do">## And for permutations... over 8 million instantly</span></span>
 <span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">permuteGeneral</span>(<span class="dv">13</span>, <span class="dv">7</span>))</span>
 <span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.023   0.016   0.039</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.023   0.013   0.036</span></span>
 <span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a><span class="fu">permuteCount</span>(<span class="dv">13</span>, <span class="dv">7</span>)</span>
 <span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8648640</span></span>
@@ -629,7 +629,7 @@ Observe:</p>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(test <span class="ot">&lt;-</span> <span class="fu">getPermsWithSpecificRepetition</span>(a, <span class="dv">6</span>))</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.871   0.024   0.896</span></span></code></pre></div>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.890   0.025   0.914</span></span></code></pre></div>
 <div id="enter-freqs" class="section level3">
 <h3>Enter <code>freqs</code></h3>
 <p>Situations like this call for the use of the <code>freqs</code>
@@ -637,7 +637,7 @@ argument. Simply, enter the number of times each unique element is
 repeated and Voila!</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(test2 <span class="ot">&lt;-</span> <span class="fu">permuteGeneral</span>(<span class="fu">unique</span>(a), <span class="dv">6</span>, <span class="at">freqs =</span> <span class="fu">rle</span>(a)<span class="sc">$</span>lengths))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.000   0.000   0.001</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       0       0       0</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(test, test2)</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
@@ -693,19 +693,19 @@ we can generate combinations/permutations with greater efficiency.</p>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in microbenchmark(combn = combn(26, 13), serAlgos = comboGeneral(26, : less</span></span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; accurate nanosecond times to avoid potential integer overflows</span></span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      expr        min        lq      mean     median        uq       max neval</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     combn 136.103406 129.79963 94.815032 105.226650 70.325676 67.823364    10</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  serAlgos   2.869389   2.75351  2.200104   2.284784  1.899086  1.858674    10</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  parAlgos   1.000000   1.00000  1.000000   1.000000  1.000000  1.000000    10</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      expr        min         lq      mean     median        uq       max neval</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     combn 138.149435 137.026840 98.059593 111.426096 74.954179 68.367821    10</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  serAlgos   2.956233   3.013954  2.345718   2.459129  2.111961  1.953849    10</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  parAlgos   1.000000   1.000000  1.000000   1.000000  1.000000  1.000000    10</span></span>
 <span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="do">## Using 7 cores w/ Parallel = TRUE</span></span>
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="at">serial =</span> <span class="fu">comboGeneral</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="at">freqs =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">5</span>)),</span>
 <span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>             <span class="at">parallel =</span> <span class="fu">comboGeneral</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="at">freqs =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">5</span>), <span class="at">Parallel =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>             <span class="at">unit =</span> <span class="st">&quot;relative&quot;</span>)</span>
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      expr      min      lq     mean   median       uq      max neval</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    serial 3.045172 2.78584 2.615533 2.756502 2.414279 2.800588   100</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  parallel 1.000000 1.00000 1.000000 1.000000 1.000000 1.000000   100</span></span></code></pre></div>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      expr      min       lq     mean   median       uq      max neval</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    serial 3.170426 2.820104 2.506331 2.277998 2.372297 2.900557   100</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  parallel 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000   100</span></span></code></pre></div>
 <div id="using-arguments-lower-and-upper" class="section level3">
 <h3>Using arguments <code>lower</code> and <code>upper</code></h3>
 <p>There are arguments <code>lower</code> and <code>upper</code> that
@@ -757,7 +757,7 @@ post</a> for a real use case). Observe:</p>
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>     x</span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>}))</span>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  25.195  11.615  36.885</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  25.889  11.403  37.293</span></span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="do">## Enter parallel</span></span>
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
@@ -767,7 +767,7 @@ post</a> for a real use case). Observe:</p>
 <span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>     x</span>
 <span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>}, <span class="at">mc.cores =</span> <span class="dv">6</span>))</span>
 <span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  11.219   6.130   9.580</span></span></code></pre></div>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  11.086   6.158   9.393</span></span></code></pre></div>
 </div>
 </div>
 <div id="gmp-support" class="section level2">
@@ -788,7 +788,7 @@ number of results is large:</p>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                              <span class="at">lower =</span> <span class="fl">1e15</span> <span class="sc">+</span> <span class="dv">1</span>,</span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                              <span class="at">upper =</span> <span class="fl">1e15</span> <span class="sc">+</span> <span class="fl">1e5</span>))</span>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.003   0.002   0.004</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.002   0.002   0.004</span></span>
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>b[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">45</span><span class="sc">:</span><span class="dv">50</span>]</span>
 <span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           [,1]      [,2]      [,3]     [,4]      [,5]       [,6]</span></span>
@@ -817,9 +817,9 @@ no effect when <code>FUN</code> is employed).</p>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="at">f1 =</span> <span class="fu">funCustomComb</span>(<span class="dv">15</span>, <span class="dv">8</span>),</span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">f2 =</span> <span class="fu">comboGeneral</span>(<span class="dv">15</span>, <span class="dv">8</span>, <span class="at">FUN =</span> cumprod), <span class="at">unit =</span> <span class="st">&quot;relative&quot;</span>)</span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  expr      min      lq     mean   median       uq     max neval</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    f1 5.119805 5.11264 4.993219 5.098462 5.068489 1.44003   100</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    f2 1.000000 1.00000 1.000000 1.000000 1.000000 1.00000   100</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  expr      min       lq     mean   median       uq      max neval</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    f1 5.354184 5.165421 5.166883 5.154368 5.244177 2.258852   100</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    f2 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000   100</span></span>
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="fu">comboGeneral</span>(<span class="dv">15</span>, <span class="dv">8</span>, <span class="at">FUN =</span> cumprod, <span class="at">upper =</span> <span class="dv">3</span>)</span>
 <span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
