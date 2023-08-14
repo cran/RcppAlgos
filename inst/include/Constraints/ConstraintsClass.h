@@ -26,6 +26,7 @@ protected:
 
     bool check_0;
     bool check_1;
+    bool more_perms;
 
     std::vector<int> z;
     std::vector<T> testVec;
@@ -74,7 +75,11 @@ public:
     );
 
     int GetCount() const {return count;}
-    void Reset() {count = 0;}
+
+    void Reset() {
+        more_perms = false;
+        count = 0;
+    }
 };
 
 template <typename T>
