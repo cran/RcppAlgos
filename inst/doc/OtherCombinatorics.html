@@ -12,7 +12,7 @@
 
 <meta name="author" content="Joseph Wood" />
 
-<meta name="date" content="2023-10-02" />
+<meta name="date" content="2023-11-30" />
 
 <title>Cartesian Products and Partitions of Groups</title>
 
@@ -341,7 +341,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Cartesian Products and Partitions of
 Groups</h1>
 <h4 class="author">Joseph Wood</h4>
-<h4 class="date">10/02/2023</h4>
+<h4 class="date">11/30/2023</h4>
 
 
 <div id="TOC">
@@ -470,7 +470,7 @@ impractical.</p>
 <span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="do">## With comboGrid, this is no problem</span></span>
 <span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="fu">system.time</span>(myCombs <span class="ot">&lt;-</span> <span class="fu">comboGrid</span>(pools))</span>
 <span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt;   0.259   0.024   0.283</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt;   0.257   0.020   0.278</span></span>
 <span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a></span>
 <span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">object.size</span>(myCombs), <span class="at">unit =</span> <span class="st">&quot;Mb&quot;</span>)</span>
 <span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt; 92 Mb</span></span>
@@ -496,7 +496,7 @@ impractical.</p>
 <span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a><span class="do">## Generating keys, then filtering will take much more time</span></span>
 <span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a><span class="fu">system.time</span>(cartProd <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(pools))</span>
 <span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a><span class="co">#&gt;   3.575   0.817   4.393</span></span>
+<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a><span class="co">#&gt;   3.641   0.825   4.466</span></span>
 <span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a></span>
 <span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a><span class="do">## Creates huge object</span></span>
 <span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">object.size</span>(cartProd), <span class="at">unit =</span> <span class="st">&quot;Mb&quot;</span>)</span>
@@ -506,7 +506,7 @@ impractical.</p>
 <span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a><span class="do">## Simply set repetition = FALSE</span></span>
 <span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a><span class="fu">system.time</span>(myCombsNoRep <span class="ot">&lt;-</span> <span class="fu">comboGrid</span>(pools, <span class="at">repetition =</span> <span class="cn">FALSE</span>))</span>
 <span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a><span class="co">#&gt;   0.003   0.000   0.003</span></span>
+<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a><span class="co">#&gt;   0.003   0.001   0.003</span></span>
 <span id="cb3-57"><a href="#cb3-57" tabindex="-1"></a></span>
 <span id="cb3-58"><a href="#cb3-58" tabindex="-1"></a><span class="fu">ht</span>(myCombsNoRep)</span>
 <span id="cb3-59"><a href="#cb3-59" tabindex="-1"></a><span class="co">#&gt; head --&gt;</span></span>
@@ -562,40 +562,44 @@ removing entries with permuted groups. Let us consider the following
 example. Given <code>v = 1:12</code>, generate all partitions
 <code>v</code> into 3 groups each of size 4.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>funBruteGrp <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">myLow =</span> <span class="dv">1</span>, myUp) {</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>    mat <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">permuteGeneral</span>(<span class="dv">12</span>, <span class="at">lower =</span> myLow, <span class="at">upper =</span> myUp,</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>        <span class="at">FUN =</span> <span class="cf">function</span>(x) {</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>        <span class="fu">sapply</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">4</span>), <span class="cf">function</span>(y) {</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>             <span class="fu">paste0</span>(<span class="fu">c</span>(<span class="st">&quot;(&quot;</span>, x[(y <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(y <span class="sc">+</span> <span class="dv">4</span>)], <span class="st">&quot;)&quot;</span>), <span class="at">collapse =</span> <span class="st">&quot; &quot;</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>        })</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>    }))</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>    <span class="fu">colnames</span>(mat) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;Grp&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>    <span class="fu">rownames</span>(mat) <span class="ot">&lt;-</span> myLow<span class="sc">:</span>myUp</span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>    mat</span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>}</span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="do">## All of these are the same as only the 3rd group is being permuted</span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="fu">funBruteGrp</span>(<span class="at">myUp =</span> <span class="dv">6</span>)</span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;   Grp1          Grp2          Grp3            </span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; 1 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 9 10 11 12 )&quot;</span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; 2 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 9 10 12 11 )&quot;</span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; 3 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 9 11 10 12 )&quot;</span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; 4 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 9 11 12 10 )&quot;</span></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; 5 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 9 12 10 11 )&quot;</span></span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; 6 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 9 12 11 10 )&quot;</span></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="do">## We found our second distinct partition</span></span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="fu">funBruteGrp</span>(<span class="at">myLow =</span> <span class="dv">23</span>, <span class="at">myUp =</span> <span class="dv">26</span>)</span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt;    Grp1          Grp2          Grp3            </span></span>
-<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co">#&gt; 23 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 12 11 9 10 )&quot;</span></span>
-<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt; 24 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 12 11 10 9 )&quot;</span></span>
-<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt; 25 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 9 )&quot; &quot;( 8 10 11 12 )&quot;  </span><span class="al">###</span><span class="co"> &lt;-- 2nd distinct partition of groups</span></span>
-<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co">#&gt; 26 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 9 )&quot; &quot;( 8 10 12 11 )&quot;</span></span>
-<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a></span>
-<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="fu">funBruteGrp</span>(<span class="at">myLow =</span> <span class="dv">48</span>, <span class="at">myUp =</span> <span class="dv">50</span>)</span>
-<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a><span class="co">#&gt;    Grp1          Grp2           Grp3            </span></span>
-<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="co">#&gt; 48 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 9 )&quot;  &quot;( 12 11 10 8 )&quot;</span></span>
-<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a><span class="co">#&gt; 49 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 10 )&quot; &quot;( 8 9 11 12 )&quot;  </span><span class="al">###</span><span class="co"> &lt;-- 3rd distinct partition of groups</span></span>
-<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a><span class="co">#&gt; 50 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 10 )&quot; &quot;( 8 9 12 11 )&quot;</span></span></code></pre></div>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>    mat <span class="ot">&lt;-</span> <span class="fu">do.call</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>        rbind,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>        <span class="fu">permuteGeneral</span>(<span class="dv">12</span>, <span class="at">lower =</span> myLow, <span class="at">upper =</span> myUp,</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>            <span class="at">FUN =</span> \(x) {</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>                <span class="fu">sapply</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">4</span>), \(y) {</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>                     <span class="fu">paste</span>(<span class="fu">c</span>(<span class="st">&quot;(&quot;</span>, x[(y <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(y <span class="sc">+</span> <span class="dv">4</span>)], <span class="st">&quot;)&quot;</span>), <span class="at">collapse =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>                })</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>            }</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>        )</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>    )</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>    <span class="fu">colnames</span>(mat) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;Grp&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>    <span class="fu">rownames</span>(mat) <span class="ot">&lt;-</span> myLow<span class="sc">:</span>myUp</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>    mat</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>}</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="do">## All of these are the same as only the 3rd group is being permuted</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="fu">funBruteGrp</span>(<span class="at">myUp =</span> <span class="dv">6</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt;   Grp1          Grp2          Grp3            </span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; 1 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 9 10 11 12 )&quot;</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; 2 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 9 10 12 11 )&quot;</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; 3 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 9 11 10 12 )&quot;</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt; 4 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 9 11 12 10 )&quot;</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt; 5 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 9 12 10 11 )&quot;</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt; 6 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 9 12 11 10 )&quot;</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="do">## We found our second distinct partition</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="fu">funBruteGrp</span>(<span class="at">myLow =</span> <span class="dv">23</span>, <span class="at">myUp =</span> <span class="dv">26</span>)</span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co">#&gt;    Grp1          Grp2          Grp3            </span></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="co">#&gt; 23 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 12 11 9 10 )&quot;</span></span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="co">#&gt; 24 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 8 )&quot; &quot;( 12 11 10 9 )&quot;</span></span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a><span class="co">#&gt; 25 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 9 )&quot; &quot;( 8 10 11 12 )&quot;  </span><span class="al">###</span><span class="co"> &lt;-- 2nd distinct partition of groups</span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="co">#&gt; 26 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 9 )&quot; &quot;( 8 10 12 11 )&quot;</span></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a><span class="fu">funBruteGrp</span>(<span class="at">myLow =</span> <span class="dv">48</span>, <span class="at">myUp =</span> <span class="dv">50</span>)</span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="co">#&gt;    Grp1          Grp2           Grp3            </span></span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a><span class="co">#&gt; 48 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 9 )&quot;  &quot;( 12 11 10 8 )&quot;</span></span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="co">#&gt; 49 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 10 )&quot; &quot;( 8 9 11 12 )&quot;  </span><span class="al">###</span><span class="co"> &lt;-- 3rd distinct partition of groups</span></span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a><span class="co">#&gt; 50 &quot;( 1 2 3 4 )&quot; &quot;( 5 6 7 10 )&quot; &quot;( 8 9 12 11 )&quot;</span></span></code></pre></div>
 <p>We are starting to see a pattern. Each new partition is exactly 24
 spots away. This makes sense as there are <code>factorial(4) = 24</code>
 permutations of size 4. Now, this is an oversimplification as if we
@@ -651,21 +655,21 @@ and <code>nThreads</code>.</p>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>                              <span class="at">lower =</span> <span class="st">&quot;123378675000000000&quot;</span>,</span>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>                              <span class="at">upper =</span> <span class="st">&quot;123378675005000000&quot;</span>))</span>
 <span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt;   0.115   0.034   0.149</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt;   0.115   0.031   0.147</span></span>
 <span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a></span>
 <span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="do">## Use specific number of threads</span></span>
 <span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="fu">system.time</span>(a2 <span class="ot">&lt;-</span> <span class="fu">comboGroups</span>(<span class="dv">30</span>, <span class="at">numGroups =</span> <span class="dv">6</span>,</span>
 <span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>                              <span class="at">lower =</span> <span class="st">&quot;123378675000000000&quot;</span>,</span>
 <span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>                              <span class="at">upper =</span> <span class="st">&quot;123378675005000000&quot;</span>, <span class="at">nThreads =</span> <span class="dv">4</span>))</span>
 <span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt;   0.125   0.044   0.044</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt;   0.134   0.056   0.075</span></span>
 <span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a></span>
 <span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="do">## Use n - 1 number of threads (in this case, there are 7)</span></span>
 <span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="fu">system.time</span>(a3 <span class="ot">&lt;-</span> <span class="fu">comboGroups</span>(<span class="dv">30</span>, <span class="at">numGroups =</span> <span class="dv">6</span>,</span>
 <span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>                              <span class="at">lower =</span> <span class="st">&quot;123378675000000000&quot;</span>,</span>
 <span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>                              <span class="at">upper =</span> <span class="st">&quot;123378675005000000&quot;</span>, <span class="at">Parallel =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt;   0.179   0.071   0.043</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt;   0.160   0.081   0.077</span></span>
 <span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a></span>
 <span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="fu">identical</span>(a1, a2)</span>
 <span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
@@ -680,7 +684,7 @@ the vector <code>v = 1:15</code> into 2 groups of 3, 1 groups of 4, and
 1 group of 5:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">system.time</span>(a4 <span class="ot">&lt;-</span> <span class="fu">comboGroups</span>(<span class="dv">15</span>, <span class="at">grpSizes =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)))</span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt;   0.119   0.020   0.138</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt;   0.120   0.025   0.147</span></span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
 <span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">ht</span>(a4)</span>
 <span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; head --&gt;</span></span>
@@ -712,7 +716,7 @@ with groups of varying sizes as well. For example, we can generate
 groups of varying sizes in parallel:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">system.time</span>(a5 <span class="ot">&lt;-</span> <span class="fu">comboGroups</span>(<span class="dv">15</span>, <span class="at">grpSizes =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>), <span class="at">nThreads =</span> <span class="dv">4</span>))</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt;   0.128   0.030   0.040</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt;   0.140   0.037   0.057</span></span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a></span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">identical</span>(a4, a5)</span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>

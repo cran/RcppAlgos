@@ -12,7 +12,7 @@
 
 <meta name="author" content="Joseph Wood" />
 
-<meta name="date" content="2023-10-02" />
+<meta name="date" content="2023-11-30" />
 
 <title>Combinatorial Sampling and Ranking</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Combinatorial Sampling and Ranking</h1>
 <h4 class="author">Joseph Wood</h4>
-<h4 class="date">10/02/2023</h4>
+<h4 class="date">11/30/2023</h4>
 
 
 <div id="TOC">
@@ -585,7 +585,7 @@ over the naive approach above:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="do">## the function &quot;naive&quot; is defined above</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">naive</span>(<span class="dv">25</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">15</span>))</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt;   1.462   0.019   1.482</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt;   1.497   0.011   1.509</span></span>
 <span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
 <span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">comboSample</span>(<span class="dv">25</span>, <span class="dv">10</span>, <span class="at">n =</span> <span class="dv">5</span>, <span class="at">seed =</span> <span class="dv">15</span>))</span>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
@@ -607,12 +607,12 @@ sampling we see a nearly 5x improvement).</p>
 <span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="do">## Still fast with larger samples</span></span>
 <span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">comboSample</span>(<span class="dv">2500</span>, <span class="dv">100</span>, <span class="at">n =</span> <span class="fl">1e4</span>, <span class="at">seed =</span> <span class="dv">157</span>))</span>
 <span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt;   0.648   0.005   0.653</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt;   1.252   0.001   1.253</span></span>
 <span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a></span>
 <span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="do">## Using Parallel/nThreads in these cases has an even greater effect</span></span>
 <span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">comboSample</span>(<span class="dv">2500</span>, <span class="dv">100</span>, <span class="at">n =</span> <span class="fl">1e4</span>, <span class="at">seed =</span> <span class="dv">157</span>, <span class="at">nThreads =</span> <span class="dv">8</span>))</span>
 <span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#&gt;   0.899   0.004   0.122</span></span></code></pre></div>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#&gt;   1.935   0.004   0.265</span></span></code></pre></div>
 </div>
 <div id="user-defined-functions" class="section level3">
 <h3>User Defined Functions</h3>
@@ -681,13 +681,13 @@ random sample of partitions of a number. Many of the features present in
 <span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a><span class="fu">system.time</span>(serial <span class="ot">&lt;-</span> <span class="fu">partitionsSample</span>(<span class="dv">2500</span>, <span class="dv">10</span>, <span class="at">n =</span> <span class="fl">1e3</span>,</span>
 <span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a>                                       <span class="at">seed =</span> <span class="dv">8128</span>))</span>
 <span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a><span class="co">#&gt;   2.993   0.016   3.010</span></span>
+<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a><span class="co">#&gt;   2.986   0.006   2.992</span></span>
 <span id="cb11-31"><a href="#cb11-31" tabindex="-1"></a></span>
 <span id="cb11-32"><a href="#cb11-32" tabindex="-1"></a><span class="do">## Use nThreads for greater efficiency</span></span>
 <span id="cb11-33"><a href="#cb11-33" tabindex="-1"></a><span class="fu">system.time</span>(multi <span class="ot">&lt;-</span> <span class="fu">partitionsSample</span>(<span class="dv">2500</span>, <span class="dv">10</span>, <span class="at">n =</span> <span class="fl">1e3</span>,</span>
 <span id="cb11-34"><a href="#cb11-34" tabindex="-1"></a>                                      <span class="at">seed =</span> <span class="dv">8128</span>, <span class="at">nThreads =</span> <span class="dv">8</span>))</span>
 <span id="cb11-35"><a href="#cb11-35" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb11-36"><a href="#cb11-36" tabindex="-1"></a><span class="co">#&gt;   4.289   0.029   0.591</span></span>
+<span id="cb11-36"><a href="#cb11-36" tabindex="-1"></a><span class="co">#&gt;   4.304   0.027   0.582</span></span>
 <span id="cb11-37"><a href="#cb11-37" tabindex="-1"></a></span>
 <span id="cb11-38"><a href="#cb11-38" tabindex="-1"></a><span class="fu">identical</span>(multi, serial)</span>
 <span id="cb11-39"><a href="#cb11-39" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
@@ -769,13 +769,13 @@ in <code>compositionsSample</code>.</p>
 <span id="cb13-29"><a href="#cb13-29" tabindex="-1"></a><span class="fu">system.time</span>(serial <span class="ot">&lt;-</span> <span class="fu">compositionsSample</span>(<span class="dv">2500</span>, <span class="dv">10</span>, <span class="cn">TRUE</span>,</span>
 <span id="cb13-30"><a href="#cb13-30" tabindex="-1"></a>                                         <span class="at">n =</span> <span class="fl">1e4</span>, <span class="at">seed =</span> <span class="dv">8128</span>))</span>
 <span id="cb13-31"><a href="#cb13-31" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb13-32"><a href="#cb13-32" tabindex="-1"></a><span class="co">#&gt;   0.263   0.002   0.265</span></span>
+<span id="cb13-32"><a href="#cb13-32" tabindex="-1"></a><span class="co">#&gt;   0.262   0.000   0.263</span></span>
 <span id="cb13-33"><a href="#cb13-33" tabindex="-1"></a></span>
 <span id="cb13-34"><a href="#cb13-34" tabindex="-1"></a><span class="do">## Use nThreads for greater efficiency</span></span>
 <span id="cb13-35"><a href="#cb13-35" tabindex="-1"></a><span class="fu">system.time</span>(multi <span class="ot">&lt;-</span> <span class="fu">compositionsSample</span>(<span class="dv">2500</span>, <span class="dv">10</span>, <span class="cn">TRUE</span>, <span class="at">n =</span> <span class="fl">1e4</span>,</span>
 <span id="cb13-36"><a href="#cb13-36" tabindex="-1"></a>                                        <span class="at">seed =</span> <span class="dv">8128</span>, <span class="at">nThreads =</span> <span class="dv">8</span>))</span>
 <span id="cb13-37"><a href="#cb13-37" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb13-38"><a href="#cb13-38" tabindex="-1"></a><span class="co">#&gt;   0.361   0.002   0.053</span></span>
+<span id="cb13-38"><a href="#cb13-38" tabindex="-1"></a><span class="co">#&gt;   0.367   0.001   0.050</span></span>
 <span id="cb13-39"><a href="#cb13-39" tabindex="-1"></a></span>
 <span id="cb13-40"><a href="#cb13-40" tabindex="-1"></a><span class="fu">identical</span>(multi, serial)</span>
 <span id="cb13-41"><a href="#cb13-41" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
@@ -902,7 +902,7 @@ very quickly. For example:</p>
 <span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">print</span>(<span class="fu">naive_rank</span>(<span class="dv">25</span>, <span class="dv">12</span>, comb)))</span>
 <span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="co">#&gt; [1] 2000000</span></span>
 <span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="co">#&gt;   6.045   0.088   6.134</span></span></code></pre></div>
+<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="co">#&gt;   6.048   0.061   6.110</span></span></code></pre></div>
 </div>
 <div id="rcppalgos-solutions-1" class="section level2">
 <h2>RcppAlgos Solutions</h2>
@@ -925,7 +925,7 @@ with <code>comboRank</code>:</p>
 <span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">print</span>(<span class="fu">comboRank</span>(comb, <span class="at">v =</span> <span class="dv">25</span>)))</span>
 <span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="co">#&gt; [1] 2000000</span></span>
 <span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a><span class="co">#&gt;       0       0       0</span></span></code></pre></div>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a><span class="co">#&gt;   0.001   0.000   0.000</span></span></code></pre></div>
 <p>All that is needed is the original vector that was used to produce
 the results and whether or not repetition is used via the
 <code>repetition</code> or <code>freqs</code> arguments. The width is
