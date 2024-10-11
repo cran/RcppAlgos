@@ -1,7 +1,32 @@
 \name{NEWS}
 \title{News for Package \pkg{RcppAlgos}}
 
-\section{Changes in RcppAlgos version 2.8.3 (Release date: 2023-12-11)}{
+\section{Changes in RcppAlgos version 2.8.5 (Release date: 2024-10-11)}{
+    \itemize{
+        \item Other:
+        \itemize{
+            \item Updated Author field and removed Maintainer field in DESCRIPTION file per W.R.E.
+        }
+    }
+}
+
+\section{Changes in RcppAlgos version 2.8.4 (Release date: Never Released)}{
+    \itemize{
+        \item New Features:
+        \itemize{
+            \item Can now pass integer convertible results to the sample functions for the \code{n} parameter.
+            \item Added \code{...} to allow for passing additional arguments to \code{FUN}. For example: \code{comboGeneral(letters, 3, FUN = paste, collapse = ", ")}.
+        }
+        \item Bug Fixes:
+        \itemize{
+            \item Fixed bug with iterator when multithreading and exhausting the iterator.
+            \item Enforced values being converted to a primitive to be of length 1.
+            \item Fixed clang19 error in libdivide.
+        }
+    }
+}
+
+\section{Changes in RcppAlgos version 2.8.3 (Release date: 2023-12-10)}{
     \itemize{
         \item New Features:
         \itemize{
