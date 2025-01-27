@@ -1,11 +1,37 @@
 \name{NEWS}
 \title{News for Package \pkg{RcppAlgos}}
 
+\section{Changes in RcppAlgos version 2.9.1 (Release date: 2025-01-27)}{
+    \itemize{
+        \item Other:
+        \itemize{
+            \item Fixed urls
+        }
+    }
+}
+
+\section{Changes in RcppAlgos version 2.9.0 (Release date: Never Released)}{
+    \itemize{
+        \item New Features:
+        \itemize{
+            \item Added Cartesian product functions: \code{expandGridCount}, \code{expandGrid}, \code{expandGridSample}, and \code{expandGridIter}.
+        }
+        \item Bug Fixes:
+        \itemize{
+            \item Fixed issue in \code{comboGroup} when groups of size 1 are passed. See \href{https://github.com/jwood000/RcppAlgos/issues/53}{Issue #53}.
+        }
+    }
+}
+
 \section{Changes in RcppAlgos version 2.8.5 (Release date: 2024-10-11)}{
     \itemize{
         \item Other:
         \itemize{
             \item Updated Author field and removed Maintainer field in DESCRIPTION file per W.R.E.
+        }
+        \item Bug Fixes:
+        \itemize{
+            \item Fixed LLVM-19 error occurring in libdivide header. See \href{https://github.com/ridiculousfish/libdivide/pull/113}{PR #113}
         }
     }
 }
@@ -190,7 +216,7 @@
     \itemize{
         \item Other:
         \itemize{
-            \item Fixed old urls
+            \item Fixed urls
         }
     }
 }
@@ -214,9 +240,9 @@
 
 \section{Changes in RcppAlgos version 2.4.1 (Release date: 2020-03-24)}{
     \itemize{
-        \item Bug Fixes:
+        \item Other:
         \itemize{
-            \item Removed broken URL in NEWS.Rd
+            \item Fixed urls
         }
     }
 }

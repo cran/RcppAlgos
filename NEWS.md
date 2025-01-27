@@ -1,8 +1,28 @@
+# RcppAlgos 2.9.1
+
+## Other:
+
+* Fixed urls
+
+# RcppAlgos 2.9.0
+
+## New Features:
+
+* Added Cartesian product functions: `expandGrid`, `expandGridCount`, `expandGridSample`, and `expandGridIter`.
+
+## Bug Fixes:
+
+* Fixed issue in `comboGroup` when groups of size 1 are passed. See [Issue #53](<https://github.com/jwood000/RcppAlgos/issues/53>).
+
 # RcppAlgos 2.8.5
 
 ## Other
 
 * Updated Author field and removed Maintainer field in DESCRIPTION file per W.R.E.
+
+## Bug Fixes:
+
+* Fixed LLVM-19 error occurring in libdivide header. See [PR #113](<https://github.com/ridiculousfish/libdivide/pull/113>).
 
 # RcppAlgos 2.8.4
 
@@ -14,7 +34,6 @@
 
 * Fixed bug with iterator when multithreading and exhausting the iterator.
 * Enforced values being converted to a primitive to be of length 1.
-* Fixed clang19 error in libdivide.
 
 # RcppAlgos 2.8.3
 
@@ -147,7 +166,7 @@
 
 ## Other:
 
-* Fixed old urls
+* Fixed urls
 
 # RcppAlgos 2.4.2
 
@@ -165,9 +184,9 @@
 
 # RcppAlgos 2.4.1
 
-## Bug Fixes:
+## Other:
 
-* Removed broken URL in NEWS.Rd
+* Fixed urls
 
 # RcppAlgos 2.4.0
 

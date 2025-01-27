@@ -12,7 +12,7 @@
 
 <meta name="author" content="Joseph Wood" />
 
-<meta name="date" content="2023-11-30" />
+<meta name="date" content="2025-01-20" />
 
 <title>Attacking Problems Related to the Subset Sum Problem</title>
 
@@ -62,7 +62,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -341,7 +341,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Attacking Problems Related to the Subset
 Sum Problem</h1>
 <h4 class="author">Joseph Wood</h4>
-<h4 class="date">11/30/2023</h4>
+<h4 class="date">01/20/2025</h4>
 
 
 <div id="TOC">
@@ -488,7 +488,7 @@ each element with it’s neighbor is constant (E.g.
 <span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a>                                               <span class="at">freqs =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>, <span class="dv">3</span>),</span>
 <span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a>                                               <span class="at">targe =</span> <span class="dv">2613</span>))</span>
 <span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a><span class="co">#&gt;   0.004   0.001   0.005</span></span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a><span class="co">#&gt;   0.003   0.001   0.004</span></span>
 <span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a></span>
 <span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a><span class="fu">ht</span>(genMultiParts)</span>
 <span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a><span class="co">#&gt; head --&gt;</span></span>
@@ -521,7 +521,7 @@ difference of each element with it’s neighbor is constant).</p>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                                      <span class="dv">11</span>, <span class="at">target =</span> <span class="sc">-</span><span class="dv">460</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>})</span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt;   0.002   0.000   0.002</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt;   0.001   0.000   0.001</span></span>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
 <span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">all</span>(<span class="fu">rowSums</span>(genDistParts) <span class="sc">==</span> <span class="sc">-</span><span class="dv">460</span><span class="dt">L</span>)</span>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
@@ -566,7 +566,7 @@ breaks the requirement.</p>
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>})</span>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>uneven_time    <span class="do">## out of a possible 573 million in under a second</span></span>
 <span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;   0.050   0.002   0.052</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;   0.052   0.003   0.055</span></span>
 <span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a></span>
 <span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="fu">ht</span>(genParts2)</span>
 <span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; head --&gt;</span></span>
@@ -584,8 +584,8 @@ breaks the requirement.</p>
 <span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt; [118558,]  196  196  201  201  201  201  201  201  201   201   201   206   206</span></span>
 <span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt; [118559,]  196  201  201  201  201  201  201  201  201   201   201   201   206</span></span>
 <span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co">#&gt; [118560,]  201  201  201  201  201  201  201  201  201   201   201   201   201</span></span></code></pre></div>
-<p>Although the above was about 17 times slower than the first example
-dealing with 573 million combinations (0.052 milliseconds vs. 0.003
+<p>Although the above was about 18 times slower than the first example
+dealing with 573 million combinations (0.055 milliseconds vs. 0.003
 milliseconds), we are still dealing in milliseconds!!! For reference,
 version <code>2.3.4</code> takes about 18 seconds to find all 118,560
 solutions.</p>
@@ -602,7 +602,7 @@ algorithms.</p>
 <span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="fu">system.time</span>(exotic <span class="ot">&lt;-</span> <span class="fu">partitionsGeneral</span>(mySamp, <span class="dv">8</span>, <span class="at">freqs =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">10</span>),</span>
 <span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>                                        <span class="at">target =</span> <span class="dv">496</span>))</span>
 <span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt;   0.130   0.001   0.130</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt;   0.131   0.001   0.133</span></span>
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a></span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="fu">dim</span>(exotic)</span>
 <span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; [1] 102241      8</span></span>
@@ -615,7 +615,7 @@ algorithms.</p>
 <span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">partitionsGeneral</span>(mySamp, <span class="dv">8</span>, <span class="at">freqs =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">10</span>),</span>
 <span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>                              <span class="at">target =</span> <span class="dv">496</span>, <span class="at">upper =</span> <span class="fl">1e3</span>))</span>
 <span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt;   0.001   0.000   0.002</span></span></code></pre></div>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt;   0.002   0.000   0.002</span></span></code></pre></div>
 <p>The function <code>permuteGeneral</code> benefits from these
 optimized algorithms as well. However, just as we discussed in <a href="https://jwood000.github.io/RcppAlgos/articles/CombPermConstraints.html#output-order-with-permutegeneral">Output
 Order with <code>permuteGeneral</code></a>, the output will not be in
@@ -649,7 +649,7 @@ million.</p>
 <span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="fu">system.time</span>(exactly20 <span class="ot">&lt;-</span> <span class="fu">partitionsGeneral</span>(football_player_salaries, <span class="dv">6</span>,</span>
 <span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>                                           <span class="at">target =</span> <span class="fl">2e7</span>, <span class="at">tolerance =</span> <span class="dv">0</span>))</span>
 <span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt;   1.438   0.004   1.441</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt;   1.518   0.002   1.530</span></span>
 <span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a></span>
 <span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="do">## No results that equal exactly 2e7</span></span>
 <span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="fu">dim</span>(exactly20)</span>
@@ -667,7 +667,7 @@ tolerance (if needed) and repeat.</p>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>                                     <span class="at">limitConstraints =</span> <span class="fl">2e7</span>, <span class="at">tolerance =</span> <span class="dv">1000</span>,</span>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>                                     <span class="at">upper =</span> <span class="dv">1000</span>, <span class="at">keepResults =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt;   0.063   0.000   0.062</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt;   0.066   0.000   0.067</span></span>
 <span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a></span>
 <span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="fu">dim</span>(almost20)</span>
 <span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; [1] 1000    7</span></span>
@@ -695,7 +695,7 @@ tolerance (if needed) and repeat.</p>
 <span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a>                                         <span class="at">limitConstraints =</span> <span class="fl">2e7</span>, <span class="at">tolerance =</span> <span class="dv">10</span>,</span>
 <span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a>                                         <span class="at">upper =</span> <span class="dv">1000</span>, <span class="at">keepResults =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a><span class="co">#&gt;   1.435   0.002   1.438</span></span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a><span class="co">#&gt;   1.524   0.002   1.538</span></span>
 <span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a></span>
 <span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a><span class="fu">ht</span>(superClose20)</span>
 <span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a><span class="co">#&gt; head --&gt;</span></span>
@@ -733,9 +733,9 @@ tolerance (if needed) and repeat.</p>
 <span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; Warning in microbenchmark(optimized = comboGeneral(25, 10, constraintFun = &quot;prod&quot;, : less</span></span>
 <span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; accurate nanosecond times to avoid potential integer overflows</span></span>
 <span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt;       expr      min      lq     mean   median     uq      max neval cld</span></span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt;  optimized  1.00000  1.0000  1.00000  1.00000  1.000  1.00000    20  a </span></span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt;      brute 21.60328 21.5596 22.11548 21.31989 22.093 26.20377    20   b</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt;       expr      min       lq     mean   median       uq      max neval</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt;  optimized  1.00000  1.00000  1.00000  1.00000  1.00000  1.00000    20</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt;      brute 21.58235 21.82347 22.04105 21.35346 21.26203 26.41443    20</span></span>
 <span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a></span>
 <span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="do">## What about cases when brute force isn&#39;t feasible</span></span>
 <span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
@@ -765,7 +765,7 @@ tolerance (if needed) and repeat.</p>
 <span id="cb8-44"><a href="#cb8-44" tabindex="-1"></a>                                          <span class="at">limitConstraints =</span> <span class="fl">1.5</span>,</span>
 <span id="cb8-45"><a href="#cb8-45" tabindex="-1"></a>                                          <span class="at">tolerance =</span> <span class="fl">0.0001</span>, <span class="at">upper =</span> <span class="dv">20</span>))</span>
 <span id="cb8-46"><a href="#cb8-46" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb8-47"><a href="#cb8-47" tabindex="-1"></a><span class="co">#&gt;       0       0       0</span></span>
+<span id="cb8-47"><a href="#cb8-47" tabindex="-1"></a><span class="co">#&gt;   0.001   0.000   0.000</span></span>
 <span id="cb8-48"><a href="#cb8-48" tabindex="-1"></a></span>
 <span id="cb8-49"><a href="#cb8-49" tabindex="-1"></a><span class="fu">dim</span>(meanAlmost1<span class="fl">.5</span>)</span>
 <span id="cb8-50"><a href="#cb8-50" tabindex="-1"></a><span class="co">#&gt; [1]  20 100</span></span>
@@ -798,7 +798,7 @@ sections.</p>
 <span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a></span>
 <span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="fu">system.time</span>(almost20withIter <span class="ot">&lt;-</span> salary<span class="sc">@</span><span class="fu">nextNIter</span>(<span class="fl">1e3</span>))</span>
 <span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt;   0.067   0.000   0.067</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt;   0.066   0.000   0.066</span></span>
 <span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a></span>
 <span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="do">## almost20 was generated above with comboGeneral</span></span>
 <span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="fu">all.equal</span>(almost20[, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>], almost20withIter)</span>
@@ -809,7 +809,7 @@ sections.</p>
 <span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a><span class="do">## generate the first 1000 along with the next 1000</span></span>
 <span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="fu">system.time</span>(nextAlmost20withIter <span class="ot">&lt;-</span> salary<span class="sc">@</span><span class="fu">nextNIter</span>(<span class="fl">1e3</span>))</span>
 <span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt;   0.067   0.000   0.066</span></span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt;   0.065   0.000   0.065</span></span>
 <span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a></span>
 <span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="fu">ht</span>(nextAlmost20withIter)</span>
 <span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="co">#&gt; head --&gt;</span></span>
@@ -849,7 +849,7 @@ sections.</p>
 <span id="cb9-61"><a href="#cb9-61" tabindex="-1"></a></span>
 <span id="cb9-62"><a href="#cb9-62" tabindex="-1"></a><span class="fu">system.time</span>(prodAlmost100WithIter <span class="ot">&lt;-</span> prodIter<span class="sc">@</span><span class="fu">nextNIter</span>(<span class="dv">20</span>))</span>
 <span id="cb9-63"><a href="#cb9-63" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-64"><a href="#cb9-64" tabindex="-1"></a><span class="co">#&gt;   0.017   0.000   0.017</span></span>
+<span id="cb9-64"><a href="#cb9-64" tabindex="-1"></a><span class="co">#&gt;   0.016   0.000   0.016</span></span>
 <span id="cb9-65"><a href="#cb9-65" tabindex="-1"></a></span>
 <span id="cb9-66"><a href="#cb9-66" tabindex="-1"></a><span class="fu">all.equal</span>(prodAlmost100, prodAlmost100WithIter)</span>
 <span id="cb9-67"><a href="#cb9-67" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
@@ -858,7 +858,7 @@ sections.</p>
 <span id="cb9-70"><a href="#cb9-70" tabindex="-1"></a><span class="do">## where we left off</span></span>
 <span id="cb9-71"><a href="#cb9-71" tabindex="-1"></a><span class="fu">system.time</span>(nextAlmost100WithIter <span class="ot">&lt;-</span> prodIter<span class="sc">@</span><span class="fu">nextNIter</span>(<span class="dv">20</span>))</span>
 <span id="cb9-72"><a href="#cb9-72" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-73"><a href="#cb9-73" tabindex="-1"></a><span class="co">#&gt;   0.012   0.000   0.012</span></span>
+<span id="cb9-73"><a href="#cb9-73" tabindex="-1"></a><span class="co">#&gt;   0.011   0.000   0.012</span></span>
 <span id="cb9-74"><a href="#cb9-74" tabindex="-1"></a></span>
 <span id="cb9-75"><a href="#cb9-75" tabindex="-1"></a><span class="fu">dim</span>(nextAlmost100WithIter)</span>
 <span id="cb9-76"><a href="#cb9-76" tabindex="-1"></a><span class="co">#&gt; [1]  20 100</span></span>
