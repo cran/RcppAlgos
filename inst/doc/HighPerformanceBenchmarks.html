@@ -12,7 +12,7 @@
 
 <meta name="author" content="Joseph Wood" />
 
-<meta name="date" content="2025-01-20" />
+<meta name="date" content="2025-01-31" />
 
 <title>High Performance Benchmarks</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">High Performance Benchmarks</h1>
 <h4 class="author">Joseph Wood</h4>
-<h4 class="date">01/20/2025</h4>
+<h4 class="date">01/31/2025</h4>
 
 
 <div id="TOC">
@@ -414,7 +414,7 @@ and <a href="https://cran.r-project.org/package=RcppAlgos">RcppAlgos</a>.</p>
 <span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;RcppAlgos&quot;</span>, <span class="st">&quot;arrangements&quot;</span>, <span class="st">&quot;partitions&quot;</span>, <span class="st">&quot;microbenchmark&quot;</span>)</span>
 <span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="fu">sapply</span>(pkgs, packageVersion, <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt; $RcppAlgos</span></span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt; [1] &#39;2.9.0&#39;</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt; [1] &#39;2.9.2&#39;</span></span>
 <span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#&gt; $arrangements</span></span>
 <span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">#&gt; [1] &#39;1.1.9&#39;</span></span>
@@ -452,8 +452,8 @@ and <a href="https://cran.r-project.org/package=RcppAlgos">RcppAlgos</a>.</p>
 <span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
 <span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median    uq   max neval</span></span>
 <span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosPar 1.000 1.000 1.000  1.000 1.000 1.000    15</span></span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 3.394 3.089 3.080  3.079 3.047 2.937    15</span></span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 3.230 2.931 2.921  2.922 2.885 2.793    15</span></span></code></pre></div>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 2.666 2.427 2.432  2.423 2.402 2.401    15</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 2.517 2.290 2.292  2.282 2.263 2.252    15</span></span></code></pre></div>
 </div>
 <div id="combinations---repetition" class="section level3">
 <h3>Combinations - Repetition</h3>
@@ -473,8 +473,8 @@ and <a href="https://cran.r-project.org/package=RcppAlgos">RcppAlgos</a>.</p>
 <span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
 <span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median    uq   max neval</span></span>
 <span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosPar 1.000 1.000 1.000  1.000 1.000 1.000    15</span></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 3.020 2.955 2.944  2.960 2.960 2.781    15</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 2.728 2.782 2.762  2.786 2.779 2.620    15</span></span></code></pre></div>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 3.014 2.937 2.910  2.921 2.850 2.844    15</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 2.771 2.782 2.766  2.762 2.689 2.944    15</span></span></code></pre></div>
 </div>
 <div id="combinations---multisets" class="section level3">
 <h3>Combinations - Multisets</h3>
@@ -494,8 +494,8 @@ and <a href="https://cran.r-project.org/package=RcppAlgos">RcppAlgos</a>.</p>
 <span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
 <span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median    uq   max neval</span></span>
 <span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosPar 1.000 1.000 1.000  1.000 1.000 1.000    10</span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 3.151 3.167 3.115  3.160 3.075 2.906    10</span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 5.705 5.800 5.680  5.766 5.599 5.290    10</span></span></code></pre></div>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 3.105 3.069 3.058  3.040 2.996 3.170    10</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 5.664 5.726 5.662  5.672 5.598 5.604    10</span></span></code></pre></div>
 </div>
 </div>
 <div id="permutations" class="section level2">
@@ -517,8 +517,8 @@ and <a href="https://cran.r-project.org/package=RcppAlgos">RcppAlgos</a>.</p>
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median    uq   max neval</span></span>
 <span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosPar 1.000 1.000 1.000  1.000 1.000 1.000    15</span></span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 1.182 1.182 1.114  1.183 1.139 1.089    15</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 2.065 2.055 1.987  2.065 2.132 1.738    15</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 1.167 1.174 1.090  1.160 1.132 1.056    15</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 2.042 2.052 1.953  2.025 2.167 1.656    15</span></span>
 <span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a></span>
 <span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a></span>
 <span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="do">## Indexing permutation example with the partitions package</span></span>
@@ -541,9 +541,9 @@ and <a href="https://cran.r-project.org/package=RcppAlgos">RcppAlgos</a>.</p>
 <span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
 <span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a><span class="co">#&gt;            expr    min     lq  mean median     uq   max neval</span></span>
 <span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosPar  1.000  1.000 1.000  1.000  1.000 1.000     5</span></span>
-<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer  2.489  2.494 2.423  2.798  2.778 1.885     5</span></span>
-<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a><span class="co">#&gt;  cbArrangements  3.789  3.773 3.455  3.726  3.715 2.727     5</span></span>
-<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a><span class="co">#&gt;    cbPartitions 10.104 10.188 9.216 10.147 10.583 6.650     5</span></span></code></pre></div>
+<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer  2.540  2.477 2.434  2.841  2.825 1.867     5</span></span>
+<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a><span class="co">#&gt;  cbArrangements  3.915  4.136 3.692  4.158  4.246 2.684     5</span></span>
+<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a><span class="co">#&gt;    cbPartitions 10.436 10.282 9.375 10.392 10.990 6.637     5</span></span></code></pre></div>
 </div>
 <div id="permutations---repetition" class="section level3">
 <h3>Permutations - Repetition</h3>
@@ -560,10 +560,10 @@ and <a href="https://cran.r-project.org/package=RcppAlgos">RcppAlgos</a>.</p>
 <span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>               <span class="at">cbArrangements =</span> <span class="fu">permutations</span>(<span class="at">x =</span> v5, <span class="at">k =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>               <span class="at">times =</span> <span class="dv">10</span>, <span class="at">unit =</span> <span class="st">&quot;relative&quot;</span>)</span>
 <span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median    uq    max neval</span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosPar 1.000 1.000 1.000  1.000 1.000 1.0000    10</span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 2.960 2.822 2.309  2.788 2.637 0.9449    10</span></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 3.287 3.097 2.698  3.062 2.916 1.6584    10</span></span></code></pre></div>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median    uq   max neval</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosPar 1.000 1.000 1.000  1.000 1.000 1.000    10</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 3.002 2.803 2.334  2.778 2.780 0.937    10</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 3.289 3.055 2.739  3.077 3.077 1.668    10</span></span></code></pre></div>
 </div>
 <div id="permutations---multisets" class="section level3">
 <h3>Permutations - Multisets</h3>
@@ -582,8 +582,8 @@ and <a href="https://cran.r-project.org/package=RcppAlgos">RcppAlgos</a>.</p>
 <span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
 <span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median    uq   max neval</span></span>
 <span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosPar 1.000 1.000 1.000  1.000 1.000 1.000    10</span></span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 3.457 3.503 3.197  3.510 2.614 2.720    10</span></span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 3.867 3.894 3.600  3.886 3.112 3.011    10</span></span></code></pre></div>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 3.531 3.460 3.217  3.437 2.758 2.815    10</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 3.901 3.824 3.591  3.816 3.128 3.084    10</span></span></code></pre></div>
 </div>
 </div>
 <div id="partitions" class="section level2">
@@ -615,9 +615,9 @@ and <a href="https://cran.r-project.org/package=RcppAlgos">RcppAlgos</a>.</p>
 <span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
 <span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt;            expr    min     lq   mean median     uq    max neval</span></span>
 <span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosPar  1.000  1.000  1.000  1.000  1.000  1.000    10</span></span>
-<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer  3.236  3.197  2.913  3.107  2.599  2.593    10</span></span>
-<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt;  cbArrangements  2.565  2.540  2.321  2.469  2.153  2.203    10</span></span>
-<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt;    cbPartitions 16.860 17.088 14.995 16.855 13.122 12.187    10</span></span></code></pre></div>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer  3.172  3.178  2.887  3.098  2.696  2.539    10</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt;  cbArrangements  2.510  2.528  2.316  2.488  2.205  2.173    10</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt;    cbPartitions 16.918 17.160 15.042 17.001 13.310 12.298    10</span></span></code></pre></div>
 </div>
 <div id="restricted-distinct-partitions" class="section level4">
 <h4>Restricted Distinct Partitions</h4>
@@ -637,8 +637,8 @@ and <a href="https://cran.r-project.org/package=RcppAlgos">RcppAlgos</a>.</p>
 <span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
 <span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median    uq   max neval</span></span>
 <span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosPar 1.000 1.000 1.000  1.000 1.000 1.000    10</span></span>
-<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 3.419 3.404 3.039  3.375 3.319 2.239    10</span></span>
-<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 4.648 4.641 3.963  4.594 4.434 2.519    10</span></span></code></pre></div>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 3.428 3.401 3.013  3.220 3.200 2.316    10</span></span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 4.657 4.587 3.951  4.307 4.274 2.936    10</span></span></code></pre></div>
 </div>
 </div>
 <div id="partitions---repetition" class="section level3">
@@ -668,9 +668,9 @@ and <a href="https://cran.r-project.org/package=RcppAlgos">RcppAlgos</a>.</p>
 <span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
 <span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median    uq   max neval</span></span>
 <span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosPar 1.000 1.000 1.000  1.000 1.000 1.000    20</span></span>
-<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 2.872 2.809 2.296  2.433 2.271 1.730    20</span></span>
-<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 2.124 2.111 1.712  1.830 1.768 1.116    20</span></span>
-<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co">#&gt;    cbPartitions 8.977 8.755 6.807  7.582 6.544 4.177    20</span></span></code></pre></div>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 2.849 2.767 2.311  2.461 2.313 1.751    20</span></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 2.122 2.047 1.712  1.834 1.794 1.130    20</span></span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co">#&gt;    cbPartitions 8.855 8.639 6.886  7.736 6.792 4.217    20</span></span></code></pre></div>
 </div>
 <div id="restricted-partitions" class="section level4">
 <h4>Restricted Partitions</h4>
@@ -699,11 +699,11 @@ and <a href="https://cran.r-project.org/package=RcppAlgos">RcppAlgos</a>.</p>
 <span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a>                                                <span class="at">include.zero =</span> <span class="cn">FALSE</span>),</span>
 <span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a>               <span class="at">times =</span> <span class="dv">10</span>, <span class="at">unit =</span> <span class="st">&quot;relative&quot;</span>)</span>
 <span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
-<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a><span class="co">#&gt;            expr    min     lq   mean median     uq    max neval</span></span>
-<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosPar  1.000  1.000  1.000  1.000  1.000  1.000    10</span></span>
-<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer  3.344  3.331  3.032  3.142  2.783  2.758    10</span></span>
-<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a><span class="co">#&gt;  cbArrangements  4.248  4.228  3.932  4.148  3.490  3.924    10</span></span>
-<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a><span class="co">#&gt;    cbPartitions 14.467 14.480 12.950 13.647 11.458 11.611    10</span></span></code></pre></div>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a><span class="co">#&gt;            expr    min     lq   mean median    uq    max neval</span></span>
+<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosPar  1.000  1.000  1.000  1.000  1.00  1.000    10</span></span>
+<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer  3.402  3.281  3.055  3.150  2.85  2.827    10</span></span>
+<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a><span class="co">#&gt;  cbArrangements  4.194  4.045  3.884  4.087  3.51  3.985    10</span></span>
+<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a><span class="co">#&gt;    cbPartitions 14.250 14.076 12.877 13.534 11.57 11.824    10</span></span></code></pre></div>
 </div>
 </div>
 <div id="partitions---multisets" class="section level3">
@@ -722,7 +722,7 @@ improvements.</p>
 <span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>               <span class="at">times =</span> <span class="dv">10</span>)</span>
 <span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; Unit: milliseconds</span></span>
 <span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co">#&gt;         expr   min    lq  mean median    uq   max neval</span></span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgos 246.7 248.3 254.1  252.1 255.1 268.9    10</span></span></code></pre></div>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgos 246.8 250.6 255.3  252.6 256.4 269.3    10</span></span></code></pre></div>
 </div>
 </div>
 <div id="compositions" class="section level2">
@@ -749,10 +749,10 @@ improvements.</p>
 <span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>               <span class="at">cbPartitions   =</span> partitions<span class="sc">::</span><span class="fu">compositions</span>(<span class="dv">15</span>),</span>
 <span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>               <span class="at">times =</span> <span class="dv">20</span>, <span class="at">unit =</span> <span class="st">&quot;relative&quot;</span>)</span>
 <span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
-<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a><span class="co">#&gt;            expr     min      lq    mean  median      uq    max neval</span></span>
-<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer   1.000   1.000   1.000   1.000   1.000   1.00    20</span></span>
-<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a><span class="co">#&gt;  cbArrangements   1.193   1.213   1.197   1.199   1.197   1.15    20</span></span>
-<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a><span class="co">#&gt;    cbPartitions 133.151 148.603 194.927 208.164 224.685 256.15    20</span></span></code></pre></div>
+<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a><span class="co">#&gt;            expr     min      lq   mean  median      uq     max neval</span></span>
+<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer   1.000   1.000   1.00   1.000   1.000   1.000    20</span></span>
+<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a><span class="co">#&gt;  cbArrangements   1.182   1.205   1.18   1.194   1.179   1.054    20</span></span>
+<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a><span class="co">#&gt;    cbPartitions 129.267 145.992 186.50 192.884 219.196 230.413    20</span></span></code></pre></div>
 <p>For the next two examples, we will exclude the
 <code>partitions</code> package for efficiency reasons.</p>
 </div>
@@ -777,8 +777,8 @@ improvements.</p>
 <span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
 <span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median    uq   max neval</span></span>
 <span id="cb14-19"><a href="#cb14-19" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosPar 1.000 1.000 1.000  1.000 1.000 1.000    20</span></span>
-<span id="cb14-20"><a href="#cb14-20" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 3.392 3.317 3.284  3.292 3.269 3.166    20</span></span>
-<span id="cb14-21"><a href="#cb14-21" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 3.792 3.701 3.659  3.666 3.639 3.528    20</span></span></code></pre></div>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 3.410 3.329 3.331  3.327 3.324 3.397    20</span></span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 3.797 3.699 3.691  3.698 3.689 3.611    20</span></span></code></pre></div>
 </div>
 <div id="restricted-compositions" class="section level4">
 <h4>Restricted Compositions</h4>
@@ -798,8 +798,8 @@ improvements.</p>
 <span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
 <span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median    uq   max neval</span></span>
 <span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosPar 1.000 1.000 1.000  1.000 1.000 1.000    20</span></span>
-<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 2.964 3.096 2.932  3.064 3.007 1.804    20</span></span>
-<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 3.185 3.178 3.025  3.158 3.102 1.862    20</span></span></code></pre></div>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a><span class="co">#&gt;  cbRcppAlgosSer 2.988 3.077 2.952  3.020 3.082 1.924    20</span></span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 3.199 3.170 3.036  3.113 3.074 2.213    20</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -828,9 +828,9 @@ similar for the rest of the cases not shown.</p>
 <span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a>               <span class="at">cbArrangements =</span> <span class="fu">pkg_arrangements</span>(<span class="dv">18</span>, total),</span>
 <span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a>               <span class="at">times =</span> <span class="dv">15</span>, <span class="at">unit =</span> <span class="st">&quot;relative&quot;</span>)</span>
 <span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
-<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median    uq   max neval</span></span>
-<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a><span class="co">#&gt;     cbRcppAlgos  1.00  1.00  1.00      1  1.00  1.00    15</span></span>
-<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 19.53 19.19 18.73     19 18.01 18.22    15</span></span></code></pre></div>
+<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median   uq   max neval</span></span>
+<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a><span class="co">#&gt;     cbRcppAlgos  1.00  1.00  1.00   1.00  1.0  1.00    15</span></span>
+<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 19.31 19.12 18.91  18.81 18.6 18.81    15</span></span></code></pre></div>
 </div>
 <div id="permutations-1" class="section level3">
 <h3>Permutations</h3>
@@ -852,9 +852,9 @@ similar for the rest of the cases not shown.</p>
 <span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a>               <span class="at">cbArrangements =</span> <span class="fu">pkg_arrangements</span>(<span class="dv">8</span>, total),</span>
 <span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a>               <span class="at">times =</span> <span class="dv">15</span>, <span class="at">unit =</span> <span class="st">&quot;relative&quot;</span>)</span>
 <span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
-<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq mean median    uq   max neval</span></span>
-<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a><span class="co">#&gt;     cbRcppAlgos  1.00  1.00  1.0    1.0  1.00  1.00    15</span></span>
-<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 19.77 19.53 19.2   19.4 18.74 18.59    15</span></span></code></pre></div>
+<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median    uq   max neval</span></span>
+<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a><span class="co">#&gt;     cbRcppAlgos  1.00  1.00  1.00   1.00  1.00  1.00    15</span></span>
+<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 19.61 19.41 18.93  19.14 18.66 17.41    15</span></span></code></pre></div>
 </div>
 <div id="partitions-1" class="section level3">
 <h3>Partitions</h3>
@@ -884,8 +884,8 @@ similar for the rest of the cases not shown.</p>
 <span id="cb18-24"><a href="#cb18-24" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
 <span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median    uq   max neval</span></span>
 <span id="cb18-26"><a href="#cb18-26" tabindex="-1"></a><span class="co">#&gt;     cbRcppAlgos  1.00  1.00  1.00   1.00  1.00  1.00    15</span></span>
-<span id="cb18-27"><a href="#cb18-27" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 15.42 15.21 14.18  14.16 13.27 13.62    15</span></span>
-<span id="cb18-28"><a href="#cb18-28" tabindex="-1"></a><span class="co">#&gt;    cbPartitions 25.12 24.90 23.20  23.18 21.70 21.44    15</span></span></code></pre></div>
+<span id="cb18-27"><a href="#cb18-27" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 15.40 15.11 14.18  14.50 13.21 13.74    15</span></span>
+<span id="cb18-28"><a href="#cb18-28" tabindex="-1"></a><span class="co">#&gt;    cbPartitions 24.79 24.45 23.08  23.48 21.81 21.54    15</span></span></code></pre></div>
 </div>
 <div id="compositions-1" class="section level3">
 <h3>Compositions</h3>
@@ -915,8 +915,8 @@ similar for the rest of the cases not shown.</p>
 <span id="cb19-24"><a href="#cb19-24" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
 <span id="cb19-25"><a href="#cb19-25" tabindex="-1"></a><span class="co">#&gt;            expr   min    lq  mean median    uq   max neval</span></span>
 <span id="cb19-26"><a href="#cb19-26" tabindex="-1"></a><span class="co">#&gt;     cbRcppAlgos  1.00  1.00  1.00   1.00  1.00  1.00    15</span></span>
-<span id="cb19-27"><a href="#cb19-27" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 14.46 14.20 13.34  13.99 12.91 10.24    15</span></span>
-<span id="cb19-28"><a href="#cb19-28" tabindex="-1"></a><span class="co">#&gt;    cbPartitions 44.40 44.47 41.82  43.63 40.39 33.11    15</span></span></code></pre></div>
+<span id="cb19-27"><a href="#cb19-27" tabindex="-1"></a><span class="co">#&gt;  cbArrangements 14.23 14.15 13.45  14.01 12.98 12.10    15</span></span>
+<span id="cb19-28"><a href="#cb19-28" tabindex="-1"></a><span class="co">#&gt;    cbPartitions 43.88 43.91 41.42  43.40 40.17 34.25    15</span></span></code></pre></div>
 </div>
 </div>
 
