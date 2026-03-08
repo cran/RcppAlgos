@@ -1,6 +1,40 @@
 \name{NEWS}
 \title{News for Package \pkg{RcppAlgos}}
 
+\section{Changes in RcppAlgos version 2.10.0 (Release date: 2026-03-09)}{
+    \itemize{
+
+        \item New Features:
+        \itemize{
+            \item Added parallel capabilities to all ranking functions via the new \code{nThreads} argument (e.g. \code{comboRank()}, \code{partitionsRank()}, \code{compositionsRank()}), enabling faster ranking of large combinatorial results.
+            \item Implemented a next-lexicographical algorithm for generating distinct integer compositions, enabling efficient generation of large problems such as \code{compositionsGeneral(50, 8)}.
+            \item Added full support for distinct compositions across the compositional framework, including \code{compositionsGeneral()}, \code{compositionsSample()}, \code{compositionsRank()}, and \code{compositionsIter()}.
+            \item Added support for compositions with repetition subject to a maximum part constraint ("capped compositions"), including weak and non-weak cases, with full support for counting, ranking, sampling, and iteration.
+            \item Enhanced \code{permuteCount()} to count permutations of partitions when called with \code{constraintFun = "sum"} and \code{comparisonFun = "=="}, enabling faster counting when problems reduce to partition/composition counting.
+        }
+
+        \item Improvements:
+        \itemize{
+            \item Added validation at package load time to ensure the loaded shared library matches the installed package version, producing a clear error message instead of potential crashes caused by stale compiled code.
+            \item Improved handling of certain constrained and ranking cases involving singleton inputs.
+            \item Added internal tooling to support partition and composition counting workflows.
+        }
+
+        \item Performance:
+        \itemize{
+            \item Improved performance of ranking and generation algorithms, including support for parallel ranking.
+            \item Improved performance and scalability of composition-related algorithms, particularly for constrained and distinct composition problems.
+        }
+
+        \item Bug Fixes:
+        \itemize{
+            \item Fixed an issue in \code{permuteIter()} affecting cases that reduce to permutations of partitions, which could previously produce incorrect iteration results.
+            \item Improved input validation for constraint-based calls, producing clearer error messages for invalid inputs.
+            \item Fixed edge-case issues affecting certain partition and composition iteration scenarios.
+        }
+    }
+}
+
 \section{Changes in RcppAlgos version 2.9.5 (Release date: 2026-01-29)}{
     \itemize{
         \item Other:
@@ -182,7 +216,7 @@
         }
         \item Bug Fixes:
         \itemize{
-            \item Now checking class of input vector for partition funcitons.
+            \item Now checking class of input vector for partition functions.
             \item Now when \code{partitionsCount} returns 0, the number of results is zero. Before, we were checking for the count of partitions to be greater than zero, otherwise we would use the standard combinatorial counting functions to determine the number of results. This lead to strange results with elements not present in the original vector.
             \item For \code{partitionsSample}, in cases when we would rely on generating the partitions one at a time until there are no more (e.g. with \code{partitionsGeneral}), the number of partitions isn't calculated. This leads to the error: "n exceeds the maximum number of possible results". This is now fixed.
         }

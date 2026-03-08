@@ -1,3 +1,40 @@
+# RcppAlgos 2.10.0
+
+This release introduces major enhancements to the compositions framework, including support for distinct and repetition-restricted compositions, parallel ranking, and performance improvements across several combinatorial algorithms.
+
+These enhancements integrate fully with the existing counting, ranking, sampling, and iterator infrastructure, and have been validated for correctness and consistency across supported combinatorial families.
+
+## New Features:
+
+* Added parallel capabilities to all ranking functions via a new `nThreads` argument (e.g. `comboRank()`, `partitionsRank()`, `compositionsRank()`), enabling faster ranking of large combinatorial results.
+* Implemented a next-lexicographical algorithm for generating **distinct integer compositions**, enabling efficient generation of large problems such as `compositionsGeneral(50, 8)`.
+* Added full support for distinct compositions across the compositional framework, including:
+
+  * `compositionsGeneral()`
+  * `compositionsSample()`
+  * `compositionsRank()`
+  * `compositionsIter()`
+
+* Added support for **compositions with repetition subject to a maximum part constraint** ("capped compositions"), including weak and non-weak cases, with full support for counting, ranking, sampling, and iteration.
+* Enhanced `permuteCount()` to count permutations of partitions when called with `constraintFun = "sum"` and `comparisonFun = "=="`, enabling faster counting when problems reduce to partition/composition counting.
+
+## Improvements:
+
+* Added validation at package load time to ensure the loaded shared library matches the installed package version, producing a clear error message instead of potential crashes caused by stale compiled code.
+* Improved handling of certain constrained and ranking cases involving singleton inputs.
+* Added internal tooling to support partition and composition counting workflows.
+
+## Performance:
+
+* Improved performance of ranking and generation algorithms, including support for parallel ranking.
+* Improved performance and scalability of composition-related algorithms, particularly for constrained and distinct composition problems.
+
+## Bug Fixes:
+
+* Fixed an issue in `permuteIter()` affecting cases that reduce to permutations of partitions, which could previously produce incorrect iteration results.
+* Improved input validation for constraint-based calls, producing clearer error messages for invalid inputs.
+* Fixed edge-case issues affecting certain partition and composition iteration scenarios.
+
 # RcppAlgos 2.9.5
 
 ## Other:
@@ -131,7 +168,7 @@
 
 ## Bug Fixes:
 
-* Now checking class of input vector for partition funcitons.
+* Now checking class of input vector for partition functions.
 
 * Now when `partitionsCount` returns 0, the number of results is zero. Before, we were checking for count of partitions to be greater than zero, otherwise we would use the standard combinatorial counting functions to determine the number of results. This lead to strange results with elements not present in the original vector.
 

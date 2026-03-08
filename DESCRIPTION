@@ -1,5 +1,5 @@
 Package: RcppAlgos
-Version: 2.9.5
+Version: 2.10.0
 Title: High Performance Tools for Combinatorics and Computational
         Mathematics
 Description: Provides optimized functions and flexible iterators implemented in
@@ -34,7 +34,7 @@ BugReports: https://github.com/jwood000/RcppAlgos/issues
 LinkingTo: cpp11
 Imports: gmp, methods
 Suggests: testthat, partitions, microbenchmark, knitr, RcppBigIntAlgos,
-        rmarkdown
+        rmarkdown, prettydoc, covr, xml2
 Config/Needs/website: pkgdown
 License: GPL (>= 2)
 SystemRequirements: gmp (>= 4.2.3)
@@ -49,8 +49,8 @@ Authors@R: c(
     )
 Encoding: UTF-8
 RoxygenNote: 7.2.3
-Packaged: 2026-01-29 02:56:19 UTC; owacasa
+Packaged: 2026-03-07 23:14:22 UTC; owacasa
 Author: Joseph Wood [aut, cre]
 Maintainer: Joseph Wood <jwood000@gmail.com>
 Repository: CRAN
-Date/Publication: 2026-01-29 08:20:03 UTC
+Date/Publication: 2026-03-08 06:10:45 UTC

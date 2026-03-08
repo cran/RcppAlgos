@@ -1,22 +1,56 @@
 #include "Partitions/PartitionsClass.h"
 
 void Partitions::SetPartValues() {
-    if (part.ptype == PartitionType::Multiset) {
-        PrepareMultisetPart(rpsCnt, z, boundary, pivot,
-                            edge, lastCol, lastElem);
-    } else if (std::find(RepPTypeArr.cbegin(), RepPTypeArr.cend(),
-                         part.ptype) != RepPTypeArr.cend()) {
+
+    bool IsCompDist = std::find(
+        CmpDstPTypeArr.cbegin(), CmpDstPTypeArr.cend(), part.ptype
+    ) != CmpDstPTypeArr.cend();
+
+    // CompRepCapped, CompRepWeakCap, and CmpRpCapZNotWk advances using the
+    // composition-next routine (NextCompositionRep), not the general
+    // PartitionType next-partition logic.
+    //
+    // Only the cap value is required for this mode. It is passed as `myMax`
+    // (stored in `pivot`). Other PartitionType iterator fields (edge, boundary,
+    // tarDiff, rpsCnt mappings, etc.) are intentionally unused and do not need
+    // initialization here.
+    //
+    // This is safe because dispatch routes these PartitionTypes to
+    // NextRepCompCapped and NextRepCompNotWkCap which ignores the unused state.
+    //
+    // Note: n is the size of v so the largest value the index can be is n - 1.
+
+    if (part.ptype == PartitionType::CompRepCapped ||
+        part.ptype == PartitionType::CompRepWeakCap ||
+        part.ptype == PartitionType::CmpRpCapZNotWk) {
+        pivot = n - 1;  // myMax/cap for NextCompositionRep
+    } else if (IsCompDist) {
+        bool compZero = IsComplementZeroBased(
+            part.includeZero, part.isWeak, ctype == ConstraintType::PartMapping
+        );
+
+        int zeroBudget = part.isWeak ? part.maxZeros :
+            std::count(z.cbegin(), z.cend(), 0);
+
+        CompsDistinctSetup(z, rpsCnt, tarDiff, edge, boundary,
+                           pivot, n - 1, compZero, zeroBudget);
+    } else if (part.ptype == PartitionType::Multiset) {
+        PrepareMultisetPart(
+            rpsCnt, z, boundary, pivot, edge, lastCol, lastElem
+        );
+    } else if (part.isRep) {
         PrepareRepPart(z, boundary, pivot, edge, lastElem, lastCol);
     } else {
-        PrepareDistinctPart(z, boundary, pivot, edge,
-                            tarDiff, lastElem, lastCol);
+        PrepareDistinctPart(
+            z, boundary, pivot, edge, tarDiff, lastElem, lastCol
+        );
     }
 }
 
 void Partitions::MoveZToIndex() {
     z = nthParts(part.mapTar, width, cap, strtLen, dblTemp, mpzTemp);
 
-    if (paragon) {
+    if (ctype == ConstraintType::PartStandard) {
         for (auto &z_i: z) {
             z_i = vInt[z_i];
         }
@@ -83,26 +117,14 @@ Partitions::Partitions(
              RtarIntVals, RstartZ, RmainFun, RFunTest, RfunDbl, Rctype,
              RstrtLen, Rcap, RKeepRes, RnumUnknown, RcnstrtRows,
              RcnstrtRowsMpz),
-    paragon(ctype == ConstraintType::PartStandard),
-    stdPartNext(paragon && !part.isComp),
-    stdCompZeroSpesh(paragon && part.isComp && !part.isWeak),
-    genCompZeroSpesh(!paragon && part.isComp && !part.isWeak &&
-        part.includeZero),
     lastCol(part.width - 1), lastElem(n - 1),
-    nextParts(
-        GetNextPartsPtr(
-            part.ptype,
-            !(stdPartNext || stdCompZeroSpesh || genCompZeroSpesh),
-            part.isComp
-        )
-    ),
-    nthParts((part.ptype == PartitionType::LengthOne ||
-              part.ptype == PartitionType::Multiset  ||
-              CheckEqSi(part.isGmp, cnstrtCountMpz, cnstrtCount, 0)) ?
-              nullptr : GetNthPartsFunc(part.ptype, part.isGmp,
-                                        part.isComp)) {
+    nextParts(GetNextPartsPtr(part.ptype,ctype)),
+    // N.B. We are calling GetNthPartsFunc directly. If there is no algorithm
+    // we want to return a nullptr and not throw an error.
+    nthParts(CheckEqSi(part.isGmp, cnstrtCountMpz, cnstrtCount, 0) ?
+              nullptr : GetNthPartsFunc(part.ptype, part.isGmp)) {
 
-    bAddOne = paragon && !part.includeZero;
+    bAddOne = (ctype == ConstraintType::PartStandard) && !part.includeZero;
     rpsCnt  = myReps;
     IsGmp   = part.isGmp;
 
@@ -280,7 +302,7 @@ SEXP Partitions::randomAccess(SEXP RindexVec) {
 
             ThreadSafeSample(matInt, res, vInt, mySample, mpzVec,
                              myReps, nthParts, part.width, sampSize,
-                             nThreads, Parallel, false, part.mapTar,
+                             nThreads, LocalPar, false, part.mapTar,
                              strtLen, cap, IsGmp);
 
             zUpdateIndex(vNum, vInt, z, sexpVec, res, width, sampSize, bAddOne);
@@ -292,7 +314,7 @@ SEXP Partitions::randomAccess(SEXP RindexVec) {
 
             ThreadSafeSample(matNum, res, vNum, mySample, mpzVec,
                              myReps, nthParts, part.width, sampSize,
-                             nThreads, Parallel, false, part.mapTar,
+                             nThreads, LocalPar, false, part.mapTar,
                              strtLen, cap, IsGmp);
 
             zUpdateIndex(vNum, vInt, z, sexpVec, res, width, sampSize, bAddOne);
