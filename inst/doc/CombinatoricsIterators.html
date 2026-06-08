@@ -12,7 +12,7 @@
 
 <meta name="author" content="Joseph Wood" />
 
-<meta name="date" content="2026-03-06" />
+<meta name="date" content="2026-06-07" />
 
 <title>Combinatorial Iterators in RcppAlgos</title>
 
@@ -143,7 +143,7 @@ pointer-events: auto;
 <div class="inner">
 <h1 class="title toc-ignore">Combinatorial Iterators in RcppAlgos</h1>
 <h3 class="author">Joseph Wood</h3>
-<h3 class="date">2026-03-06</h3>
+<h3 class="date">2026-06-07</h3>
 </div>
 </header>
 
@@ -168,11 +168,11 @@ Pointers</a></li>
 <ul>
 <li><a href="#version-2.4.3-using-rcpp" id="toc-version-2.4.3-using-rcpp">Version <code>2.4.3</code> Using
 <code>Rcpp</code></a></li>
-<li><a href="#version-2.10.0-no-rcpp" id="toc-version-2.10.0-no-rcpp">Version <code>2.10.0</code> (No
+<li><a href="#version-2.10.1-no-rcpp" id="toc-version-2.10.1-no-rcpp">Version <code>2.10.1</code> (No
 <code>Rcpp</code>)</a></li>
 <li><a href="#caching-results-w-2.4.3" id="toc-caching-results-w-2.4.3">Caching Results w/ 2.4.3</a></li>
-<li><a href="#caching-results-w-2.10.0" id="toc-caching-results-w-2.10.0">Caching Results w/
-<code>2.10.0</code></a></li>
+<li><a href="#caching-results-w-2.10.1" id="toc-caching-results-w-2.10.1">Caching Results w/
+<code>2.10.1</code></a></li>
 <li><a href="#access-efficiency-conclusions" id="toc-access-efficiency-conclusions">Access Efficiency
 Conclusions</a></li>
 </ul></li>
@@ -662,8 +662,8 @@ and rebuild.</p>
 <span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; Warning in microbenchmark(v243 = test_nextIter(15, 8)): less accurate nanosecond times to</span></span>
 <span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; avoid potential integer overflows</span></span>
 <span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; Unit: milliseconds</span></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt;  expr      min       lq    mean   median       uq      max neval</span></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt;  v243 15.85146 16.63909 17.8254 17.06299 17.35157 95.52065   100</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt;  expr      min       lq     mean   median       uq      max neval</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt;  v243 16.58975 17.05336 18.67597 17.12195 17.33861 160.6705   100</span></span>
 <span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a></span>
 <span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">test_nextIter</span>(<span class="dv">15</span>, <span class="dv">8</span>, <span class="at">get_val =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>          <span class="fu">comboGeneral</span>(<span class="dv">15</span>, <span class="dv">8</span>))</span>
@@ -674,7 +674,7 @@ and rebuild.</p>
 <span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a></span>
 <span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">test_nextIter</span>(<span class="dv">25</span>, <span class="dv">10</span>))</span>
 <span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="co">#&gt;   8.792   0.020   8.830</span></span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="co">#&gt;   8.772   0.026   8.858</span></span>
 <span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a></span>
 <span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="fu">Rprof</span>(<span class="st">&quot;Version243.out&quot;</span>, <span class="at">memory.profiling =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="fu">test_nextIter</span>(<span class="dv">25</span>, <span class="dv">10</span>)</span>
@@ -682,41 +682,41 @@ and rebuild.</p>
 <span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="fu">lapply</span>(<span class="fu">summaryRprof</span>(<span class="st">&quot;Version243.out&quot;</span>, <span class="at">memory =</span> <span class="st">&quot;both&quot;</span>), head)</span>
 <span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a><span class="co">#&gt; $by.self</span></span>
 <span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a><span class="co">#&gt;                  self.time self.pct total.time total.pct mem.total</span></span>
-<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a><span class="co">#&gt; &quot;as.environment&quot;      2.52    33.25       2.52     33.25     410.3</span></span>
-<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a><span class="co">#&gt; &quot;$&quot;                   2.20    29.02       6.00     79.16    1054.2</span></span>
-<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;       0.68     8.97       7.58    100.00    1393.3</span></span>
-<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a><span class="co">#&gt; &quot;get&quot;                 0.62     8.18       0.62      8.18      77.2</span></span>
-<span id="cb9-34"><a href="#cb9-34" tabindex="-1"></a><span class="co">#&gt; &quot;exists&quot;              0.58     7.65       0.58      7.65     128.3</span></span>
-<span id="cb9-35"><a href="#cb9-35" tabindex="-1"></a><span class="co">#&gt; &quot;.External&quot;           0.52     6.86       0.52      6.86     120.8</span></span>
+<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a><span class="co">#&gt; &quot;as.environment&quot;      2.58    32.49       2.58     32.49     390.7</span></span>
+<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a><span class="co">#&gt; &quot;$&quot;                   2.40    30.23       6.16     77.58     855.9</span></span>
+<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;       0.88    11.08       7.94    100.00    1233.1</span></span>
+<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a><span class="co">#&gt; &quot;exists&quot;              0.62     7.81       0.62      7.81      73.4</span></span>
+<span id="cb9-34"><a href="#cb9-34" tabindex="-1"></a><span class="co">#&gt; &quot;get&quot;                 0.56     7.05       0.56      7.05      74.4</span></span>
+<span id="cb9-35"><a href="#cb9-35" tabindex="-1"></a><span class="co">#&gt; &quot;.External&quot;           0.54     6.80       0.54      6.80     106.3</span></span>
 <span id="cb9-36"><a href="#cb9-36" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb9-37"><a href="#cb9-37" tabindex="-1"></a><span class="co">#&gt; $by.total</span></span>
 <span id="cb9-38"><a href="#cb9-38" tabindex="-1"></a><span class="co">#&gt;                             total.time total.pct mem.total self.time self.pct</span></span>
-<span id="cb9-39"><a href="#cb9-39" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;                   7.58       100    1393.3      0.68     8.97</span></span>
-<span id="cb9-40"><a href="#cb9-40" tabindex="-1"></a><span class="co">#&gt; &quot;&lt;Anonymous&gt;&quot;                     7.58       100    1393.3      0.00     0.00</span></span>
-<span id="cb9-41"><a href="#cb9-41" tabindex="-1"></a><span class="co">#&gt; &quot;base::do.call&quot;                   7.58       100    1393.3      0.00     0.00</span></span>
-<span id="cb9-42"><a href="#cb9-42" tabindex="-1"></a><span class="co">#&gt; &quot;base::saveRDS&quot;                   7.58       100    1393.3      0.00     0.00</span></span>
-<span id="cb9-43"><a href="#cb9-43" tabindex="-1"></a><span class="co">#&gt; &quot;base::tryCatch&quot;                  7.58       100    1393.3      0.00     0.00</span></span>
-<span id="cb9-44"><a href="#cb9-44" tabindex="-1"></a><span class="co">#&gt; &quot;base::withCallingHandlers&quot;       7.58       100    1393.3      0.00     0.00</span></span>
+<span id="cb9-39"><a href="#cb9-39" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;                   7.94       100    1233.1      0.88    11.08</span></span>
+<span id="cb9-40"><a href="#cb9-40" tabindex="-1"></a><span class="co">#&gt; &quot;&lt;Anonymous&gt;&quot;                     7.94       100    1233.1      0.00     0.00</span></span>
+<span id="cb9-41"><a href="#cb9-41" tabindex="-1"></a><span class="co">#&gt; &quot;base::do.call&quot;                   7.94       100    1233.1      0.00     0.00</span></span>
+<span id="cb9-42"><a href="#cb9-42" tabindex="-1"></a><span class="co">#&gt; &quot;base::saveRDS&quot;                   7.94       100    1233.1      0.00     0.00</span></span>
+<span id="cb9-43"><a href="#cb9-43" tabindex="-1"></a><span class="co">#&gt; &quot;base::tryCatch&quot;                  7.94       100    1233.1      0.00     0.00</span></span>
+<span id="cb9-44"><a href="#cb9-44" tabindex="-1"></a><span class="co">#&gt; &quot;base::withCallingHandlers&quot;       7.94       100    1233.1      0.00     0.00</span></span>
 <span id="cb9-45"><a href="#cb9-45" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb9-46"><a href="#cb9-46" tabindex="-1"></a><span class="co">#&gt; $sample.interval</span></span>
 <span id="cb9-47"><a href="#cb9-47" tabindex="-1"></a><span class="co">#&gt; [1] 0.02</span></span>
 <span id="cb9-48"><a href="#cb9-48" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb9-49"><a href="#cb9-49" tabindex="-1"></a><span class="co">#&gt; $sampling.time</span></span>
-<span id="cb9-50"><a href="#cb9-50" tabindex="-1"></a><span class="co">#&gt; [1] 7.58</span></span></code></pre></div>
+<span id="cb9-50"><a href="#cb9-50" tabindex="-1"></a><span class="co">#&gt; [1] 7.94</span></span></code></pre></div>
 </div>
-<div id="version-2.10.0-no-rcpp" class="section level3">
-<h3>Version <code>2.10.0</code> (No <code>Rcpp</code>)</h3>
+<div id="version-2.10.1-no-rcpp" class="section level3">
+<h3>Version <code>2.10.1</code> (No <code>Rcpp</code>)</h3>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>curr_version <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="fu">packageVersion</span>(<span class="st">&quot;RcppAlgos&quot;</span>)))</span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>curr_version</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; [1] 2100</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; [1] 2101</span></span>
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="at">curr_v =</span> <span class="fu">test_nextIter</span>(<span class="dv">15</span>, <span class="dv">8</span>, <span class="at">v =</span> curr_version))</span>
 <span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; Unit: milliseconds</span></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt;    expr      min       lq     mean  median       uq      max neval</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt;  curr_v 1.883376 1.960046 2.010785 1.99299 2.011481 2.722359   100</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt;    expr      min       lq     mean   median       uq      max neval</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt;  curr_v 1.959308 1.999344 2.065847 2.024129 2.046412 3.122929   100</span></span>
 <span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a></span>
 <span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">test_nextIter</span>(<span class="dv">25</span>, <span class="dv">10</span>, <span class="at">v =</span> curr_version))</span>
 <span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt;   1.013   0.003   1.019</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt;   0.959   0.007   0.965</span></span>
 <span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a></span>
 <span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">test_nextIter</span>(<span class="dv">15</span>, <span class="dv">8</span>, <span class="at">get_val =</span> <span class="cn">TRUE</span>, <span class="at">v =</span> curr_version),</span>
 <span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>          <span class="fu">comboGeneral</span>(<span class="dv">15</span>, <span class="dv">8</span>))</span>
@@ -729,34 +729,34 @@ and rebuild.</p>
 <span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="fu">lapply</span>(<span class="fu">summaryRprof</span>(curr_file_out, <span class="at">memory =</span> <span class="st">&quot;both&quot;</span>), head)</span>
 <span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt; $by.self</span></span>
 <span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co">#&gt;                 self.time self.pct total.time total.pct mem.total</span></span>
-<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt; &quot;&lt;Anonymous&gt;&quot;        0.32    37.21       0.86    100.00     358.9</span></span>
-<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt; &quot;.Call&quot;              0.32    37.21       0.32     37.21     114.0</span></span>
-<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;      0.22    25.58       0.86    100.00     358.9</span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt; &quot;.Call&quot;              0.36    39.13       0.36     39.13     109.8</span></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt; &quot;&lt;Anonymous&gt;&quot;        0.34    36.96       0.92    100.00     411.5</span></span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;      0.22    23.91       0.92    100.00     411.5</span></span>
 <span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="co">#&gt; $by.total</span></span>
 <span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a><span class="co">#&gt;                             total.time total.pct mem.total self.time self.pct</span></span>
-<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a><span class="co">#&gt; &quot;&lt;Anonymous&gt;&quot;                     0.86       100     358.9      0.32    37.21</span></span>
-<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;                   0.86       100     358.9      0.22    25.58</span></span>
-<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a><span class="co">#&gt; &quot;base::do.call&quot;                   0.86       100     358.9      0.00     0.00</span></span>
-<span id="cb10-33"><a href="#cb10-33" tabindex="-1"></a><span class="co">#&gt; &quot;base::saveRDS&quot;                   0.86       100     358.9      0.00     0.00</span></span>
-<span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a><span class="co">#&gt; &quot;base::tryCatch&quot;                  0.86       100     358.9      0.00     0.00</span></span>
-<span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a><span class="co">#&gt; &quot;base::withCallingHandlers&quot;       0.86       100     358.9      0.00     0.00</span></span>
+<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a><span class="co">#&gt; &quot;&lt;Anonymous&gt;&quot;                     0.92       100     411.5      0.34    36.96</span></span>
+<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;                   0.92       100     411.5      0.22    23.91</span></span>
+<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a><span class="co">#&gt; &quot;base::do.call&quot;                   0.92       100     411.5      0.00     0.00</span></span>
+<span id="cb10-33"><a href="#cb10-33" tabindex="-1"></a><span class="co">#&gt; &quot;base::saveRDS&quot;                   0.92       100     411.5      0.00     0.00</span></span>
+<span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a><span class="co">#&gt; &quot;base::tryCatch&quot;                  0.92       100     411.5      0.00     0.00</span></span>
+<span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a><span class="co">#&gt; &quot;base::withCallingHandlers&quot;       0.92       100     411.5      0.00     0.00</span></span>
 <span id="cb10-36"><a href="#cb10-36" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb10-37"><a href="#cb10-37" tabindex="-1"></a><span class="co">#&gt; $sample.interval</span></span>
 <span id="cb10-38"><a href="#cb10-38" tabindex="-1"></a><span class="co">#&gt; [1] 0.02</span></span>
 <span id="cb10-39"><a href="#cb10-39" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb10-40"><a href="#cb10-40" tabindex="-1"></a><span class="co">#&gt; $sampling.time</span></span>
-<span id="cb10-41"><a href="#cb10-41" tabindex="-1"></a><span class="co">#&gt; [1] 0.86</span></span></code></pre></div>
+<span id="cb10-41"><a href="#cb10-41" tabindex="-1"></a><span class="co">#&gt; [1] 0.92</span></span></code></pre></div>
 </div>
 <div id="caching-results-w-2.4.3" class="section level3">
 <h3>Caching Results w/ 2.4.3</h3>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="at">v243cache =</span> <span class="fu">test_nextIter</span>(<span class="dv">15</span>, <span class="dv">8</span>, <span class="at">caching =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">#&gt; Unit: milliseconds</span></span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#&gt;       expr      min      lq     mean   median       uq      max neval</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt;  v243cache 2.133107 2.22792 2.339486 2.274496 2.315332 3.341951   100</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt;  v243cache 2.152869 2.20498 2.308451 2.239338 2.295406 3.294637   100</span></span>
 <span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">test_nextIter</span>(<span class="dv">25</span>, <span class="dv">10</span>, <span class="at">caching =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt;   1.130   0.003   1.134</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt;   1.099   0.005   1.103</span></span>
 <span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a></span>
 <span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">test_nextIter</span>(<span class="dv">15</span>, <span class="dv">8</span>, <span class="at">get_val =</span> <span class="cn">TRUE</span>, <span class="at">caching =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>          <span class="fu">comboGeneral</span>(<span class="dv">15</span>, <span class="dv">8</span>))</span>
@@ -768,35 +768,35 @@ and rebuild.</p>
 <span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="fu">lapply</span>(<span class="fu">summaryRprof</span>(<span class="st">&quot;Version243cache.out&quot;</span>, <span class="at">memory =</span> <span class="st">&quot;both&quot;</span>), head)</span>
 <span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="co">#&gt; $by.self</span></span>
 <span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="co">#&gt;                 self.time self.pct total.time total.pct mem.total</span></span>
-<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="co">#&gt; &quot;.External&quot;          0.72    70.59       0.72     70.59     259.0</span></span>
-<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="co">#&gt; &quot;f&quot;                  0.24    23.53       0.96     94.12     323.6</span></span>
-<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;      0.06     5.88       1.02    100.00     328.1</span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="co">#&gt; &quot;.External&quot;          0.62    63.27       0.62     63.27     134.9</span></span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="co">#&gt; &quot;f&quot;                  0.28    28.57       0.90     91.84     246.6</span></span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;      0.08     8.16       0.98    100.00     307.7</span></span>
 <span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a><span class="co">#&gt; $by.total</span></span>
 <span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a><span class="co">#&gt;                             total.time total.pct mem.total self.time self.pct</span></span>
-<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;                   1.02       100     328.1      0.06     5.88</span></span>
-<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a><span class="co">#&gt; &quot;&lt;Anonymous&gt;&quot;                     1.02       100     328.1      0.00     0.00</span></span>
-<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a><span class="co">#&gt; &quot;base::do.call&quot;                   1.02       100     328.1      0.00     0.00</span></span>
-<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a><span class="co">#&gt; &quot;base::saveRDS&quot;                   1.02       100     328.1      0.00     0.00</span></span>
-<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a><span class="co">#&gt; &quot;base::tryCatch&quot;                  1.02       100     328.1      0.00     0.00</span></span>
-<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a><span class="co">#&gt; &quot;base::withCallingHandlers&quot;       1.02       100     328.1      0.00     0.00</span></span>
+<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;                   0.98       100     307.7      0.08     8.16</span></span>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a><span class="co">#&gt; &quot;&lt;Anonymous&gt;&quot;                     0.98       100     307.7      0.00     0.00</span></span>
+<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a><span class="co">#&gt; &quot;base::do.call&quot;                   0.98       100     307.7      0.00     0.00</span></span>
+<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a><span class="co">#&gt; &quot;base::saveRDS&quot;                   0.98       100     307.7      0.00     0.00</span></span>
+<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a><span class="co">#&gt; &quot;base::tryCatch&quot;                  0.98       100     307.7      0.00     0.00</span></span>
+<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a><span class="co">#&gt; &quot;base::withCallingHandlers&quot;       0.98       100     307.7      0.00     0.00</span></span>
 <span id="cb11-31"><a href="#cb11-31" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb11-32"><a href="#cb11-32" tabindex="-1"></a><span class="co">#&gt; $sample.interval</span></span>
 <span id="cb11-33"><a href="#cb11-33" tabindex="-1"></a><span class="co">#&gt; [1] 0.02</span></span>
 <span id="cb11-34"><a href="#cb11-34" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb11-35"><a href="#cb11-35" tabindex="-1"></a><span class="co">#&gt; $sampling.time</span></span>
-<span id="cb11-36"><a href="#cb11-36" tabindex="-1"></a><span class="co">#&gt; [1] 1.02</span></span></code></pre></div>
+<span id="cb11-36"><a href="#cb11-36" tabindex="-1"></a><span class="co">#&gt; [1] 0.98</span></span></code></pre></div>
 </div>
-<div id="caching-results-w-2.10.0" class="section level3">
-<h3>Caching Results w/ <code>2.10.0</code></h3>
+<div id="caching-results-w-2.10.1" class="section level3">
+<h3>Caching Results w/ <code>2.10.1</code></h3>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="at">curr_v =</span> <span class="fu">test_nextIter</span>(<span class="dv">15</span>, <span class="dv">8</span>, <span class="at">v =</span> curr_version,</span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>                                      <span class="at">caching =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt; Unit: milliseconds</span></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt;    expr      min      lq     mean  median       uq      max neval</span></span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt;  curr_v 1.833479 1.89504 2.094672 1.92003 1.975052 7.138141   100</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt;    expr      min       lq     mean   median       uq      max neval</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt;  curr_v 1.782639 1.816095 1.876918 1.839322 1.895655 2.562459   100</span></span>
 <span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">test_nextIter</span>(<span class="dv">25</span>, <span class="dv">10</span>, <span class="at">v =</span> curr_version, <span class="at">caching =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt;   0.969   0.006   0.975</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt;   0.906   0.003   0.909</span></span>
 <span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a></span>
 <span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">test_nextIter</span>(<span class="dv">15</span>, <span class="dv">8</span>, <span class="at">get_val =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>                        <span class="at">v =</span> curr_version, <span class="at">caching =</span> <span class="cn">TRUE</span>),</span>
@@ -810,24 +810,24 @@ and rebuild.</p>
 <span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a><span class="fu">lapply</span>(<span class="fu">summaryRprof</span>(curr_file_cache_out, <span class="at">memory =</span> <span class="st">&quot;both&quot;</span>), head)</span>
 <span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a><span class="co">#&gt; $by.self</span></span>
 <span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a><span class="co">#&gt;                 self.time self.pct total.time total.pct mem.total</span></span>
-<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a><span class="co">#&gt; &quot;.Call&quot;              0.42    53.85       0.42     53.85     131.5</span></span>
-<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a><span class="co">#&gt; &quot;g&quot;                  0.26    33.33       0.68     87.18     235.7</span></span>
-<span id="cb12-24"><a href="#cb12-24" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;      0.10    12.82       0.78    100.00     286.3</span></span>
+<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a><span class="co">#&gt; &quot;g&quot;                  0.42     50.0       0.74      88.1     289.5</span></span>
+<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a><span class="co">#&gt; &quot;.Call&quot;              0.32     38.1       0.32      38.1      96.0</span></span>
+<span id="cb12-24"><a href="#cb12-24" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;      0.10     11.9       0.84     100.0     340.6</span></span>
 <span id="cb12-25"><a href="#cb12-25" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb12-26"><a href="#cb12-26" tabindex="-1"></a><span class="co">#&gt; $by.total</span></span>
 <span id="cb12-27"><a href="#cb12-27" tabindex="-1"></a><span class="co">#&gt;                             total.time total.pct mem.total self.time self.pct</span></span>
-<span id="cb12-28"><a href="#cb12-28" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;                   0.78       100     286.3       0.1    12.82</span></span>
-<span id="cb12-29"><a href="#cb12-29" tabindex="-1"></a><span class="co">#&gt; &quot;&lt;Anonymous&gt;&quot;                     0.78       100     286.3       0.0     0.00</span></span>
-<span id="cb12-30"><a href="#cb12-30" tabindex="-1"></a><span class="co">#&gt; &quot;base::do.call&quot;                   0.78       100     286.3       0.0     0.00</span></span>
-<span id="cb12-31"><a href="#cb12-31" tabindex="-1"></a><span class="co">#&gt; &quot;base::saveRDS&quot;                   0.78       100     286.3       0.0     0.00</span></span>
-<span id="cb12-32"><a href="#cb12-32" tabindex="-1"></a><span class="co">#&gt; &quot;base::tryCatch&quot;                  0.78       100     286.3       0.0     0.00</span></span>
-<span id="cb12-33"><a href="#cb12-33" tabindex="-1"></a><span class="co">#&gt; &quot;base::withCallingHandlers&quot;       0.78       100     286.3       0.0     0.00</span></span>
+<span id="cb12-28"><a href="#cb12-28" tabindex="-1"></a><span class="co">#&gt; &quot;test_nextIter&quot;                   0.84       100     340.6       0.1     11.9</span></span>
+<span id="cb12-29"><a href="#cb12-29" tabindex="-1"></a><span class="co">#&gt; &quot;&lt;Anonymous&gt;&quot;                     0.84       100     340.6       0.0      0.0</span></span>
+<span id="cb12-30"><a href="#cb12-30" tabindex="-1"></a><span class="co">#&gt; &quot;base::do.call&quot;                   0.84       100     340.6       0.0      0.0</span></span>
+<span id="cb12-31"><a href="#cb12-31" tabindex="-1"></a><span class="co">#&gt; &quot;base::saveRDS&quot;                   0.84       100     340.6       0.0      0.0</span></span>
+<span id="cb12-32"><a href="#cb12-32" tabindex="-1"></a><span class="co">#&gt; &quot;base::tryCatch&quot;                  0.84       100     340.6       0.0      0.0</span></span>
+<span id="cb12-33"><a href="#cb12-33" tabindex="-1"></a><span class="co">#&gt; &quot;base::withCallingHandlers&quot;       0.84       100     340.6       0.0      0.0</span></span>
 <span id="cb12-34"><a href="#cb12-34" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb12-35"><a href="#cb12-35" tabindex="-1"></a><span class="co">#&gt; $sample.interval</span></span>
 <span id="cb12-36"><a href="#cb12-36" tabindex="-1"></a><span class="co">#&gt; [1] 0.02</span></span>
 <span id="cb12-37"><a href="#cb12-37" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb12-38"><a href="#cb12-38" tabindex="-1"></a><span class="co">#&gt; $sampling.time</span></span>
-<span id="cb12-39"><a href="#cb12-39" tabindex="-1"></a><span class="co">#&gt; [1] 0.78</span></span></code></pre></div>
+<span id="cb12-39"><a href="#cb12-39" tabindex="-1"></a><span class="co">#&gt; [1] 0.84</span></span></code></pre></div>
 </div>
 <div id="access-efficiency-conclusions" class="section level3">
 <h3>Access Efficiency Conclusions</h3>
@@ -848,39 +848,39 @@ statistics from Rprof</a>, we compare the profiling output from version
 <span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>v243</span>
 <span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co">#&gt; index: &quot;base::tryCatch&quot;</span></span>
 <span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">#&gt;      vsize.small  max.vsize.small      vsize.large  max.vsize.large            nodes </span></span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt;           199736          5136688            19137          7252856          3802850 </span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt;           170393          5193152            18262          7249928          3230896 </span></span>
 <span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt;        max.nodes     duplications tot.duplications          samples </span></span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt;         50883504            25831          9790135              379</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt;         52086272            24687          9800665              397</span></span>
 <span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a></span>
 <span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="do">## Current version</span></span>
 <span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>vCurr <span class="ot">&lt;-</span> <span class="fu">summaryRprof</span>(curr_file_out, <span class="at">memory =</span> <span class="st">&quot;stats&quot;</span>, <span class="at">index =</span> <span class="dv">1</span>)</span>
 <span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>vCurr</span>
 <span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a><span class="co">#&gt; index: &quot;base::tryCatch&quot;</span></span>
 <span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="co">#&gt;      vsize.small  max.vsize.small      vsize.large  max.vsize.large            nodes </span></span>
-<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a><span class="co">#&gt;          1870967         10438984           170416          7327904          8770526 </span></span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a><span class="co">#&gt;          1926877          8364160           159239          7324984          8975174 </span></span>
 <span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a><span class="co">#&gt;        max.nodes     duplications tot.duplications          samples </span></span>
-<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a><span class="co">#&gt;         70827064                2               84               43</span></span>
+<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a><span class="co">#&gt;         61668096                2               84               46</span></span>
 <span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a></span>
 <span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a><span class="do">## Version 2.4.3 with caching</span></span>
 <span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a>v243Cache <span class="ot">&lt;-</span> <span class="fu">summaryRprof</span>(<span class="st">&quot;Version243cache.out&quot;</span>, <span class="at">memory =</span> <span class="st">&quot;stats&quot;</span>, <span class="at">index =</span> <span class="dv">1</span>)</span>
 <span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a>v243Cache</span>
 <span id="cb13-24"><a href="#cb13-24" tabindex="-1"></a><span class="co">#&gt; index: &quot;base::tryCatch&quot;</span></span>
 <span id="cb13-25"><a href="#cb13-25" tabindex="-1"></a><span class="co">#&gt;      vsize.small  max.vsize.small      vsize.large  max.vsize.large            nodes </span></span>
-<span id="cb13-26"><a href="#cb13-26" tabindex="-1"></a><span class="co">#&gt;          1734405          6697288           143778          7332696          6170061 </span></span>
+<span id="cb13-26"><a href="#cb13-26" tabindex="-1"></a><span class="co">#&gt;          1745175          8831840           149587          7329784          6229210 </span></span>
 <span id="cb13-27"><a href="#cb13-27" tabindex="-1"></a><span class="co">#&gt;        max.nodes     duplications tot.duplications          samples </span></span>
-<span id="cb13-28"><a href="#cb13-28" tabindex="-1"></a><span class="co">#&gt;         52376352            63649          3246121               51</span></span>
+<span id="cb13-28"><a href="#cb13-28" tabindex="-1"></a><span class="co">#&gt;         59218544            66501          3258546               49</span></span>
 <span id="cb13-29"><a href="#cb13-29" tabindex="-1"></a></span>
 <span id="cb13-30"><a href="#cb13-30" tabindex="-1"></a><span class="do">## Current version with caching</span></span>
 <span id="cb13-31"><a href="#cb13-31" tabindex="-1"></a>vCurrCache <span class="ot">&lt;-</span> <span class="fu">summaryRprof</span>(curr_file_cache_out, <span class="at">memory =</span> <span class="st">&quot;stats&quot;</span>, <span class="at">index =</span> <span class="dv">1</span>)</span>
 <span id="cb13-32"><a href="#cb13-32" tabindex="-1"></a>vCurrCache</span>
 <span id="cb13-33"><a href="#cb13-33" tabindex="-1"></a><span class="co">#&gt; index: &quot;base::tryCatch&quot;</span></span>
 <span id="cb13-34"><a href="#cb13-34" tabindex="-1"></a><span class="co">#&gt;      vsize.small  max.vsize.small      vsize.large  max.vsize.large            nodes </span></span>
-<span id="cb13-35"><a href="#cb13-35" tabindex="-1"></a><span class="co">#&gt;          1683735          9811384           187983          7331328          8011199 </span></span>
+<span id="cb13-35"><a href="#cb13-35" tabindex="-1"></a><span class="co">#&gt;          1798149          9086400           174486          7328424          8463863 </span></span>
 <span id="cb13-36"><a href="#cb13-36" tabindex="-1"></a><span class="co">#&gt;        max.nodes     duplications tot.duplications          samples </span></span>
-<span id="cb13-37"><a href="#cb13-37" tabindex="-1"></a><span class="co">#&gt;         68074664                2               84               39</span></span></code></pre></div>
+<span id="cb13-37"><a href="#cb13-37" tabindex="-1"></a><span class="co">#&gt;         64825432                2               84               42</span></span></code></pre></div>
 <p>The duplication statistics reveal a clear pattern across the four
 cases. In version <code>2.4.3</code> without caching, the profiler
-records <code>9790135</code> total duplications. By comparison, the
+records <code>9800665</code> total duplications. By comparison, the
 current version records only <code>84</code> duplications.</p>
 <p>To better isolate the source of this difference, we repeat the
 experiment while caching the accessor. Instead of repeatedly resolving
@@ -888,7 +888,7 @@ experiment while caching the accessor. Instead of repeatedly resolving
 (e.g. <code>f &lt;- a$nextIter</code>) and call <code>f()</code>
 repeatedly.</p>
 <p>With caching enabled, the duplication count for version
-<code>2.4.3</code> drops to <code>3246121</code>. This substantial
+<code>2.4.3</code> drops to <code>3258546</code>. This substantial
 reduction indicates that a large portion of the work in earlier versions
 was associated with repeatedly resolving the accessor rather than
 executing the underlying combinatorial routine itself.</p>
@@ -1168,12 +1168,12 @@ priori</em> how many results we will obtain.</p>
 <span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a><span class="co">#&gt; [1] 38935252</span></span>
 <span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a>time_all</span>
 <span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a><span class="co">#&gt;   1.276   1.370   3.526</span></span>
+<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a><span class="co">#&gt;   1.244   1.191   2.972</span></span>
 <span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a></span>
 <span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a><span class="do">## Over 4 GBs of results</span></span>
 <span id="cb17-24"><a href="#cb17-24" tabindex="-1"></a>(<span class="dv">38935252</span> <span class="sc">*</span> <span class="dv">15</span> <span class="sc">*</span> <span class="dv">8</span>) <span class="sc">/</span> <span class="dv">2</span><span class="sc">^</span><span class="dv">30</span></span>
 <span id="cb17-25"><a href="#cb17-25" tabindex="-1"></a><span class="co">#&gt; [1] 4.351353</span></span></code></pre></div>
-<p>Just over <code>3</code> seconds isn’t bad, however 4 GBs could put a
+<p>Just over <code>2</code> seconds isn’t bad, however 4 GBs could put a
 strain on your computer.</p>
 <p>Let’s use iterators instead and only generate ten thousand at a time
 to keep memory low. We should mention here that the iterators are
@@ -1205,13 +1205,13 @@ would only obtain 935,252 results.</p>
 <span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
 <span id="cb18-23"><a href="#cb18-23" tabindex="-1"></a>time_iter</span>
 <span id="cb18-24"><a href="#cb18-24" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a><span class="co">#&gt;   0.949   0.212   1.161</span></span>
+<span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a><span class="co">#&gt;   0.950   0.184   1.134</span></span>
 <span id="cb18-26"><a href="#cb18-26" tabindex="-1"></a></span>
 <span id="cb18-27"><a href="#cb18-27" tabindex="-1"></a><span class="do">## Only 1 MBs per iteration</span></span>
 <span id="cb18-28"><a href="#cb18-28" tabindex="-1"></a>(<span class="fl">1e4</span> <span class="sc">*</span> <span class="dv">15</span> <span class="sc">*</span> <span class="dv">8</span>) <span class="sc">/</span> <span class="dv">2</span><span class="sc">^</span><span class="dv">20</span></span>
 <span id="cb18-29"><a href="#cb18-29" tabindex="-1"></a><span class="co">#&gt; [1] 1.144409</span></span></code></pre></div>
 <p>Wow! Using the iterator approach is not only easier on your RAM, but
-faster as well (<code>3.526 / 1.161 ~= 3.037</code>)! Our gains came
+faster as well (<code>2.972 / 1.134 ~= 2.6208</code>)! Our gains came
 strictly from memory efficiency (From over 4 GBs to just over 1 MB) as
 the underlying algorithm is exactly the same.</p>
 <p>Lastly, using iterators make some problems possible that would
@@ -1258,7 +1258,7 @@ any jumps in memory:</p>
 <span id="cb19-34"><a href="#cb19-34" tabindex="-1"></a><span class="co">#&gt; $totalRemaining</span></span>
 <span id="cb19-35"><a href="#cb19-35" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
 <span id="cb19-36"><a href="#cb19-36" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb19-37"><a href="#cb19-37" tabindex="-1"></a><span class="co">#&gt;   6.625   1.634   8.281</span></span></code></pre></div>
+<span id="cb19-37"><a href="#cb19-37" tabindex="-1"></a><span class="co">#&gt;   6.441   1.332   7.772</span></span></code></pre></div>
 </div>
 <div id="iterating-over-partitions-of-groups" class="section level2">
 <h2>Iterating over Partitions of Groups</h2>

@@ -12,7 +12,7 @@
 
 <meta name="author" content="Joseph Wood" />
 
-<meta name="date" content="2026-03-04" />
+<meta name="date" content="2026-06-07" />
 
 <title>Integer Compositions in RcppAlgos</title>
 
@@ -143,7 +143,7 @@ pointer-events: auto;
 <div class="inner">
 <h1 class="title toc-ignore">Integer Compositions in RcppAlgos</h1>
 <h3 class="author">Joseph Wood</h3>
-<h3 class="date">2026-03-04</h3>
+<h3 class="date">2026-06-07</h3>
 </div>
 </header>
 
@@ -241,7 +241,7 @@ parts to repeat and represents the most commonly encountered form.</p>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">options</span>(<span class="at">width =</span> <span class="dv">90</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;RcppAlgos&quot;</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; [1] &#39;2.10.0&#39;</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; [1] &#39;2.10.1&#39;</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste</span>(<span class="fu">capture.output</span>(<span class="fu">sessionInfo</span>())[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">collapse =</span> <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; R version 4.5.2 (2025-10-31)</span></span>
@@ -623,7 +623,7 @@ options have no effect when generating compositions.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="do">## compositions of 25</span></span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">compositionsGeneral</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">repetition =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt;   1.284   0.053   1.338</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt;   1.245   0.051   1.296</span></span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a></span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">compositionsCount</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">repetition =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; [1] 16777216</span></span>
@@ -632,14 +632,14 @@ options have no effect when generating compositions.</p>
 <span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="do">## over 16 million compositions instantly</span></span>
 <span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">compositionsGeneral</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">repetition =</span> <span class="cn">TRUE</span>, <span class="at">nThreads =</span> <span class="dv">4</span>))</span>
 <span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt;   1.471   0.061   0.410</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt;   1.370   0.055   0.378</span></span>
 <span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a></span>
 <span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a></span>
 <span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="do">## weak compositions of 12 using nThreads = 4</span></span>
 <span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="fu">system.time</span>(weakComp12 <span class="ot">&lt;-</span> <span class="fu">compositionsGeneral</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">repetition =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>                                              <span class="at">weak =</span> <span class="cn">TRUE</span>, <span class="at">nThreads =</span> <span class="dv">4</span>))</span>
 <span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co">#&gt;   0.008   0.004   0.003</span></span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co">#&gt;   0.008   0.003   0.003</span></span>
 <span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a></span>
 <span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="do">## And using permuteGeneral</span></span>
 <span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="fu">system.time</span>(weakPerm12 <span class="ot">&lt;-</span> <span class="fu">permuteGeneral</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>, <span class="dv">12</span>, <span class="at">repetition =</span> <span class="cn">TRUE</span>,</span>
@@ -647,7 +647,7 @@ options have no effect when generating compositions.</p>
 <span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a>                                         <span class="at">comparisonFun =</span> <span class="st">&quot;==&quot;</span>,</span>
 <span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a>                                         <span class="at">limitConstraints =</span> <span class="dv">12</span>))</span>
 <span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a><span class="co">#&gt;   0.009   0.002   0.011</span></span>
+<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a><span class="co">#&gt;   0.009   0.002   0.010</span></span>
 <span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a></span>
 <span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a><span class="fu">dim</span>(weakPerm12)</span>
 <span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a><span class="co">#&gt; [1] 1352078      12</span></span>
@@ -659,7 +659,7 @@ options have no effect when generating compositions.</p>
 <span id="cb9-37"><a href="#cb9-37" tabindex="-1"></a><span class="do">## Distinct Parts</span></span>
 <span id="cb9-38"><a href="#cb9-38" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">compositionsGeneral</span>(<span class="dv">55</span>, <span class="dv">8</span>))</span>
 <span id="cb9-39"><a href="#cb9-39" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-40"><a href="#cb9-40" tabindex="-1"></a><span class="co">#&gt;   0.626   0.017   0.642</span></span>
+<span id="cb9-40"><a href="#cb9-40" tabindex="-1"></a><span class="co">#&gt;   0.664   0.015   0.678</span></span>
 <span id="cb9-41"><a href="#cb9-41" tabindex="-1"></a></span>
 <span id="cb9-42"><a href="#cb9-42" tabindex="-1"></a><span class="fu">compositionsCount</span>(<span class="dv">55</span>, <span class="dv">8</span>)</span>
 <span id="cb9-43"><a href="#cb9-43" tabindex="-1"></a><span class="co">#&gt; [1] 14192640</span></span>
@@ -667,7 +667,7 @@ options have no effect when generating compositions.</p>
 <span id="cb9-45"><a href="#cb9-45" tabindex="-1"></a><span class="do">## Similar to above... using 4 threads gets us the result instantly</span></span>
 <span id="cb9-46"><a href="#cb9-46" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">compositionsGeneral</span>(<span class="dv">55</span>, <span class="dv">8</span>, <span class="at">nThreads =</span> <span class="dv">4</span>))</span>
 <span id="cb9-47"><a href="#cb9-47" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-48"><a href="#cb9-48" tabindex="-1"></a><span class="co">#&gt;   0.645   0.017   0.189</span></span>
+<span id="cb9-48"><a href="#cb9-48" tabindex="-1"></a><span class="co">#&gt;   0.646   0.015   0.188</span></span>
 <span id="cb9-49"><a href="#cb9-49" tabindex="-1"></a></span>
 <span id="cb9-50"><a href="#cb9-50" tabindex="-1"></a><span class="do">## General compositions with varying multiplicities</span></span>
 <span id="cb9-51"><a href="#cb9-51" tabindex="-1"></a><span class="fu">system.time</span>(comp25_gen <span class="ot">&lt;-</span> <span class="fu">permuteGeneral</span>(<span class="dv">25</span>, <span class="dv">10</span>, <span class="at">freqs =</span> <span class="fu">rep</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">8</span>, <span class="dv">5</span>),</span>
@@ -675,7 +675,7 @@ options have no effect when generating compositions.</p>
 <span id="cb9-53"><a href="#cb9-53" tabindex="-1"></a>                                         <span class="at">comparisonFun =</span> <span class="st">&quot;==&quot;</span>,</span>
 <span id="cb9-54"><a href="#cb9-54" tabindex="-1"></a>                                         <span class="at">limitConstraints =</span> <span class="dv">25</span>))</span>
 <span id="cb9-55"><a href="#cb9-55" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-56"><a href="#cb9-56" tabindex="-1"></a><span class="co">#&gt;   0.013   0.004   0.018</span></span>
+<span id="cb9-56"><a href="#cb9-56" tabindex="-1"></a><span class="co">#&gt;   0.012   0.005   0.017</span></span>
 <span id="cb9-57"><a href="#cb9-57" tabindex="-1"></a></span>
 <span id="cb9-58"><a href="#cb9-58" tabindex="-1"></a><span class="fu">dim</span>(comp25_gen)</span>
 <span id="cb9-59"><a href="#cb9-59" tabindex="-1"></a><span class="co">#&gt; [1] 946092     10</span></span></code></pre></div>

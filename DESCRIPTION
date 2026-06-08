@@ -1,5 +1,5 @@
 Package: RcppAlgos
-Version: 2.10.0
+Version: 2.10.1
 Title: High Performance Tools for Combinatorics and Computational
         Mathematics
 Description: Provides optimized functions and flexible iterators implemented in
@@ -49,8 +49,8 @@ Authors@R: c(
     )
 Encoding: UTF-8
 RoxygenNote: 7.2.3
-Packaged: 2026-03-07 23:14:22 UTC; owacasa
+Packaged: 2026-06-07 21:09:52 UTC; owacasa
 Author: Joseph Wood [aut, cre]
 Maintainer: Joseph Wood <jwood000@gmail.com>
 Repository: CRAN
-Date/Publication: 2026-03-08 06:10:45 UTC
+Date/Publication: 2026-06-08 07:00:02 UTC

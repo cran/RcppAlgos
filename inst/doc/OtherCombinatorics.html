@@ -12,7 +12,7 @@
 
 <meta name="author" content="Joseph Wood" />
 
-<meta name="date" content="2026-03-04" />
+<meta name="date" content="2026-06-07" />
 
 <title>Cartesian Products and Partitions of Groups</title>
 
@@ -144,7 +144,7 @@ pointer-events: auto;
 <h1 class="title toc-ignore">Cartesian Products and Partitions of
 Groups</h1>
 <h3 class="author">Joseph Wood</h3>
-<h3 class="date">2026-03-04</h3>
+<h3 class="date">2026-06-07</h3>
 </div>
 </header>
 
@@ -357,8 +357,8 @@ time by using <code>nThreads</code>:</p>
 <span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; integer overflows</span></span>
 <span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; Unit: relative</span></span>
 <span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt;           expr   min    lq  mean median    uq   max neval</span></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt;          baseR 9.415 8.634 6.053  7.937 6.927 2.827   100</span></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt;  RcppAlgos_Ser 3.325 3.213 2.443  3.087 2.778 1.597   100</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt;          baseR 8.999 8.639 6.818  7.868 7.220 2.597   100</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt;  RcppAlgos_Ser 3.306 3.052 2.760  2.843 2.838 1.447   100</span></span>
 <span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt;  RcppAlgos_Par 1.000 1.000 1.000  1.000 1.000 1.000   100</span></span></code></pre></div>
 </div>
 <div id="expandgridsample" class="section level3">
@@ -566,7 +566,7 @@ impractical.</p>
 <span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="do">## With comboGrid, this is no problem</span></span>
 <span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="fu">system.time</span>(myCombs <span class="ot">&lt;-</span> <span class="fu">comboGrid</span>(pools))</span>
 <span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co">#&gt;   0.207   0.015   0.222</span></span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co">#&gt;   0.204   0.015   0.220</span></span>
 <span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a></span>
 <span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">object.size</span>(myCombs), <span class="at">unit =</span> <span class="st">&quot;Mb&quot;</span>)</span>
 <span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="co">#&gt; 92 Mb</span></span>
@@ -592,7 +592,7 @@ impractical.</p>
 <span id="cb9-43"><a href="#cb9-43" tabindex="-1"></a><span class="do">## Generating keys, then filtering will take much more time</span></span>
 <span id="cb9-44"><a href="#cb9-44" tabindex="-1"></a><span class="fu">system.time</span>(cartProd <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(pools))</span>
 <span id="cb9-45"><a href="#cb9-45" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-46"><a href="#cb9-46" tabindex="-1"></a><span class="co">#&gt;   2.451   0.480   2.936</span></span>
+<span id="cb9-46"><a href="#cb9-46" tabindex="-1"></a><span class="co">#&gt;   2.460   0.489   2.954</span></span>
 <span id="cb9-47"><a href="#cb9-47" tabindex="-1"></a></span>
 <span id="cb9-48"><a href="#cb9-48" tabindex="-1"></a><span class="do">## Creates huge object</span></span>
 <span id="cb9-49"><a href="#cb9-49" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">object.size</span>(cartProd), <span class="at">unit =</span> <span class="st">&quot;Mb&quot;</span>)</span>
@@ -602,7 +602,7 @@ impractical.</p>
 <span id="cb9-53"><a href="#cb9-53" tabindex="-1"></a><span class="do">## Simply set repetition = FALSE</span></span>
 <span id="cb9-54"><a href="#cb9-54" tabindex="-1"></a><span class="fu">system.time</span>(myCombsNoRep <span class="ot">&lt;-</span> <span class="fu">comboGrid</span>(pools, <span class="at">repetition =</span> <span class="cn">FALSE</span>))</span>
 <span id="cb9-55"><a href="#cb9-55" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb9-56"><a href="#cb9-56" tabindex="-1"></a><span class="co">#&gt;   0.003   0.000   0.003</span></span>
+<span id="cb9-56"><a href="#cb9-56" tabindex="-1"></a><span class="co">#&gt;   0.003   0.000   0.002</span></span>
 <span id="cb9-57"><a href="#cb9-57" tabindex="-1"></a></span>
 <span id="cb9-58"><a href="#cb9-58" tabindex="-1"></a><span class="fu">ht</span>(myCombsNoRep)</span>
 <span id="cb9-59"><a href="#cb9-59" tabindex="-1"></a><span class="co">#&gt; head --&gt;</span></span>
@@ -718,11 +718,11 @@ Observe:</p>
 also very inefficient, however this exercise hopefully serves to better
 illustrate these structures.</p>
 <p>The algorithm in <code>comboGroups</code> avoids all of this
-duplication by implementing a novel algorithm akin to <a href="https://en.cppreference.com/w/cpp/algorithm/next_permutation.html">std::next_permutation</a>
+duplication by implementing a novel algorithm akin to <a href="https://en.cppreference.com/cpp/algorithm/next_permutation">std::next_permutation</a>
 from the algorithm library in <code>C++</code>.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">comboGroups</span>(<span class="dv">12</span>, <span class="at">numGroups =</span> <span class="dv">3</span>))</span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt;       0       0       0</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt;   0.001   0.000   0.000</span></span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a></span>
 <span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="fu">ht</span>(<span class="fu">comboGroups</span>(<span class="dv">12</span>, <span class="at">numGroups =</span> <span class="dv">3</span>))</span>
 <span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; head --&gt;</span></span>
@@ -751,21 +751,21 @@ and <code>nThreads</code>.</p>
 <span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>                              <span class="at">lower =</span> <span class="st">&quot;123378675000000000&quot;</span>,</span>
 <span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>                              <span class="at">upper =</span> <span class="st">&quot;123378675005000000&quot;</span>))</span>
 <span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt;   0.097   0.018   0.115</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt;   0.097   0.019   0.116</span></span>
 <span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a></span>
 <span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="do">## Use specific number of threads</span></span>
 <span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="fu">system.time</span>(a2 <span class="ot">&lt;-</span> <span class="fu">comboGroups</span>(<span class="dv">30</span>, <span class="at">numGroups =</span> <span class="dv">6</span>,</span>
 <span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>                              <span class="at">lower =</span> <span class="st">&quot;123378675000000000&quot;</span>,</span>
 <span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>                              <span class="at">upper =</span> <span class="st">&quot;123378675005000000&quot;</span>, <span class="at">nThreads =</span> <span class="dv">4</span>))</span>
 <span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="co">#&gt;   0.101   0.027   0.032</span></span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="co">#&gt;   0.109   0.040   0.070</span></span>
 <span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a></span>
 <span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a><span class="do">## Use n - 1 number of threads (in this case, there are 7)</span></span>
 <span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a><span class="fu">system.time</span>(a3 <span class="ot">&lt;-</span> <span class="fu">comboGroups</span>(<span class="dv">30</span>, <span class="at">numGroups =</span> <span class="dv">6</span>,</span>
 <span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a>                              <span class="at">lower =</span> <span class="st">&quot;123378675000000000&quot;</span>,</span>
 <span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a>                              <span class="at">upper =</span> <span class="st">&quot;123378675005000000&quot;</span>, <span class="at">Parallel =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a><span class="co">#&gt;   0.151   0.078   0.030</span></span>
+<span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a><span class="co">#&gt;   0.122   0.081   0.087</span></span>
 <span id="cb13-24"><a href="#cb13-24" tabindex="-1"></a></span>
 <span id="cb13-25"><a href="#cb13-25" tabindex="-1"></a><span class="fu">identical</span>(a1, a2)</span>
 <span id="cb13-26"><a href="#cb13-26" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
@@ -780,7 +780,7 @@ the vector <code>v = 1:15</code> into 2 groups of 3, 1 groups of 4, and
 1 group of 5:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">system.time</span>(a4 <span class="ot">&lt;-</span> <span class="fu">comboGroups</span>(<span class="dv">15</span>, <span class="at">grpSizes =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)))</span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="co">#&gt;   0.097   0.016   0.113</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="co">#&gt;   0.097   0.016   0.114</span></span>
 <span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a></span>
 <span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="fu">ht</span>(a4)</span>
 <span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt; head --&gt;</span></span>
@@ -812,7 +812,7 @@ with groups of varying sizes as well. For example, we can generate
 groups of varying sizes in parallel:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">system.time</span>(a5 <span class="ot">&lt;-</span> <span class="fu">comboGroups</span>(<span class="dv">15</span>, <span class="at">grpSizes =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>), <span class="at">nThreads =</span> <span class="dv">4</span>))</span>
 <span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="co">#&gt;   0.103   0.027   0.046</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="co">#&gt;   0.105   0.024   0.045</span></span>
 <span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a></span>
 <span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="fu">identical</span>(a4, a5)</span>
 <span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>

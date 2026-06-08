@@ -12,7 +12,7 @@
 
 <meta name="author" content="Joseph Wood" />
 
-<meta name="date" content="2026-03-04" />
+<meta name="date" content="2026-06-07" />
 
 <title>Computational Mathematics Overview</title>
 
@@ -143,7 +143,7 @@ pointer-events: auto;
 <div class="inner">
 <h1 class="title toc-ignore">Computational Mathematics Overview</h1>
 <h3 class="author">Joseph Wood</h3>
-<h3 class="date">2026-03-04</h3>
+<h3 class="date">2026-06-07</h3>
 </div>
 </header>
 
@@ -186,18 +186,18 @@ facilitates use of the cache.</p>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt; Warning in microbenchmark(primeSieve(1000000)): less accurate nanosecond times to avoid</span></span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt; potential integer overflows</span></span>
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; Unit: microseconds</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt;               expr     min       lq     mean   median      uq     max neval</span></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt;  primeSieve(1e+06) 429.885 458.0315 480.4204 470.1675 482.611 765.347   100</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt;               expr    min      lq     mean  median       uq     max neval</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt;  primeSieve(1e+06) 421.07 455.633 476.5504 460.389 471.6435 759.771   100</span></span>
 <span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a></span>
 <span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="do">## Single threaded primes under a billion!!!</span></span>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">primeSieve</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">9</span>))</span>
 <span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt;   0.694   0.018   0.712</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt;   0.693   0.020   0.712</span></span>
 <span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a></span>
 <span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="do">## Using 8 threads we can get under 0.5 seconds!!!</span></span>
 <span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">primeSieve</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">9</span>, <span class="at">nThreads =</span> <span class="dv">8</span>))</span>
 <span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt;   1.073   0.027   0.162</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt;   1.051   0.021   0.162</span></span>
 <span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a></span>
 <span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="do">## Quickly generate large primes over small interval. N.B. The</span></span>
 <span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="do">## order for the bounds does not matter.</span></span>
@@ -226,19 +226,19 @@ Oliveira</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="do">## Version &lt;= 2.2.0.. i.e. older versions</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">system.time</span>(old <span class="ot">&lt;-</span> RcppAlgos220<span class="sc">::</span><span class="fu">primeSieve</span>(<span class="fl">1e15</span>, <span class="fl">1e15</span> <span class="sc">+</span> <span class="fl">1e9</span>))</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;   2.259   0.036   2.294</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;   2.026   0.034   2.102</span></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">gc</span>())</span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="do">## v2.3.0+ is faster</span></span>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="fu">system.time</span>(a <span class="ot">&lt;-</span> <span class="fu">primeSieve</span>(<span class="fl">1e15</span>, <span class="fl">1e15</span> <span class="sc">+</span> <span class="fl">1e9</span>))</span>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt;   0.958   0.023   0.981</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt;   0.958   0.024   0.982</span></span>
 <span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a></span>
 <span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">gc</span>())</span>
 <span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="do">## And using nThreads is much much faster</span></span>
 <span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="fu">system.time</span>(b <span class="ot">&lt;-</span> <span class="fu">primeSieve</span>(<span class="fl">1e15</span>, <span class="fl">1e15</span> <span class="sc">+</span> <span class="fl">1e9</span>, <span class="at">nThreads =</span> <span class="dv">8</span>))</span>
 <span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt;   1.628   0.056   0.279</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt;   1.681   0.053   0.278</span></span>
 <span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a></span>
 <span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="fu">identical</span>(old, a)</span>
 <span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
@@ -279,7 +279,7 @@ are benefiting greatly from the caching done by the work of the previous
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="do">## Enumerate the number of primes below trillion</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">system.time</span>(underOneTrillion <span class="ot">&lt;-</span> <span class="fu">primeCount</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">12</span>))</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt;   0.083   0.000   0.085</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt;   0.084   0.001   0.085</span></span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>underOneTrillion</span>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; [1] 37607912018</span></span>
@@ -287,12 +287,12 @@ are benefiting greatly from the caching done by the work of the previous
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="do">## Enumerate the number of primes below ten billion in 2 milliseconds</span></span>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="fu">primeCount</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">10</span>))</span>
 <span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; Unit: milliseconds</span></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt;               expr      min       lq     mean   median      uq      max neval</span></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt;  primeCount(10^10) 1.206384 1.212677 1.229262 1.218151 1.22713 1.726223   100</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt;               expr      min       lq     mean   median       uq      max neval</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt;  primeCount(10^10) 1.201382 1.205605 1.217276 1.208782 1.213538 1.784689   100</span></span>
 <span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a></span>
 <span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="fu">system.time</span>(underOneHundredTrillion <span class="ot">&lt;-</span> <span class="fu">primeCount</span>(<span class="fl">1e14</span>, <span class="at">nThreads =</span> <span class="dv">8</span>))</span>
 <span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt;   5.009   0.420   0.920</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt;   4.974   0.412   0.910</span></span>
 <span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a></span>
 <span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>underOneHundredTrillion</span>
 <span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; [1] 3204941750802</span></span>
@@ -303,7 +303,7 @@ are benefiting greatly from the caching done by the work of the previous
 <span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>    <span class="at">collapse =</span> <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span></span>
 <span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>))</span>
 <span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt; 3204941750802</span></span>
-<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; Seconds: 0.211</span></span></code></pre></div>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; Seconds: 0.218</span></span></code></pre></div>
 </div>
 <div id="other-sieving-functions" class="section level2">
 <h2>Other Sieving Functions</h2>
@@ -322,7 +322,7 @@ components up to a number or between two bounds.</p>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="do">## If you want the complete factorization from 1 to n, use divisorsList</span></span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="fu">system.time</span>(allFacs <span class="ot">&lt;-</span> <span class="fu">divisorsSieve</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>, <span class="at">namedList =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;   0.019   0.004   0.024</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;   0.020   0.004   0.026</span></span>
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a></span>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>allFacs[<span class="fu">c</span>(<span class="dv">4339</span>, <span class="dv">15613</span>, <span class="dv">22080</span>)]</span>
 <span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; $`4339`</span></span>
@@ -367,12 +367,12 @@ components up to a number or between two bounds.</p>
 <span id="cb4-50"><a href="#cb4-50" tabindex="-1"></a></span>
 <span id="cb4-51"><a href="#cb4-51" tabindex="-1"></a><span class="fu">system.time</span>(a <span class="ot">&lt;-</span> <span class="fu">eulerPhiSieve</span>(<span class="fl">1e12</span>, <span class="fl">1e12</span> <span class="sc">+</span> <span class="fl">1e7</span>))</span>
 <span id="cb4-52"><a href="#cb4-52" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb4-53"><a href="#cb4-53" tabindex="-1"></a><span class="co">#&gt;   0.225   0.009   0.238</span></span>
+<span id="cb4-53"><a href="#cb4-53" tabindex="-1"></a><span class="co">#&gt;   0.219   0.007   0.227</span></span>
 <span id="cb4-54"><a href="#cb4-54" tabindex="-1"></a></span>
 <span id="cb4-55"><a href="#cb4-55" tabindex="-1"></a><span class="do">## Using nThreads for greater efficiency</span></span>
 <span id="cb4-56"><a href="#cb4-56" tabindex="-1"></a><span class="fu">system.time</span>(b <span class="ot">&lt;-</span> <span class="fu">eulerPhiSieve</span>(<span class="fl">1e12</span>, <span class="fl">1e12</span> <span class="sc">+</span> <span class="fl">1e7</span>, <span class="at">nThreads =</span> <span class="dv">8</span>))</span>
 <span id="cb4-57"><a href="#cb4-57" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb4-58"><a href="#cb4-58" tabindex="-1"></a><span class="co">#&gt;   0.768   0.038   0.110</span></span>
+<span id="cb4-58"><a href="#cb4-58" tabindex="-1"></a><span class="co">#&gt;   0.763   0.038   0.109</span></span>
 <span id="cb4-59"><a href="#cb4-59" tabindex="-1"></a></span>
 <span id="cb4-60"><a href="#cb4-60" tabindex="-1"></a><span class="fu">identical</span>(a, b)</span>
 <span id="cb4-61"><a href="#cb4-61" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
@@ -425,12 +425,12 @@ factoring (<code>divisorsRcpp</code>, <code>isPrimeRcpp</code>,
 <span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a></span>
 <span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a><span class="fu">system.time</span>(a <span class="ot">&lt;-</span> <span class="fu">primeFactorize</span>(<span class="fl">1e12</span><span class="sc">:</span>(<span class="fl">1e12</span> <span class="sc">+</span> <span class="fl">1e5</span>)))</span>
 <span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a><span class="co">#&gt;   0.498   0.006   0.505</span></span>
+<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a><span class="co">#&gt;   0.495   0.007   0.502</span></span>
 <span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a></span>
 <span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a><span class="do">## Using nThreads for greater efficiency</span></span>
 <span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a><span class="fu">system.time</span>(b <span class="ot">&lt;-</span> <span class="fu">primeFactorize</span>(<span class="fl">1e12</span><span class="sc">:</span>(<span class="fl">1e12</span> <span class="sc">+</span> <span class="fl">1e5</span>), <span class="at">nThreads =</span> <span class="dv">8</span>))</span>
 <span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a><span class="co">#&gt;   0.697   0.006   0.115</span></span>
+<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a><span class="co">#&gt;   0.690   0.005   0.111</span></span>
 <span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a></span>
 <span id="cb5-50"><a href="#cb5-50" tabindex="-1"></a><span class="fu">identical</span>(a, b)</span>
 <span id="cb5-51"><a href="#cb5-51" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
