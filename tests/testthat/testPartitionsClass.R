@@ -248,9 +248,11 @@ test_that("partitionsIter produces correct results", {
                     v_pass, m_pass, rep, fr, tar, IsWeak
                 )
                 a <- compositionsIter(v_pass, m_pass, rep, fr, tar, IsWeak)
+                a2 <- compositionsIter(v_pass, m_pass, rep, fr, tar, IsWeak)
                 b <- compositionsGeneral(v_pass, m_pass, rep, fr, tar, IsWeak)
             } else {
                 a <- compositionsIter(v_pass, m_pass, tar, weak = IsWeak)
+                a2 <- compositionsIter(v_pass, m_pass, tar, weak = IsWeak)
                 b <- compositionsGeneral(v_pass, m_pass, tar, weak = IsWeak)
                 myRows <- compositionsCount(v_pass, m_pass, tar, weak = IsWeak)
             }
@@ -326,10 +328,12 @@ test_that("partitionsIter produces correct results", {
         } else {
             if (class(v_pass) != "table") {
                 a <- partitionsIter(v_pass, m_pass, rep, fr, tar)
+                a2 <- partitionsIter(v_pass, m_pass, rep, fr, tar)
                 b <- partitionsGeneral(v_pass, m_pass, rep, fr, tar)
                 myRows <- partitionsCount(v_pass, m_pass, rep, fr, tar)
             } else {
                 a <- partitionsIter(v_pass, m_pass, tar)
+                a2 <- partitionsIter(v_pass, m_pass, tar)
                 b <- partitionsGeneral(v_pass, m_pass, tar)
                 myRows <- partitionsCount(v_pass, m_pass, tar)
             }
@@ -379,14 +383,44 @@ test_that("partitionsIter produces correct results", {
             num_iters <- if (myRows > 10) 3L else 1L
             numTest   <- as.integer(myRows / num_iters);
 
-            s <- 1L
-            e <- numTest
+            if (num_iters == 1) {
+                myResults <- c(
+                    myResults, isTRUE(all.equal(a@nextNIter(numTest), b))
+                )
 
-            for (i in 1:num_iters) {
-                myResults <- c(myResults, isTRUE(all.equal(a@nextNIter(numTest),
-                                                           b[s:e, , drop = FALSE])))
-                s <- e + 1L
-                e <- e + numTest
+                a@startOver()
+                exhaust   <- a@nextNIter(n = 3 * numTest)
+                myResults <- c(myResults, identical(exhaust, b))
+                msg       <- capture.output(noMore <- a@currIter())
+                myResults <- c(myResults, is.null(noMore))
+                myResults <- c(myResults, grepl("No more results", msg[1]))
+                rm(exhaust)
+            } else {
+                s <- 1L
+                e <- numTest
+
+                for (i in 1:(num_iters - 1L)) {
+                    myResults <- c(
+                        myResults, isTRUE(all.equal(a@nextNIter(numTest),
+                                                    b[s:e, , drop = FALSE]))
+                    )
+                    s <- e + 1L
+                    e <- e + numTest
+                }
+
+                myResults <- c(
+                    myResults, isTRUE(all.equal(a@nextRemaining(),
+                                                b[s:myRows, , drop = FALSE]))
+                )
+
+                a@startOver()
+                stage_one <- a@nextNIter(n = 2 * numTest)
+                exhaust   <- a@nextNIter(n = 3 * numTest)
+                myResults <- c(myResults, identical(exhaust, b[s:myRows, , drop = FALSE]))
+                msg       <- capture.output(noMore <- a@currIter())
+                myResults <- c(myResults, is.null(noMore))
+                myResults <- c(myResults, grepl("No more results", msg[1]))
+                rm(stage_one, exhaust)
             }
 
             a@startOver()
@@ -416,6 +450,37 @@ test_that("partitionsIter produces correct results", {
 
                 samp <- sample(myRows, numTest)
                 myResults <- c(myResults, isTRUE(all.equal(a[[samp]], b[samp, ])))
+
+                ## Now we check Multi-index Partitions sampling followed by
+                ## currIter() and nextIter(), checking that both position and
+                ## traversal state remain unchanged.
+                a@startOver()
+                a2@startOver()
+
+                if (numTest < myRows) {
+                    a@nextNIter(numTest)
+                    a2@nextNIter(numTest)
+                } else {
+                    a@nextNIter(numTest - 1L)
+                    a2@nextNIter(numTest - 1L)
+                }
+
+                a[[samp]]
+
+                myResults <- c(
+                    myResults,
+                    isTRUE(
+                        all.equal(a@summary()$currentIndex,
+                                  a2@summary()$currentIndex)
+                    )
+                )
+                myResults <- c(
+                    myResults, isTRUE(all.equal(a@currIter(), a2@currIter()))
+                )
+                myResults <- c(
+                    myResults, isTRUE(all.equal(a@nextIter(), a2@nextIter()))
+                )
+
                 one_samp <- sample(myRows, 1)
                 myResults <- c(myResults, isTRUE(all.equal(a[[one_samp]], b[one_samp, ])))
             }
@@ -450,7 +515,7 @@ test_that("partitionsIter produces correct results", {
             )
         }
 
-        rm(a, a1, b)
+        rm(a, a1, a2, b)
         gc()
         all(myResults)
     }
@@ -567,22 +632,25 @@ test_that("partitionsIter produces correct results", {
     expect_true(partitionClassTest(7 + (0:50) * 13, 9,
                                    fr = c(4, rep(1, 50)), tar = 713))
 
-    ## Currently, we don't have an algorithm for this case. We have to think
-    ## carefully here... Since there technically isn't an actual zero, the
-    ## idea of weakness doesn't come into play even though we can map a value
-    ## isomorphically to zero. Because of this coupled with the fact we are
-    ## dealing with compositions where order matters, we technically have
-    ## a strange compositions multiset case. Our current algorithm may in
-    ## fact work, but testing is still needed.
+    ## The mapped case would lead to 456330 results which would take too
+    ## long to test:
     ##
-    ## This will throw the error:
+    ##        compositionsCount(
+    ##            7 + (0:30) * 13, 7,
+    ##            freqs = c(4, rep(1, 30)),
+    ##            target = 439
+    ##        )
+    ##        [1] 456330
     ##
-    ## Error: Currently, there is no composition algorithm for this case.
-    ##  Use permuteCount, permuteIter, permuteGeneral, permuteSample, or
-    ##  permuteRank instead.
-    expect_error(partitionClassTest(7 + (0:30) * 13, 7, fr = c(4, rep(1, 30)),
-                                    tar = 439, IsComposition = TRUE),
-                 "Currently, there is no composition algorithm for this case")
+    ## Prior to version 2.10.2, we did not have a solution for this case. Now,
+    ## we found a clever way to map this to multi-zero weak case as the shifted
+    ## first value is treated as a normal part and not merely padding.
+    ##
+    ## For completeness, we reduced the size of the output while honoring the
+    ## original problem (a mapped case where the first value has a
+    ## multiplicity greater than 1).
+    expect_true(partitionClassTest(7 + (0:20) * 13, 7, fr = c(4, rep(1, 20)),
+                                   tar = 309, IsComposition = TRUE))
 
     ## If we don't shift the results, we should be able to yield results.
     ## - target will be determined internally to 13 * 30 = 390
@@ -614,12 +682,9 @@ test_that("partitionsIter produces correct results", {
     ## 30 * 13 + 7 * 5 = 425
     expect_true(partitionClassTest(7 + (0:50) * 13, 5,
                                    fr = c(8, rep(1, 50)), tar = 685))
-
-    ## Same as above... this will throw an error
-    expect_error(partitionClassTest(7 + (0:30) * 13, 5,
-                                    fr = c(7, rep(1, 30)), tar = 425,
-                                    IsComposition = TRUE),
-                 "Currently, there is no composition algorithm for this case")
+    expect_true(partitionClassTest(7 + (0:30) * 13, 5,
+                                   fr = c(7, rep(1, 30)), tar = 425,
+                                   IsComposition = TRUE))
 
     ## Again not shifting the source vector yields results.
     ## 30 * 13 = 390
@@ -814,7 +879,7 @@ test_that("partitionsIter produces correct results", {
     )
 
     #### Repetition; Compositions; Zero inc.; Capped (i.e. Specific Target)
-    ## "CmpRpCapZNotWk"
+    ## "CompRepCapZero"
     expect_true(
         partitionClassTest(0:10, 6, rep = TRUE, tar = 25, IsComposition = TRUE,
                            requiresWidthRebuild = TRUE)
@@ -830,7 +895,7 @@ test_that("partitionsIter produces correct results", {
     )
 
     #### Repetition; Compositions; Zero inc.; Capped (i.e. Specific Target)
-    ## "CmpRpCapZNotWk"
+    ## "CompRepCapZero"
     expect_true(
         partitionClassTest(0:5, 8, rep = TRUE, tar = 20, IsComposition = TRUE,
                            requiresWidthRebuild = TRUE)
@@ -929,6 +994,9 @@ test_that("partitionsIter produces correct results", {
             a  <- compositionsIter(
                 v_pass, m_pass, rep, fr, tar, IsWeak, nThreads = 2
             )
+            a3 <- compositionsIter(
+                v_pass, m_pass, rep, fr, tar, IsWeak, nThreads = 2
+            )
             b1 <- compositionsGeneral(v_pass, m_pass, rep, fr, tar, IsWeak,
                                       upper = lenCheck)
             b2 <- compositionsGeneral(
@@ -938,6 +1006,7 @@ test_that("partitionsIter produces correct results", {
         } else {
             myRows <- partitionsCount(v_pass, m_pass, rep, fr, tar)
             a  <- partitionsIter(v_pass, m_pass, rep, fr, tar, nThreads = 2)
+            a3 <- partitionsIter(v_pass, m_pass, rep, fr, tar, nThreads = 2)
             b1 <- partitionsGeneral(v_pass, m_pass, rep, fr, tar, upper = lenCheck)
             b2 <- partitionsGeneral(v_pass, m_pass, rep, fr, tar,
                                     lower = gmp::sub.bigz(myRows, lenCheck - 1))
@@ -1011,12 +1080,15 @@ test_that("partitionsIter produces correct results", {
         s <- 1L
         e <- numTest
 
-        for (i in 1:3) {
+        for (i in 1:2) {
             myResults <- c(myResults, isTRUE(all.equal(a@nextNIter(numTest),
                                                        b2[s:e, ])))
             s <- e + 1L
             e <- e + numTest
         }
+
+        myResults <- c(myResults, isTRUE(all.equal(a@nextRemaining(),
+                                                   b2[s:nrow(b2), ])))
 
         a@startOver()
         a[[gmp::sub.bigz(myRows, lenCheck)]]
@@ -1032,6 +1104,30 @@ test_that("partitionsIter produces correct results", {
         myResults <- c(myResults, isTRUE(all.equal(a[[samp1]], b1[samp1, ])))
         myResults <- c(myResults, isTRUE(all.equal(a[[samp2]], b2[samp1, ])))
 
+        ## Now we check Multi-index Partitions sampling followed by
+        ## currIter() and nextIter(), checking that both position and
+        ## traversal state remain unchanged.
+        a@startOver()
+        a3@startOver()
+
+        a@nextNIter(numTest)
+        a3@nextNIter(numTest)
+        a[[samp1]]
+
+        myResults <- c(
+            myResults,
+            isTRUE(
+                all.equal(a@summary()$currentIndex,
+                          a3@summary()$currentIndex)
+            )
+        )
+        myResults <- c(
+            myResults, isTRUE(all.equal(a@currIter(), a3@currIter()))
+        )
+        myResults <- c(
+            myResults, isTRUE(all.equal(a@nextIter(), a3@nextIter()))
+        )
+
         end_time <- Sys.time()
         total_time <- as.double(difftime(end_time, start_time), units = "secs")
 
@@ -1044,7 +1140,7 @@ test_that("partitionsIter produces correct results", {
             )
         }
 
-        rm(a, a1, a2, b1, b2)
+        rm(a, a1, a2, a3, b1, b2)
         gc()
         all(myResults)
     }
@@ -1075,7 +1171,7 @@ test_that("partitionsIter produces correct results", {
     expect_true(partitionClassBigZTest(20, 40, TRUE, tar = 200,
                                        IsComposition = TRUE))
 
-    ## "CmpRpCapZNotWk"
+    ## "CompRepCapZero"
     expect_true(partitionClassBigZTest(0:200, 10, TRUE, tar = 1000,
                                        IsComposition = TRUE))
 

@@ -24,6 +24,16 @@ test_that("comboGeneral produces appropriate error messages", {
     expect_error(comboGeneral(50, 5, upper = -100),
                  "upper must be a positive whole number")
 
+    expect_error(comboGeneral(5, 3, lower = Inf),
+                 "The abs value of lower must be less than 2\\^53")
+    expect_error(comboGeneral(50, 5, upper = -Inf),
+                 "The abs value of upper must be less than 2\\^53")
+
+    expect_error(comboGeneral(5, 3, lower = NaN),
+                 "lower cannot be NA or NaN")
+    expect_error(comboGeneral(50, 5, upper = NA_real_),
+                 "upper cannot be NA or NaN")
+
     expect_error(comboGeneral(5, 50),
                  "m must be less than or equal to the length of v")
     expect_error(comboGeneral(5, 3, upper = 100),
@@ -83,9 +93,14 @@ test_that("comboGeneral produces appropriate error messages", {
     expect_error(comboGeneral(5, 3, FUN = cumsum, FUN.VALUE = 1L),
                  "values must be length 1")
 
+    expect_error(comboGeneral(factor(letters[1:4]), 2, FUN = 42),
+                 "object 'FUN' of mode 'function' was not found")
+
     expect_error(comboGeneral(5, 3.3), "must be a whole number")
     expect_error(comboGeneral(gmp::as.bigz(1:5), 3),
                  "Class 'bigz' is not supported for raw input v")
+
+    expect_error(comboGeneral())
 })
 
 test_that("comboGroups related functions produces appropriate error messages", {
@@ -132,11 +147,8 @@ test_that("partitionsIter related functions produces appropriate error messages"
     gc()
 })
 
-test_that(paste("partitions/compositionsDesign functions",
+test_that(paste("partitionsCount functions",
                 "produces appropriate error messages"), {
-    expect_error(RcppAlgos:::partitionsDesign(0:17 + rnorm(18), 10,
-                                  repetition = TRUE, target = 25),
-                 "No design available for this case!")
     expect_error(RcppAlgos:::partitionsCount(0:17 + rnorm(18), 10,
                                  repetition = TRUE, target = 25),
                  "The count is unknown for this case.")
@@ -155,6 +167,15 @@ test_that("divisorsRcpp produces appropriate error messages", {
                  "Only logical values are supported for namedList")
     expect_error(divisorsRcpp(100:200, nThreads = "9"),
                  "must be of type numeric or integer")
+
+    expect_error(divisorsRcpp(c(10, 20, NA)),
+                 "v cannot be NA or NaN")
+    expect_error(divisorsRcpp(c(10, 20, NaN)),
+                 "v cannot be NA or NaN")
+    expect_error(divisorsRcpp(c(10, 20, Inf)),
+                 "The abs value of each element in v must be less than 2\\^53")
+    expect_error(divisorsRcpp(c(10, 20, -Inf)),
+                 "The abs value of each element in v must be less than 2\\^53")
 })
 
 test_that("divisorsSieve produces appropriate error messages", {
@@ -213,7 +234,7 @@ test_that("numDivisorSieve produces appropriate error messages", {
 
 test_that("partitionsSample produces correct error messages", {
     expect_error(partitionsSample(3.3, 1),
-                 "Partition sampling not available for this case")
+                 "Sampling not available for this case")
 })
 
 test_that("combo/permuteGeneral produces correct error messages with Parallel", {
@@ -299,9 +320,9 @@ test_that("errors with table S3 method", {
     # expect_error(compositionsIter(table(s), 5, n = 10), err_string)
 
     expect_error(partitionsSample(table(s), 5, n = 4),
-                 "Partition sampling not available for this case.")
+                 "Sampling not available for this case.")
     expect_error(partitionsSample(table(s), 5, n = 4, seed = 42),
-                 "Partition sampling not available for this case.")
+                 "Sampling not available for this case.")
 })
 
 test_that("primeFactorize produces appropriate error messages", {
@@ -391,7 +412,7 @@ test_that("{combo|permute|partitions|compositions}Rank produces appropriate erro
                  "m must be less than or equal to the length of v")
 
     expect_error(partitionsRank(1:3, v = 5, freqs = 1:5, target = 6),
-                 "Partition ranking not available for this case.")
+                 "Ranking not available for this case.")
     expect_error(partitionsRank(letters, v = 100),
                  "Inputs must be of class numeric or integer")
     expect_error(partitionsRank(letters, v = 100),

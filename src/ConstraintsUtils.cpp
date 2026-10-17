@@ -136,7 +136,7 @@ void ConstraintStructure(std::vector<std::string> &compFunVec,
 
         if (itComp == compForms.end()) {
             cpp11::stop("comparison operators must be one of the"
-                     " following: '>', '>=', '<', '<=', or '=='");
+                        " following: '>', '>=', '<', '<=', or '=='");
         } else {
             compFunVec[i] = itComp->second;
         }
@@ -222,7 +222,7 @@ void SetTolerance(const std::vector<double> &vNum,
     } else {
         // numOnly = true, checkWhole = false, negPoss = false, decimalFraction = true
         CppConvert::convertPrimitive(Rtolerance, tolerance, VecType::Numeric,
-                                       "tolerance", true, false, false, true);
+                                     "tolerance", true, false, false, true);
     }
 }
 
@@ -354,7 +354,7 @@ void ConstraintSetup(const std::vector<double> &vNum,
                      std::vector<std::string> &compFunVec,
                      const std::string &mainFun, const std::string &funTest,
                      VecType &myType, SEXP Rtarget, SEXP RcompFun,
-                     SEXP Rtolerance, SEXP Rlow, bool bIsCount) {
+                     SEXP Rtolerance, SEXP Rlow) {
 
     // numOnly = true, checkWhole = false, negPoss = true
     CppConvert::convertVector(Rtarget, targetVals, VecType::Numeric,
@@ -411,17 +411,7 @@ void ConstraintSetup(const std::vector<double> &vNum,
         bLower = cmp(tempLower, 1) > 0;
     }
 
-    if (part.isPart) {
-        SetPartitionDesign(Reps, vNum, part, ctype, lenV, m, bIsCount);
-
-        if (part.numUnknown && part.isComp) {
-            const std::string msg = "Currently, there is no composition "
-                "algorithm for this case.\n Use permuteCount, permuteIter, "
-                "permuteGeneral, permuteSample, or\n permuteRank instead.";
-            cpp11::stop(msg.c_str());
-        }
-    }
-
+    if (part.isPart) SetPartitionDesign(Reps, vNum, part, ctype, lenV, m);
     SetConstraintType(vNum, funTest, part, ctype, bLower);
 }
 

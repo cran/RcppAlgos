@@ -2,11 +2,7 @@
 
 void Partitions::SetPartValues() {
 
-    bool IsCompDist = std::find(
-        CmpDstPTypeArr.cbegin(), CmpDstPTypeArr.cend(), part.ptype
-    ) != CmpDstPTypeArr.cend();
-
-    // CompRepCapped, CompRepWeakCap, and CmpRpCapZNotWk advances using the
+    // CompRepCapped, CompRepWeakCap, and CompRepCapZero advances using the
     // composition-next routine (NextCompositionRep), not the general
     // PartitionType next-partition logic.
     //
@@ -16,21 +12,27 @@ void Partitions::SetPartValues() {
     // initialization here.
     //
     // This is safe because dispatch routes these PartitionTypes to
-    // NextRepCompCapped and NextRepCompNotWkCap which ignores the unused state.
+    // NextRepCompCapped and NextRepCompCapZero which ignores the unused state.
     //
     // Note: n is the size of v so the largest value the index can be is n - 1.
 
     if (part.ptype == PartitionType::CompRepCapped ||
         part.ptype == PartitionType::CompRepWeakCap ||
-        part.ptype == PartitionType::CmpRpCapZNotWk) {
+        part.ptype == PartitionType::CompRepCapZero) {
         pivot = n - 1;  // myMax/cap for NextCompositionRep
-    } else if (IsCompDist) {
-        bool compZero = IsComplementZeroBased(
-            part.includeZero, part.isWeak, ctype == ConstraintType::PartMapping
+
+    } else if (IsCompDistinct(part.ptype)) {
+        const bool keepMappedZeros =
+            part.isWeak || UsesVariableMappedZeros(part.ptype);
+
+        const bool compZero = IsComplementZeroBased(
+            part.includeZero, keepMappedZeros,
+            ctype == ConstraintType::PartMapping
         );
 
-        int zeroBudget = part.isWeak ? part.maxZeros :
-            std::count(z.cbegin(), z.cend(), 0);
+        const int zeroBudget = keepMappedZeros
+            ? part.maxZeros
+            : std::count(z.cbegin(), z.cend(), 0);
 
         CompsDistinctSetup(z, rpsCnt, tarDiff, edge, boundary,
                            pivot, n - 1, compZero, zeroBudget);
@@ -238,21 +240,25 @@ SEXP Partitions::nextGather() {
                       tarDiff, lastCol, lastElem);
         }
 
+        cpp11::sexp res;
+
+        if (part.ptype == PartitionType::Multiset) {
+            res = MultisetMatrix(nRows);
+        } else {
+            bUpper = false;
+            res = MatrixReturn(nRows);
+        }
+
         if (IsGmp) {
             mpzIndex = cnstrtCountMpz + 1;
         } else {
             dblIndex = cnstrtCount + 1;
         }
 
-        if (part.ptype == PartitionType::Multiset) {
-            return MultisetMatrix(nRows);
-        } else {
-            bUpper = false;
-            cpp11::sexp res = MatrixReturn(nRows);
-            zUpdateIndex(vNum, vInt, z, sexpVec, res, width, nRows, bAddOne);
-            SetPartValues();
-            return res;
-        }
+        // nextGather exhausts the iterator. Since this iterator is not
+        // bidirectional, the traversal state is not restored to the final
+        // result. No subsequent forward generation can use it.
+        return res;
     } else {
         return R_NilValue;
     }
@@ -278,7 +284,8 @@ SEXP Partitions::randomAccess(SEXP RindexVec) {
 
     std::size_t sampSize;
     std::vector<double> mySample;
-    const bool SampIsGmp = (cnstrtCount > SampleLimit);
+    const bool SampIsGmp = IsBeyondBound(cnstrtCount, SampleLimit);
+
     SetIndexVec(RindexVec, mySample, sampSize, SampIsGmp, cnstrtCount);
 
     const std::size_t bigSampSize = SampIsGmp ? sampSize : 1;
@@ -305,8 +312,6 @@ SEXP Partitions::randomAccess(SEXP RindexVec) {
                              nThreads, LocalPar, false, part.mapTar,
                              strtLen, cap, IsGmp);
 
-            zUpdateIndex(vNum, vInt, z, sexpVec, res, width, sampSize, bAddOne);
-            SetPartValues();
             return res;
         } else {
             cpp11::sexp res = Rf_allocMatrix(REALSXP, sampSize, part.width);
@@ -317,8 +322,6 @@ SEXP Partitions::randomAccess(SEXP RindexVec) {
                              nThreads, LocalPar, false, part.mapTar,
                              strtLen, cap, IsGmp);
 
-            zUpdateIndex(vNum, vInt, z, sexpVec, res, width, sampSize, bAddOne);
-            SetPartValues();
             return res;
         }
     } else {

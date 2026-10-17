@@ -64,18 +64,34 @@ SEXP CombinatoricsCnstrt(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
         ConstraintSetup(vNum, myReps, tarVals, vInt, tarIntVals, funDbl, part,
                         ctype, n, m, compVec, mainFun, funTest, myType,
                         Rtarget, RcompFun, Rtolerance, Rlow);
+
+        ValidatePartitionDesign(part);
+
+        if (IsMultisetComposition(part.ptype)) {
+            if (part.ptype == PartitionType::CompMultisetZero) {
+                cpp11::stop(
+                    "Generation is not supported for this multiset composition."
+                    " permuteGeneral() treats zeros as actual elements and does"
+                    " not preserve non-weak zero-padding semantics."
+                );
+            }
+
+            cpp11::stop(
+                "Generation is not supported for this multiset composition. "
+                "Consider using permuteGeneral() instead."
+            );
+        }
     }
 
-    const bool usePartCount = part.isPart &&
-                              !part.numUnknown;
+    const bool usePartCount = part.isPart && !part.numUnknown;
 
     const double computedRows = usePartCount ? part.count :
         GetComputedRows(IsMult, IsComb, IsRep, n, m, Rm, freqs, myReps);
 
-    const bool IsGmp = (computedRows > Significand53);
+    const bool IsGmp = IsBeyondBound(computedRows);
     mpz_class computedRowsMpz;
 
-    if (IsGmp && part.isPart) {
+    if (IsGmp && usePartCount) {
         computedRowsMpz = part.bigCount;
     } else if (IsGmp) {
         GetComputedRowMpz(computedRowsMpz, IsMult,
@@ -114,21 +130,19 @@ SEXP CombinatoricsCnstrt(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
     if (ctype < ConstraintType::PartMapping) {
         SetStartZ(myReps, freqs, startZ, IsComb, n, m,
                   lower, lowerMpz, IsRep, IsMult, IsGmp);
-    } else {
-        if (bLower) {
-            const nthPartsPtr nthPartFun =
-                GetNthPartsFuncOrStop(part.ptype, IsGmp);
-            startZ = nthPartFun(part.mapTar, part.width, cap,
-                                strtLen, lower, lowerMpz);
+    } else if (lower > 0) {
+        const nthPartsPtr nthPartFun =
+            GetNthPartsFuncOrStop(part.ptype, IsGmp);
+        startZ = nthPartFun(part.mapTar, part.width, cap,
+                            strtLen, lower, lowerMpz);
 
-            if (ctype == ConstraintType::PartStandard && !part.includeZero) {
-                for (auto &z_i: startZ) {
-                    ++z_i;
-                }
+        if (ctype == ConstraintType::PartStandard && !part.includeZero) {
+            for (auto &z_i: startZ) {
+                ++z_i;
             }
-        } else {
-            startZ = part.startZ;
         }
+    } else {
+        startZ = part.startZ;
     }
 
     // This is used when we are unable to calculate the number of results
@@ -138,32 +152,29 @@ SEXP CombinatoricsCnstrt(SEXP Rv, SEXP Rm, SEXP RisRep, SEXP RFreqs,
     const bool bSetNum = !numUnknown ||
         ctype == ConstraintType::SpecialCnstrnt;
 
-    SetNumResults(IsGmp, bLower, bUpper, bSetNum, upperMpz,
-                  lowerMpz, lower, upper, computedRows,
-                  computedRowsMpz, nRows, userNum);
+    SetNumResults(
+        IsGmp, bUpper, bSetNum, upperMpz, lowerMpz, lower, upper,
+        computedRows, computedRowsMpz, nRows, userNum
+    );
 
     int nThreads   = 1;
     int maxThreads = 1;
     CppConvert::convertPrimitive(RmaxThreads, maxThreads,
                                    VecType::Integer, "maxThreads");
 
-    const auto cap_it = std::find(
-        CappedPTypeArr.cbegin(), CappedPTypeArr.cend(), part.ptype
-    );
-
-    const bool IsCapped = cap_it != CappedPTypeArr.cend();
-
-    const int limit = (part.isPart && IsCapped) ? 150000 :
+    const int limit = (part.isPart && IsCapped(part.ptype)) ? 150000 :
         (part.isPart ? 40000 : 20000);
 
     SetThreads(Parallel, maxThreads, nRows,
                myType, nThreads, RnThreads, limit);
 
+    const bool useRangeSemantics = bLower;
+
     cpp11::sexp res = GetConstraints(
-        part, compVec, freqs, myReps, vNum, vInt, tarVals, tarIntVals,
-        startZ, mainFun, funTest, funDbl, lower, lowerMpz, userNum,
-        ctype, myType, nThreads, nRows, n, strtLen, cap, m, IsComb,
-        Parallel, IsGmp, IsRep, IsMult, bUpper, KeepRes, numUnknown
+        part, compVec, freqs, myReps, vNum, vInt, tarVals, tarIntVals, startZ,
+        mainFun, funTest, funDbl, lower, lowerMpz, userNum, ctype, myType,
+        nThreads, nRows, n, strtLen, cap, m, IsComb, Parallel, IsGmp, IsRep,
+        IsMult, bUpper, KeepRes, numUnknown, useRangeSemantics
     );
 
     return res;

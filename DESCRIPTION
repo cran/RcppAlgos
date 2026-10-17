@@ -1,5 +1,5 @@
 Package: RcppAlgos
-Version: 2.10.1
+Version: 2.10.2
 Title: High Performance Tools for Combinatorics and Computational
         Mathematics
 Description: Provides optimized functions and flexible iterators implemented in
@@ -45,12 +45,20 @@ Authors@R: c(
             given = "Joseph", family = "Wood",
             role = c("aut", "cre"),
             email = "jwood000@gmail.com"
+        ),
+        person(
+            given = "Joseph J.",
+            family = "Allaire",
+            role = "ctb",
+            comment = "Original author of RMatrix.h, copied from RcppParallel"
         )
     )
 Encoding: UTF-8
 RoxygenNote: 7.2.3
-Packaged: 2026-06-07 21:09:52 UTC; owacasa
-Author: Joseph Wood [aut, cre]
+Packaged: 2026-10-17 20:49:25 UTC; owacasa
+Author: Joseph Wood [aut, cre],
+  Joseph J. Allaire [ctb] (Original author of RMatrix.h, copied from
+    RcppParallel)
 Maintainer: Joseph Wood <jwood000@gmail.com>
 Repository: CRAN
-Date/Publication: 2026-06-08 07:00:02 UTC
+Date/Publication: 2026-10-17 23:10:08 UTC

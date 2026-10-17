@@ -29,6 +29,12 @@ static const std::array<std::string, 5> compHelper = {
 constexpr double defaultTolerance =
     std::numeric_limits<float>::epsilon() / 8.0;
 
+inline void ValidatePartitionDesign(const PartDesign &part) {
+    if (part.isPart && part.ptype == PartitionType::NotMapped) {
+        cpp11::stop("Currently, there is no algorithm for this case.");
+    }
+}
+
 void InitialSetupPartDesign(
     PartDesign &part, SEXP RIsWeak, SEXP RIsComposition,
     bool IsRep, bool IsMult, bool mIsNull, bool IsComb
@@ -64,4 +70,4 @@ void ConstraintSetup(const std::vector<double> &vNum,
                      std::vector<std::string> &compFunVec,
                      const std::string &mainFun, const std::string &funTest,
                      VecType &myType, SEXP Rtarget, SEXP RcompFun,
-                     SEXP Rtolerance, SEXP Rlow, bool bIsCount = false);
+                     SEXP Rtolerance, SEXP Rlow);

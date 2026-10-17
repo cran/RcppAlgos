@@ -47,8 +47,9 @@ SEXP ExpandGridCpp(
                                  VecType::Integer, "maxThreads");
 
     const double computedRows = CartesianCount(lenGrps);
-    const bool IsGmp = IsSample ? computedRows > SampleLimit :
-        computedRows > Significand53;
+
+    const bool IsGmp = !std::isfinite(computedRows) ||
+        (IsSample ? computedRows > SampleLimit : computedRows > Significand53);
 
     mpz_class computedRowsMpz;
 
@@ -71,9 +72,11 @@ SEXP ExpandGridCpp(
                   lowerMpz, upperMpz, computedRowsMpz, computedRows);
 
         double userNumRows = 0;
-        SetNumResults(IsGmp, bLower, bUpper, true, upperMpz,
-                      lowerMpz, lower, upper, computedRows,
-                      computedRowsMpz, nRows, userNumRows);
+
+        SetNumResults(
+            IsGmp, bUpper, true, upperMpz, lowerMpz, lower, upper,
+            computedRows, computedRowsMpz, nRows, userNumRows
+        );
     }
 
     int sampSize;

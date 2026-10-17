@@ -28,7 +28,7 @@ SEXP CombinatoricsApply(SEXP Rv, SEXP Rm, SEXP RisRep,
 
     const double computedRows = GetComputedRows(IsMult, IsComb, IsRep,
                                                 n, m, Rm, freqs, myReps);
-    const bool IsGmp = (computedRows > Significand53);
+    const bool IsGmp = IsBeyondBound(computedRows);
 
     mpz_class computedRowsMpz;
 
@@ -54,9 +54,11 @@ SEXP CombinatoricsApply(SEXP Rv, SEXP Rm, SEXP RisRep,
               lower, lowerMpz, IsRep, IsMult, IsGmp);
 
     double userNumRows = 0;   // IsGenCnstrd = false
-    SetNumResults(IsGmp, bLower, bUpper, true, upperMpz,
-                  lowerMpz, lower, upper, computedRows,
-                  computedRowsMpz, nRows, userNumRows);
+
+    SetNumResults(
+        IsGmp, bUpper, true, upperMpz, lowerMpz, lower, upper,
+        computedRows, computedRowsMpz, nRows, userNumRows
+    );
 
     return GetCombPermApply(Rv, vNum, vInt, n, m, IsComb, IsRep,
                             IsMult, freqs, startZ, myReps, myType,

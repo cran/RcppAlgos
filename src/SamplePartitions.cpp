@@ -175,32 +175,22 @@ SEXP SamplePartitions(
                     part, ctype, n, m, compVec, mainFun, mainFun, myType,
                     Rtarget, RcompFun, R_NilValue, Rlow);
 
-    if (part.ptype == PartitionType::CoarseGrained ||
-        part.ptype == PartitionType::NotPartition  ||
-        part.ptype == PartitionType::NotMapped     ||
-        part.ptype == PartitionType::Multiset) {
-
-        cpp11::stop("Partition sampling not available for this case.");
-    }
-
     if (part.ptype == PartitionType::NoSolution) {
         cpp11::stop("There is no solution for the requested case");
+    }
+
+    if (!HasRankAlgo(part.ptype)) {
+        cpp11::stop("Sampling not available for this case.");
     }
 
     int sampSize;
     std::vector<double> mySample;
 
-    // This can occur if we are dealing with capped cases where calculating
-    // the number of partitions could take a long time. When this occurs with
-    // partitionsGeneral, it is faster to generate partitions and push them
-    // to a vector until the next partitions algorithm exhaust, then we can
-    // convert this to an R matrix (instead of preallocating a matrix).
-    //
-    // When we are dealing with sampling, we have to know the total number
-    // of partitions, thus the following:
-
-    if (part.numUnknown) PartitionsCount(myReps, part, n, true);
-    const bool SampleGmp = (part.count > SampleLimit);
+    // PartitionsCount() handles non-finite counts by switching to GMP for
+    // supported partition types. Multiset partition counts do not currently
+    // provide this fallback, but multiset partitions are not supported for
+    // sampling and therefore cannot reach this path.
+    const bool SampleGmp = part.isGmp || IsBeyondBound(part.count, SampleLimit);
 
     if (SampleGmp && !part.isGmp) {
         part.isGmp    = true;

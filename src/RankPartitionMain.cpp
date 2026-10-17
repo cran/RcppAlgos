@@ -184,12 +184,12 @@ SEXP RankPartitionMain(SEXP RIdx, SEXP Rv, SEXP RisRep,
                     part, ctype, n, m, compVec, mainFun, mainFun, myType,
                     Rtarget, RcompFun, Rtolerance, Rlow);
 
-    if (part.ptype == PartitionType::CoarseGrained ||
-        part.ptype == PartitionType::NotPartition  ||
-        part.ptype == PartitionType::NoSolution    ||
-        part.ptype == PartitionType::Multiset) {
+    if (part.ptype == PartitionType::NoSolution) {
+        cpp11::stop("There is no solution for the requested case");
+    }
 
-        cpp11::stop("Partition ranking not available for this case.");
+    if (!HasRankAlgo(part.ptype)) {
+        cpp11::stop("Ranking not available for this case.");
     }
 
     if (part.isComp && !part.isWeak && part.includeZero) {
@@ -210,8 +210,6 @@ SEXP RankPartitionMain(SEXP RIdx, SEXP Rv, SEXP RisRep,
         }
     }
 
-    // See comment in SamplePartitions.cpp
-    if (part.numUnknown) PartitionsCount(myReps, part, n, true);
     const int numResults  = Rf_length(RIdx) / m;
 
     const int cap     = n - static_cast<int>(part.includeZero);
@@ -225,6 +223,10 @@ SEXP RankPartitionMain(SEXP RIdx, SEXP Rv, SEXP RisRep,
                myType, nThreads, RNumThreads, limit);
 
     const rankPartsPtr rankFun = GetRankPartsFunc(part.ptype, part.isGmp);
+
+    if (!rankFun) {
+        cpp11::stop("No ranking algorithm available for this case.");
+    }
 
     if (part.isGmp) {
         std::vector<mpz_class> myVec(numResults);
